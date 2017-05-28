@@ -26,10 +26,19 @@ public class SelectionSort {
 		s[min] = temp;
 	}
 
-	public static void main(String[] args) { 
-		char[] s = "SELECTIONSORT".toCharArray();
-		System.out.println(Arrays.toString(s));
+	public static void printTest(String str) {
+
+		char[] s = str.toCharArray();
+
+		System.out.println(str);
 		selection_sort(s);
-		System.out.println(Arrays.toString(s));
+		System.out.println(new String(s));
+	}
+
+	public static void main(String[] args) { 
+		printTest("SELECTIONSORT");
+		printTest("S");
+		printTest("1840");
+		printTest("I am the batman!");
 	}
 }
