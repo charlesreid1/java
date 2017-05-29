@@ -22,29 +22,14 @@ public class GameEntry {
 		return "(" + name + ", " + score + ")";
 	}
 
-	/** static method: construct a random player name */
-	public static String randName(int n) { 
-		Random r = new Random();
-		char[] ca = new char[n];
-		for(int i=0; i<n; i++) { 
-			ca[i] = (char)('A' + r.nextInt(26));
-		}
-		return new String(ca);
-	}
-	/** static method: construct a random player score */
-	public static int randScore() { 
-		Random r = new Random();
-		return r.nextInt((int)(1E6));
-	}
-			
 	/** main method: create 1000 random game scores */
 	public static void main(String[] args) { 
 		int n = 10;
 		int items = 1000;
 		GameEntry[] ga = new GameEntry[items];
 		for(int i=0; i<items; i++) { 
-			String name = randName(n);
-			int score = randScore();
+			String name = Player.randName(n);
+			int score = Player.randScore();
 			GameEntry g = new GameEntry(name,score);
 			ga[i] = g;
 		}
