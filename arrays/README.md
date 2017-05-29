@@ -24,6 +24,8 @@ public static void doStuff(int a, int b) {
 }
 ```
 
+Other things we need to work on?
+* Indexing, logic, and details details details
 
 
 
