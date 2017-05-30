@@ -82,6 +82,16 @@ Whew.
 * Do you know where to go? Have references.
 
 
+### Tic Tac Toe
+
+It gets easier - each time you go through another example,
+there are fewer questions, the questions are more targeted, 
+the idea becomes clearer. There is a little bit of difficulty in 
+getting to the answer before the book, if the code is already finished,
+but that's what you'll have to do.
+
+Extending behavior is really useful, as an exercise.
+
 
 
 
