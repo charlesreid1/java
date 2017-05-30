@@ -36,7 +36,11 @@ public class MakinCopies {
 
 		System.out.println();
 
-		String[] array3 = Arrays.copyOf(array1, array1.length);
+		// The cool, hip way to do it: clone()
+		String[] array3 = array1.clone();
+
+		//// The dorky indexed way
+		//String[] array4 = Arrays.copyOf(array1, array1.length);
 
 		System.out.println("Use Arrays.copyOf(arr, arr.length) to make a new copy in memory:");
 		System.out.println("array1 object hash: " + array1);
