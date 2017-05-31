@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 /** Empty exception */
-class Empty extends Exception{
+class Empty extends Exception {
 	// Note, subclass does not inherit any constructor.
 	// We can define our constructor and call the super constructor,
 	// or we can define no constructor, and always use the default constructor.
@@ -64,7 +64,7 @@ public class ArrayStack {
 			System.out.println(st.pop());
 
 		} catch (Empty e) { 
-			System.out.println(e.getStackTrace());
+			System.out.println(e.getMessage());
 		}
 
 		try {
