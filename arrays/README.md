@@ -6,7 +6,41 @@ See [http://charlesreid1.com/wiki/Arrays](http://charlesreid1.com/wiki/Arrays)
 
 ## Content
 
-GameEntry is a simple example object to illustrate basic features of arrays.
+`array-of-objects` - simple example "high score" object. Illustrates basic features
+	of arrays, particularly arrays of objects.
+
+`arrays-class` - demonstrate use of Arrays class built-in methods (sort and binarySearch).
+
+`copies` - for making copies of arrays, use `.clone()`
+
+`fisher-yates` - implementing a Fisher-Yates shuffle method.
+
+`python-list` - implementing an array-based list object that works like the Python list.
+
+`random-stuff` - random class and methods
+
+`string` - Strings are arrays too.
+
+`threesum` - illustrating some basic nesting behavior for algorithmic analysis.
+
+`tic-tac-toe` - exemplifying good design practices. Start with data container,
+	provide necessary accessor methods. class constants to keep sides straight.
+
+
+## To Figure Out
+
+Code templates ready to go:
+
+Code templates needing developing:
+* Comparator
+* Iterable
+* Lambdas
+* Exceptions - what to raise and when
+* Bracket accessor notation for an object
+* Generic types/templating
+* Testing and @Test
+* Generic typtes, more general types, less code, less waste
+
 
 ## Mistakes/Learnings
 
