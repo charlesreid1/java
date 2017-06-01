@@ -43,9 +43,11 @@ public class IntList {
 	 * Linked list node class.
 	 *
 	 * Implements:
+	 *   - toString
 	 *   - getData
 	 *   - getNext
 	 *   - setNext
+	 *   - equals
 	 * */
 	class IntNode {
 		int data;
@@ -61,11 +63,11 @@ public class IntList {
 			this.data = data;
 			this.next = next;
 		}
-		public String toString() { return Integer.toString(this.data); }
 		public int getData(){ return data; }
 		public IntNode getNext(){ return next; }
 		public void setNext(IntNode next){ this.next = next; }
 		public boolean equals(int i) { return data==i; }
+		public String toString() { return Integer.toString(this.data); }
 	}
 
 	// ------------- end linked node class ----------
