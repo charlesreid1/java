@@ -45,6 +45,7 @@ Linked list methods should automatically become a list of bookkeeping things to 
 
 
 
+
 Size of linked list:;
 * Number of bytes: 
 	* See [https://charlesreid1.com/wiki/Java/Memory](https://charlesreid1.com/wiki/Java/Memory)
