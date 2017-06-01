@@ -145,7 +145,7 @@ public class TList<E> {
 
 
 	/** Construct a static dummy list. */
-	public static TList<Integer> getIntList() {
+	public static TList<Integer> getTList() {
 		TList<Integer> l = new TList<Integer>();
 		l.addFirst(3);
 		l.addFirst(2);
@@ -160,7 +160,7 @@ public class TList<E> {
 		TList<Integer> list;
 		
 		System.out.println("Start:");
-		list = getIntList();
+		list = getTList();
 		System.out.println(list);
 		System.out.println("Size: "+list.size());
 
@@ -172,30 +172,7 @@ public class TList<E> {
 		System.out.println(list);
 		System.out.println("Size: "+list.size());
 
-		/*
-		list = getIntList();
-		System.out.println("Start:");
-		System.out.println(list);
-		System.out.println("Removing index 1...");
-		list.remove(1);
-		System.out.println(list);
-
-		list = getIntList();
-		System.out.println("Start:");
-		System.out.println(list);
-		System.out.println("Removing index 2...");
-		list.remove(2);
-
-		list = getIntList();
-		System.out.println("Start:");
-		System.out.println(list);
-		System.out.println("Removing index 3...");
-		list.remove(3);
-		System.out.println(list);
-
-		*/
-
-		list = getIntList();
+		list = getTList();
 		System.out.println("Start:");
 		System.out.println(list);
 
@@ -216,11 +193,9 @@ public class TList<E> {
 		list.addLast(1000);
 		System.out.println(list);
 
-		/*
-		// should not throw a null pointer exception.
 		for(int i=0; i<1000; i++) { 
 			try {
-				list.remove(0);
+				list.removeFirst();
 			} catch(Illegal e) { 
 				System.out.println("Illegal index");
 				break;
@@ -230,7 +205,6 @@ public class TList<E> {
 			}
 
 		}
-		System.out.println("Finished with tests of IntList.");
-		*/
+		System.out.println("Finished with tests of TList.");
 	}
 }
