@@ -80,7 +80,7 @@ public class IntList {
 		tail = null;
 	}
 
-	public String toString() throws IxException { 
+	public String toString() { 
 		StringBuffer result = new StringBuffer();
 		IntNode next = head;
 		result.append("[  ");
