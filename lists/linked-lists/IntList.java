@@ -83,16 +83,22 @@ public class IntList {
 	}
 
 	public String toString() { 
-		StringBuffer result = new StringBuffer();
-		IntNode next = head;
-		result.append("[  ");
-		while(next != null) { 
-			result.append(next.toString());
-			result.append("  ");
-			next = next.getNext();
+		StringBuffer sb = new StringBuffer();
+		sb.append("[ ");
+		if(isEmpty()) {
+			sb.append("]");
+			return sb.toString();
+		} 
+		IntNode runner = head;
+		sb.append( runner.toString() );
+		while(runner.getNext()!=null) {
+			// Order is important here!
+			runner = runner.getNext();
+			sb.append(", ");
+			sb.append( runner.toString() );
 		}
-		result.append("]");
-		return result.toString();
+		sb.append("]");
+		return sb.toString();
 	}
 
 	/** Get size of list. */
@@ -145,7 +151,7 @@ public class IntList {
 	public void add(int x) { addLast(x); }
 
 	/** Remove the item at index rmi from the list. */
-	public void remove(int rmi) throws Illegal, Empty {
+	public int remove(int rmi) throws Illegal, Empty {
 		// What could possibly go wrong?
 		//   - list is empty
 		//   - specified index is too big/too small
@@ -159,10 +165,14 @@ public class IntList {
 		} else if(rmi>=size || rmi<0) { 
 			throw new Illegal();
 		} else if(rmi==0) {
+			int result = this.head.getData();
+
 			// Zero case: remove first item in list
 			IntNode newhead = this.head.getNext();
 			this.head = newhead;
 			size--;
+
+			return result;
 		} else {
 			IntNode runner = this.head;
 			IntNode lagger = this.head;
@@ -173,8 +183,10 @@ public class IntList {
 				}
 			}
 			// Forget the runner
+			int result = runner.getData();
 			IntNode next = runner.getNext();
 			lagger.setNext(runner.getNext());
+			return result;
 		}
 	}
 
@@ -265,6 +277,7 @@ public class IntList {
 		list.addLast(997);
 		list.addLast(998);
 		list.addLast(999);
+		list.addLast(1000);
 		System.out.println(list);
 
 		// should not throw a null pointer exception.

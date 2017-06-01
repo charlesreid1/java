@@ -73,17 +73,18 @@ public class TList<E> {
 			return sb.toString();
 		} 
 		Node<E> runner = head;
-		sb.append( runner.getData().toString() );
+		sb.append( runner.toString() );
 		while(runner.getNext()!=null) {
-			sb.append(", ");
-			sb.append( runner.getData().toString() );
+			// Order is important here!
 			runner = runner.getNext();
+			sb.append(", ");
+			sb.append( runner.toString() );
 		}
 		sb.append("]");
 		return sb.toString();
 	}
 
-	/** Size of this thang */
+	/** Size of this thing */
 	public int size() { return size; }
 	
 	/** Returns true if empty. */
@@ -125,6 +126,20 @@ public class TList<E> {
 		size++;
 	}
 
+	public E removeFirst() throws Empty {
+		if(isEmpty()) { 
+			throw new Empty();
+		}
+		E value = this.head.getData();
+
+		// update head to point to head.next
+		Node<E> newhead = this.head.getNext();
+		this.head = newhead;
+		size--;
+
+		return value;
+	}
+
 
 	//////////////////////////////////
 
@@ -149,15 +164,15 @@ public class TList<E> {
 		System.out.println(list);
 		System.out.println("Size: "+list.size());
 
-		/*
-		System.out.println("Remove at 0 4 times:");
-		list.remove(0);
-		list.remove(0);
-		list.remove(0);
-		list.remove(0);
+		System.out.println("Remove first 4 times:");
+		list.removeFirst();
+		list.removeFirst();
+		list.removeFirst();
+		list.removeFirst();
 		System.out.println(list);
 		System.out.println("Size: "+list.size());
 
+		/*
 		list = getIntList();
 		System.out.println("Start:");
 		System.out.println(list);
@@ -178,11 +193,11 @@ public class TList<E> {
 		list.remove(3);
 		System.out.println(list);
 
+		*/
+
 		list = getIntList();
 		System.out.println("Start:");
 		System.out.println(list);
-
-		*/
 
 		System.out.println("Adding first");
 		list.addFirst(105);
@@ -198,6 +213,7 @@ public class TList<E> {
 		list.addLast(997);
 		list.addLast(998);
 		list.addLast(999);
+		list.addLast(1000);
 		System.out.println(list);
 
 		/*
