@@ -44,8 +44,6 @@ Linked list methods should automatically become a list of bookkeeping things to 
 	* how can we fold any of these cases into other cases (list empty -> i too small)
 
 
-
-
 Size of linked list:;
 * Number of bytes: 
 	* See [https://charlesreid1.com/wiki/Java/Memory](https://charlesreid1.com/wiki/Java/Memory)
@@ -61,6 +59,33 @@ Size of linked list:;
 	* 2^5 = 32 bytes per integer
 	* 32 x 8 = 2^5 * 2^3 = 2^8 = 256 bits = 256 zeroes and ones
 	* 10 GB / 10 kB/obj = 10x10^6 / 10 = 10^6
+
+
+Exceptions:
+
+```
+class Empty extends Exception{};
+```
+
+Circular linked list:
+* Take care with the details of pointers.
+
+Doubly linked list:
+* It makes algorithms easier, but 
+
+
+Nice link explaining sizes of Strings in memory:
+* https://stackoverflow.com/a/18030595
+
+```
+sizeof(string) =
+8 + // object header used by the VM
+8 + // 64-bit reference to char array (value)
+8 + string.length() * 2 + // character array itself (object header + 16-bit chars)
+4 + // offset integer
+4 + // count integer
+4 + // cached hash code
+```
 
 
 
