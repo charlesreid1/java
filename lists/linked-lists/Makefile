@@ -1,4 +1,7 @@
 default:
+	javac CLinkedList.java && java CLinkedList
+
+template:
 	javac TList.java && java TList
 
 int:
