@@ -75,7 +75,6 @@ public class CLinkedList<E> {
 	}
 
 
-
 	// Round-Robin Scheduling
 	// No head stored - because you can move forward, but not backward
 	private Node<E> tail = null;
@@ -185,8 +184,19 @@ public class CLinkedList<E> {
 			c.addLast(i);
 		}
 		System.out.println(c);
+
 		System.out.println("------");
 
+		c.rotate();
+		c.rotate();
+		c.rotate();
+		System.out.println(c);
+
+		System.out.println("------");
+
+		c.removeFirst();
+		c.removeFirst();
+		System.out.println(c);
 
 	}
 }
