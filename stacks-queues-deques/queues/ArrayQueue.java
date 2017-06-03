@@ -115,7 +115,7 @@ public class ArrayQueue<T> {
 		if(size==data.length) {
 			resize(data.length*2);
 		}
-		tail++;
+		tail = (tail+1)%(data.length);
 		data[tail] = e;
 		size++;
 		this.empty = false;
@@ -127,7 +127,7 @@ public class ArrayQueue<T> {
 		}
 		Object first = data[head];
 		data[head]=null;
-		head++;
+		head = (head+1)%(data.length);
 		size--;
 		if(size==0) {
 			this.empty = true;
