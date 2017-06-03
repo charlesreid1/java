@@ -1,7 +1,7 @@
 class Illegal extends IllegalArgumentException {}
 class Empty extends ArrayIndexOutOfBoundsException {}
 
-/** Templated linked list class. 
+/** Templated singly-linked list class. 
  * 
  * LinkedList ADT:
  *
