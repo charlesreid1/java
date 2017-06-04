@@ -1,0 +1,21 @@
+New deque:
+[ ]
+enqueue from front:
+[ 500 400 300 200 100 ]
+done.
+enqueue from back:
+[ 500 400 300 200 100 25 50 75 ]
+done.
+size:
+8
+dequeue from front
+[ 300 200 100 25 50 75 ]
+done.
+dequeue from back
+[ 300 200 100 25 ]
+done.
+Popping 300. 3 to go! 
+Popping 200. 2 to go! 
+Popping 100. 1 to go! 
+Popping 25. 0 to go! 
+Handled an expected Empty exception.
