@@ -131,7 +131,7 @@ public class ArrayQueue<T> {
 		size--;
 		if(size==0) {
 			this.empty = true;
-		} else if(size==data.length/4) {
+		} else if(size<=data.length/4) {
 			resize(data.length/2);
 		}
 		return first;
