@@ -17,6 +17,7 @@ public class LinkedStack<E> {
 		LinkedStack<Integer> s = new LinkedStack<Integer>();
 		System.out.println("New stack:");
 		System.out.println(s);
+		System.out.println("Is empty? " + s.isEmpty());
  
 		try {
 			s.push(100);
@@ -27,6 +28,7 @@ public class LinkedStack<E> {
 			for(int i=0; i<10; i++) { 
 				s.push(i*i);
 			}
+			System.out.println("Is empty? " + s.isEmpty());
 			System.out.println("Size before pop = " + s.size());
 			System.out.println("Peek = " + s.peek());
 
@@ -44,6 +46,7 @@ public class LinkedStack<E> {
 			}
 		} catch(Empty e) { 
 			System.out.println("Handled an expected Empty exception."); 
+			System.out.println("Is empty? " + s.isEmpty());
 		}
 	}
 

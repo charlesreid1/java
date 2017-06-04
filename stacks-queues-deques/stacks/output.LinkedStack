@@ -1,7 +1,9 @@
 New stack:
 [ ]
+Is empty? true
 Size = 3
 Peek = 300
+Is empty? false
 Size before pop = 13
 Peek = 81
 Popping: 81
@@ -19,3 +21,4 @@ Popping 300. 2 to go!
 Popping 200. 1 to go! 
 Popping 100. 0 to go! 
 Handled an expected Empty exception.
+Is empty? true
