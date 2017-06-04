@@ -8,8 +8,8 @@ public class StringPermutations {
 	public static void main(String[] args) { 
 		// Start with strings, then move to generics
 		String theString = "CHARLES";
-		LinkedQueue<String> permutations = stringPermutations(thestring);
-		System.out.println(permutations.size());
+		LinkedQueue<String> permutations = stringPermutations(theString);
+		System.out.println("Found "+permutations.size()+" permutations");
 	}
 
 
