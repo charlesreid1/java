@@ -1,0 +1,21 @@
+New stack:
+[ ]
+Size = 3
+Peek = 300
+Size before pop = 13
+Peek = 81
+Popping: 81
+Size after pop = 12
+Popping 64. 11 to go! 
+Popping 49. 10 to go! 
+Popping 36. 9 to go! 
+Popping 25. 8 to go! 
+Popping 16. 7 to go! 
+Popping 9. 6 to go! 
+Popping 4. 5 to go! 
+Popping 1. 4 to go! 
+Popping 0. 3 to go! 
+Popping 300. 2 to go! 
+Popping 200. 1 to go! 
+Popping 100. 0 to go! 
+Handled an expected Empty exception.

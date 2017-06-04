@@ -1,3 +1,6 @@
+linkedstack:
+	javac LinkedStack.java && java LinkedStack | tee output.LinkedStack
+
 arraystack:
 	javac ArrayStack.java && java ArrayStack < ../../data/1Kints.txt
 
