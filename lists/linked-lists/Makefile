@@ -1,4 +1,6 @@
-default:
+timing:
+	javac Timing.java && java Timing > output.txt
+dlist:
 	javac DLinkedList.java && java DLinkedList
 
 circular:
