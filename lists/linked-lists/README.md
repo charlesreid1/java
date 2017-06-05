@@ -87,5 +87,9 @@ sizeof(string) =
 4 + // cached hash code
 ```
 
+Timing:
+* Don't do logarithmic size.........
+* Need to fix that actually.
+* Cover a single order of magnitude, then maybe try for two.
 
 
