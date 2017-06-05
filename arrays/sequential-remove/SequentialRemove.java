@@ -29,6 +29,7 @@ public class SequentialRemove {
 		selectAndRemove();
 	}
 
+	/** Select and remove random items from an array, in a sequential order. */
 	public static void selectAndRemove() { 
 		String[] a = {"A","B","C","D","E","F","G"};
 		Integer[] indices = new Integer[a.length];
