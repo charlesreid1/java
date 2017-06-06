@@ -6,16 +6,16 @@
  *
  * Tim tim = new Tim();
  * do stuff 
- * tim.elapsed()
+ * tim.elapsedms()
  */
-class Tim {
+public class Tim {
 	double start, end;
     public Tim() {
         this.start = System.currentTimeMillis();
     }
-    public double elapsed() {
+    public double elapsedms() {
         this.end = System.currentTimeMillis();
-        return (end-start)/1000.0;
+        return (end-start);
     }
 }
 
