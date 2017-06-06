@@ -108,10 +108,16 @@ public class TLinkedList<E> {
 		if(this.size==0 || this.size==1) { 
 			return;
 		}
+		// Make circular
 		tail.setNext(this.head);
-		head = this.head.getNext();
 		tail = tail.getNext();
+		
+		// Circular
+		head = tail.getNext();
+
+		// Break circle
 		tail.setNext(null);
+
 	}
 
 	/** Add item to front of list. */
