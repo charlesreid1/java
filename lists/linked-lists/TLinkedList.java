@@ -100,6 +100,19 @@ public class TLinkedList<E> {
 		this.head = runner;
 	}
 
+	/** Rotate list by moving one element from front to back.
+	 *
+	 * This is implemented without creating/destroying a node.
+	 */
+	public void rotate() { 
+		if(this.size==0 || this.size==1) { 
+			return;
+		}
+		tail.setNext(this.head);
+		head = this.head.getNext();
+		tail = tail.getNext();
+		tail.setNext(null);
+	}
 
 	/** Add item to front of list. */
 	public void addFirst(E e)  { 
@@ -152,6 +165,9 @@ public class TLinkedList<E> {
 	/** Construct a static dummy list. */
 	public static TLinkedList<Integer> getTLinkedList() {
 		TLinkedList<Integer> l = new TLinkedList<Integer>();
+		l.addFirst(42);
+		l.addFirst(5);
+		l.addFirst(4);
 		l.addFirst(3);
 		l.addFirst(2);
 		l.addFirst(1);
@@ -161,6 +177,35 @@ public class TLinkedList<E> {
 
 	/** Main method. */
 	public static void main(String[] args) throws Illegal, Empty { 
+
+		TLinkedList<Integer> list;
+		list = getTLinkedList();
+
+		System.out.println("Start:");
+		System.out.println(list);
+
+		System.out.println("Rotate:");
+
+		list.rotate();
+		System.out.println(list);
+
+		System.out.println("Rotate 3:");
+		list.rotate();
+		System.out.println(list);
+		list.rotate();
+		System.out.println(list);
+		list.rotate();
+		System.out.println(list);
+
+		for(int i=0; i<20; i++) { 
+			list.rotate();
+			System.out.println(list);
+		}
+		System.out.println("Whew! Now I'm dizzy...");
+
+	}
+
+	public static void oldTest() throws Illegal, Empty {
 
 		TLinkedList<Integer> list;
 		
