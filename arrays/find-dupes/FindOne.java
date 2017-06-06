@@ -72,14 +72,14 @@ public class FindOne {
 
 
 
-	/** Find duplicates in an unsorted array using ArrayList (faster specific approach).
+	/** Find duplicates in an unsorted array using an int[] (faster specific approach).
 	 *
 	 * This uses a pre-allocated array. 
 	 * The integers 1 through (n-1) appear in the array, 
 	 * with one element per integer, 1 through n.
 	 * Indexes run from 0 through n-1.
-	 * We can find duplicates in an ArrayList by using these integers.
-	 * Access an underlying array of fixed size at least n-1.
+	 * We can find duplicates in an int[] by using these integers.
+	 * Access an array of fixed size at least n-1.
 	 * Counters contained in each, and if counter > 0, add item to dupes.
 	 * 
 	 * In reality, we leave the 0th element open.
@@ -112,7 +112,7 @@ public class FindOne {
 				// always increment
 				counters[k]++;
 			} catch (ArrayIndexOutOfBoundsException e) {
-				// Raised because illegal argument
+				// Raised because illegal argument, i.e., a number greater than its own index
 				throw new Illegal();
 			}
 		}

@@ -17,3 +17,13 @@ Implementing this two ways - one is the generic types way, the other is the plai
 * No way to convert any primitive types to wrappers in one go.
 * No way to convert from PT int[] to Object type Integer[]
 
+## Solutions
+
+Break into generics class (which works, but doesn't do the fancy integer trick that only works for this one dang special case.)
+
+## FindOneFast
+
+This uses the most generic method, 
+which uses ArrayLists for the inputs 
+and HashSet for the output.
+
