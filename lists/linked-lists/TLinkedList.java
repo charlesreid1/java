@@ -81,6 +81,26 @@ public class TLinkedList<E> {
 	/** Returns reference to last item in the list. */
 	public E last()  { return tail.getData(); }
 
+
+	/** Reverse the entire linked list in O(n) time. */
+	public void reverse() { 
+		if(this.size==0 || this.size==1) {
+			return;
+		}
+		Node<E> runner = this.head;
+		Node<E> prev = null;
+		Node<E> next_runner = this.head.getNext();
+
+		while(next_runner!=null){
+			runner.setNext(prev);
+			prev = runner;
+			runner = next_runner;
+			next_runner = next_runner.getNext();
+		}
+		this.head = runner;
+	}
+
+
 	/** Add item to front of list. */
 	public void addFirst(E e)  { 
 		Node<E> newhead = new Node<E>(e);
@@ -176,6 +196,10 @@ public class TLinkedList<E> {
 		list.addLast(998);
 		list.addLast(999);
 		list.addLast(1000);
+		System.out.println(list);
+
+		System.out.println("Reversing");
+		list.reverse();
 		System.out.println(list);
 
 		for(int i=0; i<1000; i++) { 
