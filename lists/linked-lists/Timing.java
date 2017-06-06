@@ -14,8 +14,100 @@ public class Timing {
 
 	// Tests
 	public static void main(String[] args) { 
-		linked_list_add_test();
-		linked_list_add_remove_test();
+		//linked_list_add_test();
+		//linked_list_add_remove_test();
+		//test_reverse();
+		test_rotate();
+	}
+
+
+
+
+	/** Verify rotate linked list method is O(n). */
+	public static void test_rotate() {
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("N, Walltime Rotate (ms), Amortized Rotate (us)\n");
+
+		int ntrials = 1000;
+		Random r;
+
+		// Loop over values of N
+		for(int N = (int)(5E3); N <= (int)(5E5); N+=2500) { 
+
+			Tim tim = new Tim();
+
+			// Trials counter is always k for Kafka
+			for(int k = 0; k<ntrials; k++) { 
+				// Each trial is a different sequence of random numbers,
+				// but the sequence matches between tests of different collection types 
+				r = new Random(k);
+				TLinkedList<Integer> mylist = new TLinkedList<Integer>();
+        		for(int i=0; i<N; i++) { 
+					mylist.addFirst(r.nextInt(100));
+				}
+				mylist.rotate();
+			}
+			double time_total = tim.elapsedms();
+
+			// print amortized cost per 1000 operations, times 1000 ms -> us
+			sb.append( String.format("%d, ",N) );
+			sb.append( String.format("%.3f, ", time_total) );
+			sb.append( String.format("%.3f ", time_total/N*1000) );
+			sb.append("\n");
+		}
+
+		System.out.println(sb.toString());
+	}
+
+
+
+
+
+
+
+
+
+
+	/** Verify reverse linked list method is O(n). */
+	public static void test_reverse() {
+
+		StringBuffer sb = new StringBuffer();
+		sb.append("N, Walltime Reverse (ms), Amortized Reverse (us)\n");
+
+		int ntrials = 1000;
+		Random r;
+
+		// Loop over values of N
+		for(int N = (int)(1E3); N <= (int)(1E5); N+=2500) { 
+
+
+			// builtin linked list:
+			//
+			// b prefix is for built-in datatype
+			Tim tim = new Tim();
+
+			// Trials counter is always k for Kafka
+			for(int k = 0; k<ntrials; k++) { 
+				// Each trial is a different sequence of random numbers,
+				// but the sequence matches between tests of different collection types 
+				r = new Random(k);
+				TLinkedList<Integer> mylist = new TLinkedList<Integer>();
+        		for(int i=0; i<N; i++) { 
+					mylist.addFirst(r.nextInt(100));
+				}
+				mylist.reverse();
+			}
+			double time_total = tim.elapsedms();
+
+			// print amortized cost per 1000 operations, times 1000 ms -> us
+			sb.append( String.format("%d, ",N) );
+			sb.append( String.format("%.3f, ", time_total) );
+			sb.append( String.format("%.3f ", time_total/N*1000) );
+			sb.append("\n");
+		}
+
+		System.out.println(sb.toString());
 	}
 
 
@@ -30,7 +122,10 @@ public class Timing {
 	public static void linked_list_add_remove_test() {
 		StringBuffer sb = new StringBuffer();
 
-		sb.append("N, Add Remove Amortized Walltime Per 1k Builtin (us), Add Remove Amortized Walltime Per 1k SLL (us), Add Remove Amortized Walltime Per 1k DLL (us) \n");
+		//
+		// Add Remove Amortized Walltime Per 1k Builtin (us), Add Remove Amortized Walltime Per 1k SLL (us), Add Remove Amortized Walltime Per 1k DLL (us)
+		//
+		sb.append("N, Walltime Builtin (us), Walltime SLL (us), Walltime DLL (us)\n");
 		
 		int ntrials = 1000;
 		Random r;
@@ -118,7 +213,7 @@ public class Timing {
 
 			// print amortized cost per 1000 operations, times 1000 ms -> us
 			sb.append( String.format("%.3f, ", btime_total/N*1000) );
-			sb.append( String.format("%.3f, ",  mtime_total/N*1000) );
+			sb.append( String.format("%.3f, ", mtime_total/N*1000) );
 			sb.append( String.format("%.3f ",  dtime_total/N*1000) );
 
 
@@ -143,7 +238,8 @@ public class Timing {
 
 		StringBuffer sb = new StringBuffer();
 
-		sb.append("N, Add Amortized Walltime Per 1k Builtin (us), Add Amortized Walltime Per 1k SLL (us), Add Amortized Walltime Per 1k DLL (us) \n");
+		// Add Amortized Walltime Per 1k Builtin (us), Add Amortized Walltime Per 1k SLL (us)
+		sb.append("N, Add Builtin (us), Add SLL (us), Add DLL (us)\n");
 		
 		int ntrials = 1000;
 
@@ -203,8 +299,8 @@ public class Timing {
 
 			// print cost per 1000 add operations us, times 100 ms -> us
 			sb.append( String.format("%.3f, ",  btime_total/N*1000) );
-			sb.append( String.format("%.3f, ",    mtime_total/N*1000) );
-			sb.append( String.format("%.3f ",    btime_total/N*1000) );
+			sb.append( String.format("%.3f, ",  mtime_total/N*1000) );
+			sb.append( String.format("%.3f ",   dtime_total/N*1000) );
 			sb.append("\n");
 
 		}
