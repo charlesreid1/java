@@ -6,12 +6,29 @@ class Oops extends ArrayIndexOutOfBoundsException {}
 public class StringPermutations { 
 
 	public static void main(String[] args) { 
+		testScaling();
+	}
+
+	public static void testScaling() {
+		String all = "ABCDEFGHIJKL";
+		System.out.printf("N, Nperms, Walltime (ms)\n");
+		for(int i=5; i<all.length()+1; i++) { 
+			long start = System.nanoTime();
+			int permutations = stringPermutations(all.substring(0,i));
+			long stop = System.nanoTime();
+			double duration = (stop - start)/1E6; // time in ms
+			System.out.printf("%d, %d, %.1f\n", i, permutations, duration);
+		}
+	}
+
+	/*
+	public static void testOne() {
 		// Start with strings, then move to generics
 		String theString = "CHARLES";
 		LinkedQueue<String> permutations = stringPermutations(theString);
 		System.out.println("Found "+permutations.size()+" permutations");
 	}
-
+	*/
 
 	public static void swap(char[] input, int i, int j) {
 		char t = input[i];
@@ -34,8 +51,10 @@ public class StringPermutations {
 	}
 
 
-	public static LinkedQueue<String> stringPermutations(String s_input) { 
-		LinkedQueue<String> q = new LinkedQueue<String>();
+	//public static LinkedQueue<String> stringPermutations(String s_input) { 
+	public static int stringPermutations(String s_input) { 
+		//LinkedQueue<String> q = new LinkedQueue<String>();
+		int count = 0;
 
 		// Save useful info
 		int n = s_input.length();
@@ -43,8 +62,9 @@ public class StringPermutations {
 		char[] input = s_input.toCharArray();
 		Arrays.sort(input);
 
-		// First is sorted string
-		q.enqueue(new String(input));
+		//// First is sorted string
+		//q.enqueue(new String(input));
+		count++;
 
 		boolean done = false;
 
@@ -84,12 +104,14 @@ public class StringPermutations {
 				// reverse i+1 thru length-1
                 reverseFrom(input, i+1);
 
-				q.enqueue(new String(input));
+				//q.enqueue(new String(input));
+				count++;
 			}
 
 		} catch(ArrayIndexOutOfBoundsException e) {
 			System.out.println("OOPSIE");
 		}
-		return q;
+		//return q;
+		return count;
 	}
 }
