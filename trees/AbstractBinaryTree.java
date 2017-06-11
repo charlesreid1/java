@@ -1,3 +1,5 @@
+import java.util.List;
+import java.util.ArrayList;
 /** 
  * Abstract binary tree class. 
  * 
@@ -8,9 +10,7 @@
  * is actually being left to the concrete
  * implementation of Position and BinaryTree.
  */
-public class AbstractBinaryTree<E> 
-extends AbstractTree<E> 
-implements BinaryTree<E> {
+public abstract class AbstractBinaryTree<E> extends AbstractTree<E> implements BinaryTree<E> {
 
 	public Position<E> sibling(Position<E> p) {
 		Position<E> parent = parent(p);
@@ -35,7 +35,7 @@ implements BinaryTree<E> {
 
 	public Iterable<Position<E>> children(Position<E> p) {
 		int cap = 2;
-		List<Position<E>> chillun = new ArrayList<>(cap);
+		List<Position<E>> chillun = new ArrayList<Position<E>>(cap);
 		if(left(p)!=null) { 
 			chillun.add(left(p));
 		} 

@@ -1,2 +1,2 @@
 default:
-	javac AbstractTree.java && java AbstractTree
+	javac -Xlint:unchecked LinkedBinTree.java && java LinkedBinTree

@@ -17,8 +17,11 @@
  * This would be simpler, but for the fact that we're
  * exploring ways of using object oriented programming 
  * principles and featrues to make things more extensible.
+ *
+ * IMPORTANT NOTES:
+ *  - public abstract class
  */
-public class AbstractTree<E> implements Tree<E> {
+public abstract class AbstractTree<E> implements Tree<E> {
 
 	/** Return true if position is internal node. */
 	public boolean isInternal(Position<E> p) { 
@@ -32,12 +35,17 @@ public class AbstractTree<E> implements Tree<E> {
 
 	/** Return true if this tree position is root. */
 	public boolean isRoot(Position<E> p) { 
-		return p == root(); 
+		return p==root(); 
+	}
+
+	/** Boolean: is it an empty tree? */
+	public boolean isEmpty() {
+		return size()==0;
 	}
 
 	/** Recursive implementation of depth. */
 	public int depth(Position<E> p) { 
-		if(p==root) {
+		if(p==root()) {
 			// base case
 			return 0; 
 		} else {

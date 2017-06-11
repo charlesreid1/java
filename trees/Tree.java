@@ -1,3 +1,4 @@
+import java.util.Iterator;
 /**
  * Tree abstract data type interface.
  *
@@ -17,13 +18,12 @@ public interface Tree<E> extends Iterable<E> {
 
 	public Iterable<Position<E>> children(Position<E> p);
 
-	public Position<E> element();
 	public Position<E> root();
 
-	public boolean isRoot(Position p) throws IllegalArgumentException;
-	public boolean isInternal(Position p) throws IllegalArgumentException;
-	public boolean isExternal(Position p) throws IllegalArgumentException;
+	public boolean isRoot(Position<E> p) throws IllegalArgumentException;
+	public boolean isInternal(Position<E> p) throws IllegalArgumentException;
+	public boolean isExternal(Position<E> p) throws IllegalArgumentException;
 
-	public Position parent(Position p) throws IllegalArgumentException;
-	public int numChildren(Position p) throws IllegalArgumentException;
+	public Position parent(Position<E> p) throws IllegalArgumentException;
+	public int numChildren(Position<E> p) throws IllegalArgumentException;
 }
