@@ -166,8 +166,8 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 		}
 		*/
 		Node<E> node = (Node<E>)p;
-		if(node.getParent() == node) { 
-			throw new IllegalArgumentException("p is no longer in the tree.");
+		if(node==null) { 
+			throw new IllegalArgumentException("Boo hoo node is null");
 		}
 		return node;
 	}
@@ -391,44 +391,28 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	 * Breadth first traversal/search uses a queue.
 	 * Classic fencepost.
 	 * */
-	public Iterable<Position<E>> bft() {
+	public Iterable<Position<E>> bft(){ 
+		List<Position<E>> snapshot = new LinkedList<Position<E>>();
+		bft(root(), snapshot);
+		return snapshot;
+	}
+
+
+	private void bft(Position<E> p, List<Position<E>> snapshot) {
 		// Pseudocode:
 		//
-		// Fencepost algorithm:
-		//
-		// Plant a fencepost by starting with root node
-		// Perform visit action on root node
-		// Iterate over the children, add them to the queue. 
-		// While queue not empty, 
-		//			Pop from the queue, 
-		//			perform visit action, 
-		//			iterate over the children, 
-		//			and add them to the queue.
-		// Done.
-	
-		List<Position<E>> snapshot = new LinkedList<Position<E>>();
+		// add p to queue
+		// while queue not empty:
+		//   remove next item
+		//   perform action
+		//   iteate over children, add to queue
 
-		// Use the Position interface, rather than the Node class, 
-		// so that you aren't tied to a particular implementation.
-		//
-		// Create Grand Master Q
+		// Grand Master Q
 		Queue<Position<E>> q = new LinkedList<Position<E>>();
-
-		// Plant a fencepost by starting with the root node.
-		// Set the pointer p to root.
-		// Perform action on the node, then add children of the node.
-		Position<E> p = root();
-
-		// Perform visit action on point
-		snapshot.add(p);
-
-		// Enqueue children of point in queue
-		for(Position<E> c : children(p)) {
-			q.add(c);
-		}
+		q.add(p);
 
 		// Mind your p's and q's.
-		while(!q.isEmpty()) { 
+		while(!q.isEmpty()) {
 			p = q.remove();
 
 			// Perform visit action on point p
@@ -438,10 +422,7 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 				q.add(c);
 			}
 		}
-
-		return snapshot;
 	}
-
 
 
 
