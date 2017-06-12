@@ -1,3 +1,5 @@
+time:
+	javac TreeTiming.java && java TreeTiming > output.txt
 test:
 	javac TreeTesting.java && java TreeTesting
 linked:
