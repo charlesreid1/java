@@ -206,6 +206,7 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 		}
 		Node<E> c = createNode(e, parent, null, null);
 		parent.setLeft(c);
+		size++;
 		return c;
 	}
 
@@ -217,6 +218,7 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 		}
 		Node<E> c = createNode(e, parent, null, null);
 		parent.setRight(c);
+		size++;
 		return c;
 	}
 
@@ -240,16 +242,41 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 		if(!t1.isEmpty()) {
 			t1.root.setParent(node);
 			node.setLeft(t1.root);
+			// empty out t1
 			t1.root = null;
 			t1.size = 0;
 		}
 		if(!t2.isEmpty()) { 
 			t2.root.setParent(node);
 			node.setRight(t2.root);
+			// empty out t2
 			t2.root = null;
 			t2.size = 0;
 		}
 	}
+
+
+
+	/** Prune the entire subtree rooted at position p. */
+	public void pruneSubtree(Position<E> p) { 
+		Node<E> node = validate(p);
+		node.setLeft(null);
+		node.setRight(null);
+
+		// how does an object commit suicide?
+		// what if something obscure points at the data?
+		if(!isRoot(p)) {
+			Node<E> par = parent(p);
+			if(par.getLeft()==p) { 
+				par.setLeft(null);
+			} else if(par.getRight()==p) { 
+				par.setRight(null);
+			}
+		}
+	}
+
+
+
 
 	/** Remove the node at position p and replace the node with its (single) child. 
 	 * Throws IllegalArgumentException if 2 children. 
