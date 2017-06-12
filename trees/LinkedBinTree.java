@@ -82,7 +82,10 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 
 
 	/** Factory function: make a new node storing element e. */
-	protected Node<E> createNode(E e, Node<E> parent, Node<E> left, Node<E> right) { 
+	protected Node<E> createNode(E e, 
+							Node<E> parent, 
+							Node<E> left, 
+							Node<E> right) { 
 		return new Node<E>(e, parent, left, right);
 	}
 
@@ -130,8 +133,15 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	// root, right, 
 	// left, parent
 
-	/** Returns the position of tree root. */
-	public Position<E> root() {
+	/** Returns the position of tree root. 
+	 *
+	 * :( 
+	 * This doesn't work when it is Position<E>.
+	 * symbol getLeft() can't be called on a Position<E>.
+	 * so, root().getLeft() no works...
+	 * Now this JOOP is getting messy.
+	 * */
+	public Node<E> root() {
 		return root; 
 	}
 
@@ -172,6 +182,42 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 		return node;
 	}
 
+
+
+	/** Clone a binary tree - public interface method. */
+	public LinkedBinTree<E> clone() { 
+
+		// Create new clone tree:
+		// One root node.
+		LinkedBinTree<E> newt = new LinkedBinTree<E>();
+		newt.addRoot( this.root.getElement() );
+
+		Position<E> origroot = this.root;
+		Position<E> cloneroot = newt.root;
+
+		// Populate clone tree:
+		// Bottom-up, post-order traversal through original tree.
+		// Copying into clone tree as we go.
+		cloneSubtree(newt, cloneroot, origroot); 
+
+		// Return clone tree.
+		return newt;
+	}
+
+
+	protected LinkedBinTree<E> cloneSubtree( LinkedBinTree<E> clonetree, 
+											 Position<E> clonep,
+											 Position<E> origp ) {
+		if(children(clonep).size()==0) { 
+			// Base case:
+			// Return subtree with a single node
+		} else {
+			// Recursive case:
+			// Call method on left node
+			// Call method on right node
+			// Attach the two resulting subtrees
+		}
+	}
 
 
 
@@ -261,20 +307,23 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	public void pruneSubtree(Position<E> p) { 
 		Node<E> node = validate(p);
 
+		// Enumerate the subtree with a preorder iterator
 		int count = 0;
 		for(Position<E> pos : preorder(p)) {
 			count++;
 		}
 
-		System.out.println("Removing subtree of size " + count);
 		size -= count;
 
 		node.setLeft(null);
 		node.setRight(null);
 
-		// how does an object commit suicide?
-		// what if something obscure points at the data?
+		// How does an object commit suicide?
+		// What if something obscure points at the data?
+		// In a tree, we don't have to worry about that.
 		if(!isRoot(p)) {
+			// Target's children are Xed.
+			// Now Target's parents need to be scrubbed of Target.
 			Node<E> par = parent(p);
 			if(par.getLeft()==p) { 
 				par.setLeft(null);
@@ -289,6 +338,7 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 
 
 	/** Remove the node at position p and replace the node with its (single) child. 
+	 *
 	 * Throws IllegalArgumentException if 2 children. 
 	 */
 	public E remove(Position<E> p) throws IllegalArgumentException {
