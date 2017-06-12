@@ -487,12 +487,12 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	 * */
 	public Iterable<Position<E>> bft(){ 
 		List<Position<E>> snapshot = new LinkedList<Position<E>>();
-		bft(root(), snapshot);
+		bftSubtree(root(), snapshot);
 		return snapshot;
 	}
 
 
-	private void bft(Position<E> p, List<Position<E>> snapshot) {
+	private void bftSubtree(Position<E> p, List<Position<E>> snapshot) {
 		// Pseudocode:
 		//
 		// add p to queue
