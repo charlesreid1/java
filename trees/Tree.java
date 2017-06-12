@@ -24,6 +24,6 @@ public interface Tree<E> extends Iterable<E> {
 	public boolean isInternal(Position<E> p) throws IllegalArgumentException;
 	public boolean isExternal(Position<E> p) throws IllegalArgumentException;
 
-	public Position parent(Position<E> p) throws IllegalArgumentException;
+	public Position<E> parent(Position<E> p) throws IllegalArgumentException;
 	public int numChildren(Position<E> p) throws IllegalArgumentException;
 }
