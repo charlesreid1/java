@@ -260,6 +260,15 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	/** Prune the entire subtree rooted at position p. */
 	public void pruneSubtree(Position<E> p) { 
 		Node<E> node = validate(p);
+
+		int count = 0;
+		for(Position<E> pos : preorder(p)) {
+			count++;
+		}
+
+		System.out.println("Removing subtree of size " + count);
+		size -= count;
+
 		node.setLeft(null);
 		node.setRight(null);
 
@@ -273,6 +282,7 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 				par.setRight(null);
 			}
 		}
+
 	}
 
 
@@ -349,9 +359,16 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	 * Pre-order means the visit action is performed on the node
 	 * before any of its children are visited. 
 	 * This is a recursive method. */ 
-	private Iterable<Position<E>> preorder() {
+	public Iterable<Position<E>> preorder() {
 		List<Position<E>> snapshot = new LinkedList<Position<E>>();
 		preorderSubtree(root(), snapshot);
+		return snapshot;
+	}
+
+	/** Preorder traversal, with more subtrees. */
+	public Iterable<Position<E>> preorder(Position<E> p) {
+		List<Position<E>> snapshot = new LinkedList<Position<E>>();
+		preorderSubtree(p, snapshot);
 		return snapshot;
 	}
 

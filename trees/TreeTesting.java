@@ -21,30 +21,30 @@ public class TreeTesting {
 	/** Generate a full tree and start paring some nodes down. */
 	public static void test_remove() {
 
-		LinkedBinTree<Integer> t = getFullTree(3);
+		for(int n = 3; n<=8; n++) {
+			LinkedBinTree<Integer> t = getFullTree(n);
 
-		System.out.println("Before:");
-		System.out.println("Tree size: " + t.size());
-		printPreorder(t, t.root(), 0);
+			System.out.println("\n\nTree:");
+			System.out.println("N levels: " + n);
 
-		Position<Integer> p = t.root.getLeft();
-		try {
-			t.remove(p);
-		} catch(IllegalArgumentException e) {
-			System.out.println("Caught an excepted exception.");
-			System.out.println("Can't remove nodes with >2 children... ambiguous.");
-		}
+			Position<Integer> p = t.root.getLeft();
+			try {
+				t.remove(p);
+			} catch(IllegalArgumentException e) {
+				// do nothing
+			}
 
-		System.out.println("Pruning subtree.");
+			System.out.println("Pruning subtree.");
 
-		System.out.println("Before:");
-		printPreorder(t,t.root(), 0);
+			System.out.println("Before:");
+			System.out.println("Tree size: " + t.size());
 
-		t.pruneSubtree(p);
+			t.pruneSubtree(p);
 
-		System.out.println("After:");
-		printPreorder(t,t.root(), 0);
-		
+			System.out.println("After:");
+			System.out.println("Tree size: " + t.size());
+			//printPreorder(t,t.root(), 0);
+		}	
 
 	}
 
