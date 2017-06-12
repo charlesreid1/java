@@ -44,6 +44,7 @@ public abstract class AbstractTree<E> implements Tree<E> {
 	}
 
 	/** Recursive implementation of depth. */
+	/*
 	public int depth(Position<E> p) { 
 		if(p==root()) {
 			// base case
@@ -53,6 +54,7 @@ public abstract class AbstractTree<E> implements Tree<E> {
 			return 1 + depth(parent(p));
 		}
 	}
+	*/
 
 	/** A bad height method, quadratic complexity class. 
 	 * Depth is called on each leaf.
@@ -70,13 +72,14 @@ public abstract class AbstractTree<E> implements Tree<E> {
 		return h;
 	}
 
-	/** Recursive implementation of height. 
+	/** Recursive implementation of height (max distance from position to leaf).
 	 *
-	 * This finds the height in a top-down way,
+	 * This finds the height (maximum distance
+	 * from position to leaf) in a top-down way,
 	 * extending all the way to the end,
 	 * then accumulating integers as it returns back
 	 * to the original root caller.
-	 * */
+	 */
 	public int height(Position<E> p) {
 		int h = 0;
 		for(Position<E> c : children(p)) { 
@@ -88,9 +91,20 @@ public abstract class AbstractTree<E> implements Tree<E> {
 		return h;
 	}
 
-	/** Get the height of the entire tree. */
+	/** Get the height (max distance from root to leaf) of the entire tree. */
 	public int height() {
 		return height(root());
 	}
+
+	/** Get the depth (distance from position to root) of a position. */
+	public int depth(Position<E> p){ 
+		if(isRoot(p)) {
+			return 0;
+		} else {
+			return 1 + depth(parent(p));
+		}
+	}
+
+
 
 }

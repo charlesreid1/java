@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Iterator;
+import java.util.Random;
 
 /** 
  * (Concrete) Linked binary tree class. 
@@ -31,8 +32,9 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 
 
 	public static void main(String[] args) { 
-		LinkedBinTree<Integer> t = new LinkedBinTree<Integer>();
+		LinkedBinTree<Integer> t = new LinkedBinTree<Integer>(); 
 	}
+
 
 
 	/////////////////////////////////////////////////
@@ -76,7 +78,7 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 
 
 	////////////////////////////////////////////
-	// Utility method
+	// Utility methods
 
 
 	/** Factory function: make a new node storing element e. */
@@ -85,6 +87,21 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	}
 
 
+	/** Print the nodes in preorder.
+	 * Need to include the <E> after static
+	 * to make sure this works as a generic static method.
+	 * */
+	public static <E> void printPreorder( Tree<E> t, Position<E> p, int d) { 
+		System.out.println(spaces(2*d)+p.getElement());
+		for(Position<E> c : t.children(p)) {
+			printPreorder(t, c, d+1);
+		}
+	}
+	public static String spaces(int n){
+		StringBuffer sb = new StringBuffer();
+		for(int i=0; i<n; i++) sb.append(" ");
+		return sb.toString();
+	}
 
 
 	////////////////////////////////////////////
@@ -119,7 +136,7 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	}
 
 	/** Returns the position of p's right child. */
-	public Node<E> right(Position<E> p) throws IllegalArgumentException {
+	public Position<E> right(Position<E> p) throws IllegalArgumentException {
 		Node<E> node = validate(p);
 		return node.getRight();
 	}
@@ -131,7 +148,7 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	}
 
 	/** Returns the position of p's parent. */
-	public Position<E> parent(Position<E> p) throws IllegalArgumentException {
+	public Node<E> parent(Position<E> p) throws IllegalArgumentException {
 		Node<E> node = validate(p);
 		return node.getParent();
 	}
