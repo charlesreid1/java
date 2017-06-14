@@ -1,29 +1,39 @@
 import java.util.*;
 /** 
  * Expression Tree.
+ *
+ * This class processes parenthetical infix expressions like
+ *
+ * ((8-(4+3))/(4-3))*6
+ *
+ * This uses a left-to-right processing technique,
+ * with particular actions corresponding to 
+ * numbers, operators, or ().
+ * It parses the expression and builds an ExpressionTree
+ * to represent it.
  */
 public class ExpressionTree { 
-
-
-
-
 
 
 	// Main method
 
 	public static void main(String[] args) { 
 
-		String[] expressions = {"2+2",
-								"(3+4)/(4+3)",
-								"2-((3+4)/(4+3))",
-								"((8-1)-(4-3))", 
-								"(8-1)-(4-3)",
-								"4*((8-1)-(4-3))",
-								"((8-1)-(4-3))*(8+(4-1))",
-								"((8-1)-(4-3))*((8-(4/(4+4)))+4)"};
+		
+		Map<String,Integer> test = new TreeMap<String,Integer>();
 
+		test.put("2+2",									4);
+		test.put("(3+4)/(4+3)",							1);
+		test.put("2-((3+4)/(4+3))",						1);
+		test.put("((8-1)-(4-3))",						6);
+		test.put("(8-1)-(4-3)",							6);
+		test.put("((8-1)-(4-3))*(8+(4-1))",				66);
+		test.put("((8-1)-(4-3))*((8-(4/(4+4)))+4)",		72);
+		test.put("2+(2+(2+(2+(2+(2+2)))))",				14);
+		test.put("(((((2+2)+2)+2)+2)+2)",				12);
+		test.put("4*((8-1)-(4-3))",						24);
 
-		for(String expr : expressions ) { 
+		for(String expr : test.keySet()) { 
 			System.out.println("About to parse the expression:");
 			System.out.println(expr);
 
@@ -31,8 +41,6 @@ public class ExpressionTree {
 			t.parse(expr);
 			System.out.println(t);
 		}
-
-
 
 	}
 
@@ -102,45 +110,45 @@ public class ExpressionTree {
 
 
 
-	/** Utility stack node class.
-	 */
-	class StackNode {
-		TreeNode treeNode;
-		StackNode next;
-		/** stack node constructor - 
-		 * specify an expression tree node to store */
-		public StackNode(TreeNode tn) { 
-			this.treeNode = tn;
-			this.next = null;
-		}
-	}
+	///////** Utility stack node class.
+	////// */
+	//////class StackNode {
+	//////	TreeNode treeNode;
+	//////	StackNode next;
+	//////	/** stack node constructor - 
+	//////	 * specify an expression tree node to store */
+	//////	public StackNode(TreeNode tn) { 
+	//////		this.treeNode = tn;
+	//////		this.next = null;
+	//////	}
+	//////}
 
-	/** Utility stack field. */
-	private static StackNode top;
+	///////** Utility stack field. */
+	//////private static StackNode top;
 
-	/** Utility stack method - push - SECRET. */
-	private void push(TreeNode ptr) { 
-		// top is the utility pointer above.
-		if(top == null) { 
-			top = new StackNode(ptr);
-		} else {
-			StackNode nn = new StackNode(ptr);
-			nn.next = top;
-			top = nn;
-		}
-	}
+	///////** Utility stack method - push - SECRET. */
+	//////private void push(TreeNode ptr) { 
+	//////	// top is the utility pointer above.
+	//////	if(top == null) { 
+	//////		top = new StackNode(ptr);
+	//////	} else {
+	//////		StackNode nn = new StackNode(ptr);
+	//////		nn.next = top;
+	//////		top = nn;
+	//////	}
+	//////}
 
-	/** Utility stack method - pop - SECRET. */
-	private TreeNode pop() {
-		StackNode oldtop = top;
-		top = top.next;
-		oldtop.next = null;
-		return oldtop.treeNode;
-	}
+	///////** Utility stack method - pop - SECRET. */
+	//////private TreeNode pop() {
+	//////	StackNode oldtop = top;
+	//////	top = top.next;
+	//////	oldtop.next = null;
+	//////	return oldtop.treeNode;
+	//////}
 
-	private TreeNode peek() { 
-		return top.treeNode;
-	}
+	//////private TreeNode peek() { 
+	//////	return top.treeNode;
+	//////}
 
 
 	/////////////////////////////////////////////////
@@ -194,10 +202,6 @@ public class ExpressionTree {
 			// one char at a time
 			Character c = qin.remove();
 
-
-			System.out.println("===> "+c.toString());
-
-
 			if(isNumeric(c)) {
 				// Character is numeric - make single node expression tree.
 				TreeNode node = new TreeNode(c);
@@ -230,7 +234,6 @@ public class ExpressionTree {
 				// end if numeric
 
 			} else if(isOperator(c)) { 
-				//System.out.println("--------> pop an op");
 				TreeNode node = new TreeNode(c);
 				node.setLeft(st.pop());
 				st.push(node);
@@ -247,16 +250,8 @@ public class ExpressionTree {
 					if(peek.right==null) { 
 						peek.right = top;
 					}
-					System.out.println("Closing )");//and size of stack is "+st.size());
 				}
-				//TreeNode top = st.pop();
-				//TreeNode peek = st.peek();
-				//System.out.println("Closing parentheses. Peek right is: " + peek.right);
-				//if(peek.right!=null) { 
-
 			}
-			System.out.println("After character "+c.toString()+":");
-			System.out.println(st);
 		}
 
 		// Mop up
