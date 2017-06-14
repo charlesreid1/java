@@ -12,14 +12,29 @@ public class ExpressionTree {
 	// Main method
 
 	public static void main(String[] args) { 
-		//String expr = "(3+4)/(4+3)";
-		String expr = "2-((3+4)/(4+3))";
-		ExpressionTree t = new ExpressionTree();		
-		t.parse(expr);
-		
+
+		String[] expressions = {"2+2",
+								"(3+4)/(4+3)",
+								"2-((3+4)/(4+3))",
+								"((8-1)-(4-3))", 
+								"(8-1)-(4-3)",
+								"4*((8-1)-(4-3))",
+								"((8-1)-(4-3))*4"};
+								//"((8-1)-(4-3))*((8-(4/(4+4)))+4)"};
+
+
+		for(String expr : expressions ) { 
+			System.out.println("About to parse the expression:");
+			System.out.println(expr);
+
+			ExpressionTree t = new ExpressionTree();		
+			t.parse(expr);
+			System.out.println(t);
+		}
+
+
+
 	}
-
-
 
 
 
@@ -55,6 +70,28 @@ public class ExpressionTree {
 				this.is_numeric = true; 
 			}
 		}
+		public int nChildren() { 
+			int nc = 0;
+			if(left!=null) nc++;
+			if(right!=null) nc++;
+			return nc;
+		}
+		public String toString() { 
+			StringBuffer sb = new StringBuffer();
+			if(this.left!=null) { 
+				sb.append("(");
+				sb.append(this.left.element.toString());
+				sb.append(")-- ");
+			}
+			sb.append(this.element.toString());
+			if(this.right!=null) { 
+				sb.append(" --(");
+				sb.append(this.right.element.toString());
+				sb.append(")");
+			}
+			return sb.toString();
+		}
+		public Character getElement() { return this.element; }
 		public void setElement(char v) { this.element = v; }
 		public void setLeft(TreeNode newl) { this.left = newl; }
 		public void setRight(TreeNode newr) { this.right = newr; }
@@ -134,133 +171,180 @@ public class ExpressionTree {
 		root = null;
 	}
 	
+
+	/** Parse a nested parenthetical infix expression passed in,
+	 * and store the resulting parsed expression in this ExpressionTree.
+	 */
 	public void parse(String expression) { 
 
-		// Initialize the input queue
+		// Initialize input queue
 		Queue<Character> qin = new LinkedList<Character>();
-		for(char c : expression.toCharArray()) {
+		for(char c : expression.toCharArray()) { 
 			Character mychar = new Character(c);
 			qin.add(mychar);
 		}
 
-		//// So far so good:
-		//System.out.println(qin);
-
-		// Algorithm:
-		//
-		// while there are tokens in the queue:
-		//		if token is a number:
-		//			add as new (left) child in output expression tree
-		//			or, 
-		//			add as right child if parent already exists in expression tree
-		//
-		//		if token is operator:
-		//			add operator as parent of output expression tree
-		//
-		//		if token is (,
-		//			push onto operator stack.
-		//
-		//		if token is ),
-		//			while operator @ top of stack not (,
-		//				pop operators from top of stack onto output queue
-		//			pop left bracket from stack
-		// clean up:
-		//		pop the remaining ))s
-
-
-		// We are building a "tree"
-		// by assembling TreeNodes by hand
+		// Expression stack
 		Stack<TreeNode> st = new Stack<TreeNode>();
 
+		boolean startNewExpression = true;
 		while(!qin.isEmpty()){ 
 
-			// Examine the input queue 
-			// one char at a time.
+			// Examine input queue 
+			// one char at a time
 			Character c = qin.remove();
 
-			if(isNumeric(c)) { 
 
-				// Character is numeric:
-				// make a single-node expression tree.
+			System.out.println("===> "+c.toString());
+
+
+			if(isNumeric(c)) {
+				// Character is numeric - make single node expression tree.
 				TreeNode node = new TreeNode(c);
 
-				// Peek and check if there is 
-				// an operator on the stack.
-				if(st.size()>0) { 
-
-					TreeNode pk = st.peek();
-
-					if(pk.is_operator()) {
-						// If so, pop it.
-						pk = st.pop();
-						// Add the new numeric character 
-						// node as the right child
-						pk.right = node;
-
-						// Push the operator (parent) onto the stack.
-						st.push(pk);
-
-						// Good to go
-					} else {
-						throw new IllegalArgumentException("Malformed input: number/expression and number/expression without operator");
-					}
+				// If we have opened a new set of parentheses,
+				if(startNewExpression) { 
+					st.push(node);
+					startNewExpression = false;
 
 				} else {
-					// Empty stack
-					st.push(node);
+					// If we have an expression on the stack already,
+					if(st.size()>0){ 
+						// If the expression on the stack is an operator 
+						// and it has 1 child,
+						TreeNode peek = st.peek();
+						if(peek.is_operator()) { 
+							if(peek.nChildren()==1) { 
+								peek.setRight(node);
+								// No need to push - 
+								// peek stays on the stack
+							} else {
+								throw new IllegalStateException("improperly formatted operator");
+							}
+						} else {
+							// peek is not operator
+							throw new IllegalStateException("number followed by number");
+						}
+					}
 				}
+				// end if numeric
 
-
-			} else if(isOperator(c)) {
-
-				// check if expression already on stack
-
+			} else if(isOperator(c)) { 
+				//System.out.println("--------> pop an op");
 				TreeNode node = new TreeNode(c);
-
-				// Operator becomes parent of output expression tree
-				node.left = st.pop();
-				
-				// Don't know what right is yet...
+				node.setLeft(st.pop());
 				st.push(node);
 
-			} else if(c.equals('(')) {
-				// Just continue
-				System.out.println("open (");
+			} else if(c.equals('(')) { 
+				startNewExpression = true;
 
-			} else if(c.equals(')')) {
-				// ends an expression
-				System.out.println("close )");
+			} else if(c.equals(')')) { 
+				// Close the expression - 
+				// and expand the purview of the next operator 
+				if(st.size()>1) { 
+					TreeNode top = st.pop();
+					TreeNode peek = st.peek();
+					if(peek.right==null) { 
+						peek.right = top;
+					}
+					System.out.println("Closing )");//and size of stack is "+st.size());
+				}
+				//TreeNode top = st.pop();
+				//TreeNode peek = st.peek();
+				//System.out.println("Closing parentheses. Peek right is: " + peek.right);
+				//if(peek.right!=null) { 
 
 			}
+			System.out.println("After character "+c.toString()+":");
+			System.out.println(st);
 		}
+
+		// Mop up
+		while(st.size()>1) { 
+			TreeNode top = st.pop();
+			TreeNode peek = st.peek();
+			if(peek.right!=null) { 
+				throw new IllegalStateException("Two consecutive operators!");
+			}
+			peek.right = top;
+		}
+
 		this.root = st.pop();
 
+		System.out.println("Finished parsing the expression tree.");
 	}
 
+
+
+	/** Send the expression tree to a String. */
 	public String toString() {
-		String res = subtreeToString(this.root,0);
+
+		StringBuffer sb1 = new StringBuffer();
+		subtreeOneliner(sb1, this.root);
+
+		StringBuffer sb2 = new StringBuffer();
+		subtreeDFT(sb2, this.root, 0);
+
+		return sb1.toString() + "\n\n" + sb2.toString();
 	}
 
-	private String subtreeToString(TreeNode subtree, int depth) { 
-		// if this is a leaf node,
-		// return the string only 
-		String middle = subtree.getElement();
-		// needs way to get number of children
-		// deja vu tree stuff -
-		// do we have a way to pass in a position?
-		// no, nodes only. quick,
-		// method to count number of children.
-		// nchildren = 0;
-		// if(left!=null) nchildren++; 
-		// if(right!=null) nchildren++; 
-		//
-		//
-		// else,
-		String left = "(";
-		String middle = subtreeToString(left);
-		String middle = subtree.getElement();
-		String middle = subtreeToString(right);
-		String right = ")";
+	/** utility method: spaces */
+	private String spaces(int n) { 
+		StringBuffer sb = new StringBuffer();
+		for(int i=0; i<n; i++) {
+			sb.append(" ");
+		}
+		return sb.toString();
+	}
+
+
+
+	/** Print a subtree on multiple lines using a recursive depth-first traversal method.
+	 * This is a preorder traversal, meaning the visit action is performed on the node
+	 * before it is performed on children (if any).
+	 */
+	private void subtreeDFT(StringBuffer sb, TreeNode subtree, int depth) {
+		// Secure your own Node's oxygen mask first, then take care of your children's.
+		String mid = subtree.getElement().toString();
+		sb.append(spaces(depth*4));
+		sb.append(mid);
+		sb.append("\n");
+
+		int nchildren = subtree.nChildren();
+		if(nchildren>0) { 
+			subtreeDFT(sb, subtree.left, depth+1);
+			subtreeDFT(sb, subtree.right, depth+1);
+		}
+	}
+
+
+	/** Print a subtree on a single line using nested parenthetical notation. 
+	 * This is an in-order traversal that wraps each expression in parentheses,
+	 * and proceeds from the left element to the center operator to the right element. 
+	 * */
+	private void subtreeOneliner(StringBuffer sb, TreeNode subtree) {
+		String mid = subtree.getElement().toString();
+
+		int nchildren = subtree.nChildren();
+		if(nchildren==0) { 
+			// Leaf node - return string of node only
+			sb.append(mid);
+
+		} else {
+
+			// If not a leaf node, print out:
+			// ( left, mid, right )
+
+			sb.append("(");
+
+			subtreeOneliner(sb, subtree.left);
+
+			sb.append(mid);
+
+			subtreeOneliner(sb, subtree.right);
+
+			sb.append(")");
+		}
 	}
 
 
@@ -284,13 +368,6 @@ public class ExpressionTree {
 	}
 
 }
-
-
-
-
-
-
-
 
 
 
