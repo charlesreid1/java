@@ -1,9 +1,33 @@
+/**
+ * Class that implements tests of the binary search tree
+ * implemented following Weiss, C++ Data Structures.
+ *
+ * See p. 133 of Weiss book.
+ */
 public class Weiss { 
+	public static void main(String[] args) { 
+		BinarySearchTree b = new BinarySearchTree();;
+		b.insert(new Integer(5));
+		b.insert(new Integer(4));
+		b.insert(new Integer(9));
+		b.insert(new Integer(8));
+		b.insert(new Integer(-2));
+		b.insert(new Integer(-3));
+	}
 }
+
+
+
 
 /** 
  * Binary search tree 
  * implemented using integers.
+ *
+ * This can be thought of as a Binary Search Tree
+ * abstract data type implementation.
+ *
+ * This relies primarily on public methods
+ * that call private recursive methods.
  */
 class BinarySearchTree { 
 
@@ -28,8 +52,8 @@ class BinarySearchTree {
 		public BinaryNode getLeft() { return this.left; }
 		public BinaryNode getRight() { return this.right; }
 
-		public setLeft(BinaryNode newChild) { this.left = newChild; }
-		public setRight(BinaryNode newChild) { this.left = newChild; }
+		public void setLeft(BinaryNode newChild) { this.left = newChild; }
+		public void setRight(BinaryNode newChild) { this.left = newChild; }
 	}
 
 
@@ -44,7 +68,7 @@ class BinarySearchTree {
 	/** Empty constructor */
 	public BinarySearchTree() {
 		this.size = 0;
-		this.BinaryNode = null;
+		this.root = null;
 	}
 
 
@@ -57,13 +81,74 @@ class BinarySearchTree {
 	}
 
 	/** Prints the tree to the console. */
-	public void printTree() {}
+	//public void printTree() {}
 
-	/** Returns the smallest element in the tree. */
-	public Integer findMin() { }
 
-	/** Returns the largest element in the tree. */
-	public Integer findMax() { }
+
+
+	// Non-recursive versions of findMin/findMax
+
+	/** Private method that returns the smallest element in the tree.
+	 * This assumes the tree is sorted.
+	 * */
+	private BinaryNode findMin(BinaryNode node) { 
+		if(node!=null) { 
+			while(node.getLeft() != null) {
+				node = node.getLeft();
+			}
+		}
+		return node;
+	}
+
+	/** Private method that returns the largest element in the tree. 
+	 * This assumes the tree is sorted.
+	 * */
+	private BinaryNode findMax(BinaryNode node) { 
+		if(node!=null) { 
+			while(node.getRight() != null) {
+				node = node.getRight();
+			}
+		}
+		return node;
+	}
+
+
+	// Recursive versions of findMin/findMax
+
+	/** Private method that returns the smallest element in the tree, recursively.
+	 * This assumes the tree is sorted.
+	 * */
+	private BinaryNode findMin_r(BinaryNode node) { 
+		if(node==null){
+			// base case: we're nobody
+			return null;
+		}
+		if(node.getLeft()==null) { 
+			// base case: it's us
+			return node;
+		}
+		// recursive case:
+		// keep going
+		return findMin_r(node.getLleft());
+	}
+
+	/** Private method that returns the largest element in the tree, recursively. 
+	 * This assumes the tree is sorted.
+	 * */
+	private BinaryNode findMax_r(BinaryNode node) { 
+		if(node==null){
+			// base case: we're nobody
+			return null;
+		}
+		if(node.getRight()==null) { 
+			// base case: it's us
+			return node;
+		}
+		// recursive case:
+		// keep going
+		return findMax_r(node.getRight());
+	}
+
 
 
 
@@ -78,7 +163,7 @@ class BinarySearchTree {
 	}
 
 	/** Insert at binary node t */
-	public void insert(Integer x, BinaryNode t) {
+	private void insert(Integer x, BinaryNode t) {
 		// Fundamental property of binary search trees:
 	}
 
@@ -92,12 +177,24 @@ class BinarySearchTree {
 		return contains(x, this.root);
 	}
 
-	public boolean contains(Integer x, BinaryNode t) {
-
+	/** Recursive contains method. */
+	private boolean contains(Integer x, BinaryNode t) {
+		// Recursive methods must handle the case of an empty tree.
 		if(t==null) { 
+			// Base case #1 - I'm empty
 			return false;
 		} else if( x < t.getElement() ) {
+			// Go left
+			return contains(x, t.getLeft());
 
+		} else if( x > t.getElement() ) {
+			// Go right
+			return contains(x, t.getRight());
+
+		} else { 
+			// Base case #2 - equal
+			return true;
+		}
 	}
 
 
@@ -107,10 +204,10 @@ class BinarySearchTree {
 	// Remove methods:
 
 	public void remove(Integer x) { 
-		return remove(x, this.root);
+		remove(x, this.root);
 	}
 
-	public void remove(Integer x, BinaryNode t) { 
+	private void remove(Integer x, BinaryNode t) { 
 
 	}
 
