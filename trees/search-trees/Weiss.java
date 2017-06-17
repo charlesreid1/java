@@ -34,13 +34,13 @@ public class Weiss {
 		b.insert(new Integer(-9));
 		b.printTree();
 
-		System.out.println("-------------");
+		System.out.println("------------- removing 48 ");
 		b.remove(new Integer(48) );
 		b.printTree();
-		System.out.println("-------------");
+		System.out.println("------------- removing -10 ");
 		b.remove(new Integer(-10) );
 		b.printTree();
-		System.out.println("-------------");
+		System.out.println("------------- removing -2 ");
 		b.remove(new Integer(-2) );
 		b.printTree();
 	}
@@ -324,7 +324,11 @@ class BinarySearchTree {
 	// Remove methods:
 
 	public void remove(Integer x) { 
-		remove(x, this.root);
+		if(isEmpty()) { 
+			return;
+		} else {
+			remove_r(x, this.root);
+		}
 	}
 
 	/** Private recursive removal operation. 
@@ -340,7 +344,29 @@ class BinarySearchTree {
 	 *
 	 *  x is item to remove. node is root of subtree. 
 	 * */
-	private void remove(Integer x, BinaryNode node) { 
+	private void remove_r(Integer x, BinaryNode node) { 
+		// Don't deal with the null case - 
+		// once we get a null pointer,
+		// we are losing track of what pointed to us.
+		// (this is the pitfall of following a c++ book.)
+		// we can't modify the memory contents directly. 
+		// modify the parent pointers.
+		//
+		// to remove the element,
+		// we need a pointer to its parent, 
+		// so we can release it and have it point 
+		// at the (correct) new thing.
+		// (root parent is a special/weird case.)
+		//
+		// We don't want to check if we have the element to remove - 
+		// we want to check if we have the parent of the element to remove. 
+		//
+		// But...
+		// Is left the element we want to remove?
+		// Is right the element we want to remove?
+		// These seem like the wrong question.
+
+
 
 		if(node==null) { 
 			System.out.println("Removing nothin from null");
@@ -349,16 +375,23 @@ class BinarySearchTree {
 		} 
 
 		if( x < node.getElement() ) { 
-			// Not equal, keep looking.
-			// Go left
-			remove(x, node.getLeft());
-			size--;
+
+			// Not equal, keep removing left
+			if(node.left==null) { 
+				return;
+			} else {
+				System.out.println("Keep removing to the left... "+node+" -> "+node.left);
+				remove_r(x, node.left);
+			}
 
 		} else if( x > node.getElement() ) {
-			// Not equal, keep looking.
-			// Go right
-			remove(x, node.getRight());
-			size--;
+
+			// Not equal, keep removing right
+			if(node.right==null) { 
+				return;
+			} else {
+				remove_r(x, node.right);
+			}
 
 		} else if(node.getLeft()!=null && node.getRight()!=null) {
 			// Equal: two children case.
@@ -368,28 +401,25 @@ class BinarySearchTree {
 			BinaryNode min = findMin(node.getRight());
 			Integer eradicate = min.getElement();
 			node.setElement(eradicate); // set this node equal to min
-			remove(eradicate, node.getRight()); // remove min from subtree
+			remove_r(eradicate, node.getRight()); // remove min from subtree
 			size--;
 
 		} else {
+			System.out.println("Removing: 1-kid case. " + node);
+			node = null;
 
+			//// H
+			////
+			////
+			////
+			//// Equal: one child case
+			//// Pick left or right.
+			//if(node.getLeft()==null) { 
+			//	node = node.getRight();
+			//} else {
+			//	node = node.getLeft();
+			//}
 
-
-			// Equal: one child case
-			// Pick left or right.
-			if(node.getLeft()==null) { 
-				node = node.getRight();
-			} else {
-				node = node.getLeft();
-			}
-			// some kind of problem here...
-			// have to fix parent...
-			// or copy left/right into node, 
-			// rather than overwriting node with left/right 	
-			//
-
-			
-			
 			size--;
 		}
 	}
