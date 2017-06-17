@@ -13,16 +13,35 @@ public class Weiss {
 		b.insert(new Integer(43));
 		b.insert(new Integer(49));
 		b.insert(new Integer(44));
+		b.insert(new Integer(-4));
+		b.insert(new Integer(-6));
+		b.insert(new Integer(-8));
+		b.insert(new Integer(-3));
 		b.insert(new Integer(45));
 		b.insert(new Integer(58));
 		b.insert(new Integer(68));
 		b.insert(new Integer(108));
 		b.insert(new Integer(138));
 		b.insert(new Integer(78));
-		b.insert(new Integer(-8));
+		b.insert(new Integer(-11));
 		b.insert(new Integer(-10));
+		b.insert(new Integer(-13));
+		b.insert(new Integer(-12));
+		b.insert(new Integer(-1));
 		b.insert(new Integer(-2));
-		b.insert(new Integer(-3));
+		b.insert(new Integer(-5));
+		b.insert(new Integer(-7));
+		b.insert(new Integer(-9));
+		b.printTree();
+
+		System.out.println("-------------");
+		b.remove(new Integer(48) );
+		b.printTree();
+		System.out.println("-------------");
+		b.remove(new Integer(-10) );
+		b.printTree();
+		System.out.println("-------------");
+		b.remove(new Integer(-2) );
 		b.printTree();
 	}
 }
@@ -230,11 +249,6 @@ class BinarySearchTree {
 			// Insert at the root, let recursion sort them out 
 			insert_r(x, this.root);
 
-			System.out.println("recursive insertion of "+x);
-			System.out.println("what is root? "+this.root);
-			System.out.println("what is root left? "+this.root.getLeft());
-			System.out.println("what is root right? "+this.root.getRight());
-
 		}
 	}
 
@@ -319,7 +333,7 @@ class BinarySearchTree {
 	 *
 	 *  If node is a leaf - delete immediately.
 	 *  If the node has one child - adjust parent's link to bypass to child.
-	 *  If the node has two childre:
+	 *  If the node has two children:
 	 *  - Replace the data of this node with smallest data of right subtree.
 	 *  - Recursively delete that node, which is now empty.
 	 *  - Smallest node in right subtree cannot have left child
@@ -329,6 +343,7 @@ class BinarySearchTree {
 	private void remove(Integer x, BinaryNode node) { 
 
 		if(node==null) { 
+			System.out.println("Removing nothin from null");
 			// Item not found, return nothing to caller
 			return;
 		} 
@@ -337,21 +352,44 @@ class BinarySearchTree {
 			// Not equal, keep looking.
 			// Go left
 			remove(x, node.getLeft());
+			size--;
+
 		} else if( x > node.getElement() ) {
 			// Not equal, keep looking.
 			// Go right
 			remove(x, node.getRight());
+			size--;
+
 		} else if(node.getLeft()!=null && node.getRight()!=null) {
 			// Equal: two children case.
 			// Find smallest value in right subtree,
 			// set current node value to it.
+			System.out.println("Removing: 2-kid case.");
 			BinaryNode min = findMin(node.getRight());
-			node.setElement(min.getElement());
+			Integer eradicate = min.getElement();
+			node.setElement(eradicate); // set this node equal to min
+			remove(eradicate, node.getRight()); // remove min from subtree
+			size--;
+
 		} else {
+
+
+
 			// Equal: one child case
-			//BinaryNode old = node;
 			// Pick left or right.
-			node = (node.getLeft()!=null)?node.getLeft():node.getRight();
+			if(node.getLeft()==null) { 
+				node = node.getRight();
+			} else {
+				node = node.getLeft();
+			}
+			// some kind of problem here...
+			// have to fix parent...
+			// or copy left/right into node, 
+			// rather than overwriting node with left/right 	
+			//
+
+			
+			
 			size--;
 		}
 	}
