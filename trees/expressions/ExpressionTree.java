@@ -110,46 +110,6 @@ public class ExpressionTree {
 
 
 
-	///////** Utility stack node class.
-	////// */
-	//////class StackNode {
-	//////	TreeNode treeNode;
-	//////	StackNode next;
-	//////	/** stack node constructor - 
-	//////	 * specify an expression tree node to store */
-	//////	public StackNode(TreeNode tn) { 
-	//////		this.treeNode = tn;
-	//////		this.next = null;
-	//////	}
-	//////}
-
-	///////** Utility stack field. */
-	//////private static StackNode top;
-
-	///////** Utility stack method - push - SECRET. */
-	//////private void push(TreeNode ptr) { 
-	//////	// top is the utility pointer above.
-	//////	if(top == null) { 
-	//////		top = new StackNode(ptr);
-	//////	} else {
-	//////		StackNode nn = new StackNode(ptr);
-	//////		nn.next = top;
-	//////		top = nn;
-	//////	}
-	//////}
-
-	///////** Utility stack method - pop - SECRET. */
-	//////private TreeNode pop() {
-	//////	StackNode oldtop = top;
-	//////	top = top.next;
-	//////	oldtop.next = null;
-	//////	return oldtop.treeNode;
-	//////}
-
-	//////private TreeNode peek() { 
-	//////	return top.treeNode;
-	//////}
-
 
 	/////////////////////////////////////////////////
 
