@@ -184,40 +184,42 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 
 
 
-	/** Clone a binary tree - public interface method. */
-	public LinkedBinTree<E> clone() { 
+	///** Clone a binary tree - public interface method. */
+	//public LinkedBinTree<E> clone() { 
 
-		// Create new clone tree:
-		// One root node.
-		LinkedBinTree<E> newt = new LinkedBinTree<E>();
-		newt.addRoot( this.root.getElement() );
+	//	// Create new clone tree:
+	//	// One root node.
+	//	LinkedBinTree<E> newt = new LinkedBinTree<E>();
+	//	newt.addRoot( this.root.getElement() );
 
-		Position<E> origroot = this.root;
-		Position<E> cloneroot = newt.root;
+	//	Position<E> origroot = this.root;
+	//	Position<E> cloneroot = newt.root;
 
-		// Populate clone tree:
-		// Bottom-up, post-order traversal through original tree.
-		// Copying into clone tree as we go.
-		cloneSubtree(newt, cloneroot, origroot); 
+	//	// Populate clone tree:
+	//	// Bottom-up, post-order traversal through original tree.
+	//	// Copying into clone tree as we go.
+	//	cloneSubtree(newt, cloneroot, origroot); 
 
-		// Return clone tree.
-		return newt;
-	}
+	//	// Return clone tree.
+	//	return newt;
+	//}
 
 
-	protected LinkedBinTree<E> cloneSubtree( LinkedBinTree<E> clonetree, 
-											 Position<E> clonep,
-											 Position<E> origp ) {
-		if(children(clonep).size()==0) { 
-			// Base case:
-			// Return subtree with a single node
-		} else {
-			// Recursive case:
-			// Call method on left node
-			// Call method on right node
-			// Attach the two resulting subtrees
-		}
-	}
+	//protected LinkedBinTree<E> cloneSubtree( LinkedBinTree<E> clonetree, 
+	//										 Position<E> clonep,
+	//										 Position<E> origp ) {
+	//	if(numChildren(clonep)==0) { 
+	//		// Base case:
+	//		// Return subtree with a single node
+
+	//	} else {
+	//		// Recursive case:
+	//		// Call method on left node
+	//		// Call method on right node
+	//		// Attach the two resulting subtrees
+
+	//	}
+	//}
 
 
 
