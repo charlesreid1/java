@@ -36,6 +36,7 @@ public class CharDigit {
 		    } else {
 		        throw new IllegalArgumentException("Malformed input. Numeric strings only.");
 		    }
+			j++;
 		}
 
 
