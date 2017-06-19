@@ -4,3 +4,5 @@ unsorted:
 	javac UnsortedPriorityQueue.java && java UnsortedPriorityQueue
 pqb:
 	javac PriorityQueueBase.java && java PriorityQueueBase
+clean:
+	rm -rf *.class
