@@ -52,12 +52,12 @@ public abstract class PriorityQueueBase<T> {
     /** Add an item to the priority queue. */
 	public abstract void add(int k, T v);
 
-    ///** Remove the minimum item from the priority queue. */
-    //public abstract T removeMin();
+    /** Remove the minimum item from the priority queue. */
+    public abstract T removeMin();
 
-    ///** Peek at the minimum item in the priority queue
-    // * w/o removing it.*/
-    //public abstract T peekMin();
+    /** Peek at the minimum item in the priority queue
+     * w/o removing it.*/
+    public abstract T peekMin();
 
 
 }
