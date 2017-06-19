@@ -1,3 +1,5 @@
+timing:
+	javac Timing.java && java Timing
 sorted:
 	javac SortedPriorityQueue.java && java SortedPriorityQueue
 unsorted:
