@@ -1,29 +1,30 @@
 /**
  * Priority queue base class.
  */
-public class PriorityQueueBase {
+public abstract class PriorityQueueBase<T> {
 
 
     //////////////////////////
 
 	//Item key-value class used to implement priority queue internally
 
-	protected class Item implements Comparable<T> {
+	protected class Item<T> implements Comparable<Item<T>> {
 	    private int key;
-	    private String value;
+	    private T value;
 
 		/** Public item constructor. */
-		public Item(int key, String value) { 
+		public Item(int key, T value) { 
 			this.key = key;
 			this.value = value;
 		}
 
 	    /** Returns < 0 if this Item is less than the Item passed in. */
-	    public int compareTo(Item i2) {
-	        return this.key < i2.key;
+	    public int compareTo(Item<T> i2) {
+	        return (this.key - i2.key);
 	    }
 		public int getKey() { return key; }
-		public String getValue() { return value; }
+		public T getValue() { return value; }
+		public String toString() { return " ("+key+") "+value.toString(); }
 	}
 
 
@@ -31,9 +32,9 @@ public class PriorityQueueBase {
 
     // Priority queue class
 
-    private int size;
+    protected int size;
 
-    public PriorityQueue() {
+    public PriorityQueueBase() {
         this.size = 0; // meh
         // zzz....
     }
@@ -49,14 +50,14 @@ public class PriorityQueueBase {
     // Abstract methods - unfinished business.
 
     /** Add an item to the priority queue. */
-	public abstract void add(int k, String v) {
+	public abstract void add(int k, T v);
 
-    /** Remove the minimum item from the priority queue. */
-    public abstract String removeMin();
+    ///** Remove the minimum item from the priority queue. */
+    //public abstract T removeMin();
 
-    /** Peek at the minimum item in the priority queue
-     * w/o removing it.*/
-    public abstract String peekMin();
+    ///** Peek at the minimum item in the priority queue
+    // * w/o removing it.*/
+    //public abstract T peekMin();
 
 
 }

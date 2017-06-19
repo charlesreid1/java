@@ -1,28 +1,22 @@
-class UnsortedPriorityQueue extends PriorityQueueBase { 
+import java.util.LinkedListed;
 
-	private LinkedList<Item> items;
+public class UnsortedPriorityQueue<T> extends PriorityQueueBase<T> { 
 
-	public UnsortedPriorityQueue() { super(); }
+	// Unsorted list of items in our priority queue
+	LinkedList<Item<T>> data; 
 
-	public void add(int k, String v) {
-		// uses doubly linked list
-		//
-		// make new item
-		// walk = data last
-		// while walk is not none and newest < wealk.element
-		//        walk = data.before(walk)
-		// if walk is none
-		//        add first (special case)
-		// else   
-		//        add after
+	public UnsortedPriorityQueue() { 
+		super(); 
+		// Initialize the array of items
+		data = new LinkedList<Item<T>>();
+	}
 
-		Item newest = new Item(k,v);
-		Iterator<Item> iter = items.descendingIterator();
-		
-		Item walk = iter.next();
-		while(walk != null && newest < walk) { 
-			walk = iter.next();
-		}
+	public void add(int k, T v) {
+		// Make new item
+		Item<T> newest = new Item<T>(k,v);
+
+		// Put it anywhere
+		data.add(newest);
 	}
 
 	public static void main(String[] args) { 
