@@ -1,5 +1,8 @@
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Random;
+
+class Empty extends IllegalStateException {}
 
 public class SortedPriorityQueue<T> extends PriorityQueueBase<T> { 
 
@@ -13,9 +16,12 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 		data = new LinkedList<Item<T>>();
 	}
 
-
 	/** Return string representation of the items. */
 	public String toString() { return data.toString(); }
+
+	public int size() { return this.size; }
+
+	public boolean isEmpty() { return this.size()==0; }
 
 
 	/** Add a new item, with key k and value v, to this sorted priority queue. 
@@ -61,19 +67,82 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 	 *
 	 * The priority queue is maintained in sorted order so this is an O(1) operation.
 	 */
-	public T peekMin() { 
+	public T peekMin() throws Empty { 
+		if(isEmpty()) { 
+			throw new Empty();
+		}
 		Item<T> top = data.getFirst();
 		return top.getValue();
 	}
 
-	public T removeMin() { 
+	public T removeMin() throws Empty { 
+		if(isEmpty()) { 
+			throw new Empty();
+		}
 		Item<T> top = data.removeFirst();
+		this.size--;
 		return top.getValue();
 	}
 
 
+
+
+	///////////////////////////////////////////////
+
+	// Static methods
+
+
 	/** Main method: test sorted priority queue workings. */
 	public static void main(String[] args) { 
+		smallTest();
+		bigTest();
+		emptyTest();
+	}
+
+
+	/** Run through tests with a big priority queue. */
+	public static void bigTest() { 
+		System.out.println("***********************");
+		System.out.println("**** big test *********");
+
+		Random r = new Random();
+
+		int N = 1000000;
+
+		SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
+
+		for(int i=0; i<N; i++) { 
+
+			if(i%20000==0) { 
+				System.out.println("Processing item "+i+" of "+N);
+			}
+
+			// Create random priority queue items
+			Integer k = new Integer( r.nextInt(N) );
+			Integer v = new Integer( r.nextInt() );
+			q.add(k,v);
+
+			// Randomly remove priority queue items
+			while(r.nextBoolean()==false) {
+				if(q.size()>0) { 
+					q.removeMin();
+				}
+			}
+		}
+
+		//Sytem.out.println("Size of priority queue: "+q.size());
+		//Sytem.out.println("Peek of min: " + q.peekMin());
+		//Sytem.out.println("Popping three minimum items:");
+		//System.out.println(q.removeMin());
+		//System.out.println(q.removeMin());
+		//System.out.println(q.removeMin());
+		//System.out.println("Done.");
+	}
+
+	/** Run through tests with a small priority queue. */
+	public static void smallTest() {
+		System.out.println("***********************");
+		System.out.println("**** small test *******");
 
 		SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
 		
@@ -114,8 +183,38 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 
 		System.out.println("After removing three minimum items:");
 		System.out.println(q);
-
 	}
+
+
+	/** Test the empty exception. */
+	public static void emptyTest() { 
+		System.out.println("***********************");
+		System.out.println("**** empty test *******");
+
+		System.out.println("Populating priority queue.");
+
+		SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
+
+		q.add(3, new Integer(300));
+		q.add(2, new Integer(200));
+		q.add(1, new Integer(100));
+		q.add(8, new Integer(800));
+		System.out.println("Emptying priority queue.");
+		q.removeMin();
+		q.removeMin();
+		q.removeMin();
+		q.removeMin();
+		try {
+			q.removeMin();
+			q.removeMin();
+		} catch(Empty e) { 
+			System.out.println("Successfully caught empty exception.");
+		} catch(Exception e) {
+			System.out.println("Unexpected exception:");
+			System.out.println(e.getMessage());
+		}
+	}
+
 }
 
 
