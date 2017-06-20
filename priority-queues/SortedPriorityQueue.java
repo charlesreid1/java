@@ -19,8 +19,10 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 	/** Return string representation of the items. */
 	public String toString() { return data.toString(); }
 
+	/** Get number of elements in the queue. */
 	public int size() { return this.size; }
 
+	/** Return true if there are no elements in this queue. */ 
 	public boolean isEmpty() { return this.size()==0; }
 
 
@@ -117,7 +119,7 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 				System.out.println("Processing item "+i+" of "+N);
 			}
 
-			// Create random priority queue items
+			// Create random priority queue item
 			Integer k = new Integer( r.nextInt(N) );
 			Integer v = new Integer( r.nextInt() );
 			q.add(k,v);
