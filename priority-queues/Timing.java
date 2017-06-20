@@ -22,13 +22,16 @@ public class Timing {
 
 		StringBuffer sb = new StringBuffer();
 
-		sb.append("N, Walltime Add (ms), Walltime Rm Min (ms)\n");
+		sb.append("N, Walltime Add (us), Walltime Rm Min (us)\n");
 
-		int ntrials = 200;
+		int ntrials = 1000;
 		Random r = new Random();
 
 		// Loop over values of N
-		for(int N = (int)(5E3); N <= (int)(5E5); N+=2500) { 
+		int start =   50000;
+		int skip  =   50000;
+		int MAX   = 1000000;
+		for(int N = start; N <= MAX; N+=skip) { 
 
 			Tim add_tim = new Tim();
 			Tim rm_tim = new Tim();
@@ -38,25 +41,41 @@ public class Timing {
 				// Each trial is a different sequence of random numbers,
 				// but the sequence matches between tests of different collection types 
 				SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
-				Integer key = new Integer( r.nextInt() );
-				Integer val = new Integer( r.nextInt() );
 
 				add_tim.tic();
-        		for(int i=0; i<N; i++) { 
+        		for(int i=0; i<N/2; i++) { 
+					Integer key = new Integer( r.nextInt() );
+					Integer val = new Integer( r.nextInt() );
 					q.add(key,val);
 				}
 				add_tim.toc();
 
 				rm_tim.tic();
-        		for(int i=0; i<N; i++) { 
+        		for(int i=0; i<N/4; i++) { 
 					q.removeMin();
 				}
 				rm_tim.toc();
+
+				add_tim.tic();
+        		for(int i=N/2; i<N; i++) { 
+					Integer key = new Integer( r.nextInt() );
+					Integer val = new Integer( r.nextInt() );
+					q.add(key,val);
+				}
+				add_tim.toc();
+
+				rm_tim.tic();
+        		for(int i=N/4; i<N; i++) { 
+					q.removeMin();
+				}
+				rm_tim.toc();
+
 			}
 
+			// Normalized for trials, not for container size N
 			sb.append( String.format("%d, ",N) );
-			sb.append( String.format("%.3f, ", add_tim.elapsedms()) );
-			sb.append( String.format("%.3f  ",  rm_tim.elapsedms()) );
+			sb.append( String.format("%.3f, ", 1000*add_tim.elapsedms()/ntrials) );
+			sb.append( String.format("%.3f  ",  1000*rm_tim.elapsedms()/ntrials) );
 			sb.append("\n");
 		}
 
