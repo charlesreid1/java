@@ -10,9 +10,46 @@ public class Timing {
 
 	// Tests
 	public static void main(String[] args) { 
-		sorted_timing();
-		unsorted_timing();
+		timing();
+
+		//sorted_timing();
+		//unsorted_timing();
 	}
+
+
+	public static void timing() { 
+
+		Random r = new Random();
+
+		// Three array sizes N
+		// Three sets of experiments
+		// Three actual costs per-1000 adds
+
+		int[] Ns = {100, 500, 1000};
+		int Nops = 5000;
+
+		for(int i = 0; i<Ns.length; i++) { 
+
+			int N = Ns[i];
+
+			// Start by initializing the container
+			SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
+			for(int j = 0; j < N; j++) {
+				q.add(r.nextInt(),r.nextInt());
+			}
+
+			// Now time adding and removing 
+			Tim add_tim = new Tim();
+			Tim rm_tim = new Tim();
+
+
+
+		}
+
+	}
+
+
+
 
 
 
