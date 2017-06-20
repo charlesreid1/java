@@ -42,6 +42,10 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 			return;
 		}
 
+		//System.out.println(data.size());
+		//Tim dum = new Tim();
+		//dum.tic();
+
 		// If non-empty list:
 		// Set walk to end of data list
 		ListIterator<Item<T>> iter = data.listIterator(data.size());
@@ -57,6 +61,9 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 			// Insert item at end of list
 			walk = iter.next();
 		}
+
+		//dum.toc();
+		//System.out.println("One walk took "+dum.elapsedms()+" ms");
 
 		// Add new key
 		iter.add(newest);
@@ -96,9 +103,9 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 
 	/** Main method: test sorted priority queue workings. */
 	public static void main(String[] args) { 
-		smallTest();
+		//smallTest();
 		bigTest();
-		emptyTest();
+		//emptyTest();
 	}
 
 
@@ -109,14 +116,14 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 
 		Random r = new Random();
 
-		int N = 1000000;
+		int N = 100000;
 
 		SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
 
 		for(int i=0; i<N; i++) { 
 
 			if(i%20000==0) { 
-				System.out.println("Processing item "+i+" of "+N);
+				System.out.println("Processing add "+i+" of "+N);
 			}
 
 			// Create random priority queue item
@@ -124,22 +131,22 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 			Integer v = new Integer( r.nextInt() );
 			q.add(k,v);
 
-			// Randomly remove priority queue items
-			while(r.nextBoolean()==false) {
-				if(q.size()>0) { 
-					q.removeMin();
-				}
-			}
 		}
 
-		//Sytem.out.println("Size of priority queue: "+q.size());
-		//Sytem.out.println("Peek of min: " + q.peekMin());
-		//Sytem.out.println("Popping three minimum items:");
-		//System.out.println(q.removeMin());
-		//System.out.println(q.removeMin());
-		//System.out.println(q.removeMin());
-		//System.out.println("Done.");
+		for(int i=0; i<1000; i++) { 
+			if(i%50000==0) { 
+				System.out.println("Processing remove "+i+" of "+ (N/2) );
+			}
+			q.removeMin();
+		}
+
+		System.out.println("Done.");
+		System.out.println("Size is now "+q.size());
+
 	}
+
+
+
 
 	/** Run through tests with a small priority queue. */
 	public static void smallTest() {

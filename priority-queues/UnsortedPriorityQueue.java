@@ -21,8 +21,8 @@ public class UnsortedPriorityQueue<T> extends PriorityQueueBase<T> {
 	public String toString() { return data.toString(); }
 
 	/** Get number of elements in the queue. */
-	public int size() { return data.size(); } /* alt: keep track of it ourselves. */
-	public boolean isEmpty() { return data.isEmpty(); }
+	public int size() { return this.size; } /* alt: keep track of it ourselves. */
+	public boolean isEmpty() { return size()==0; }
 
 
 	/** Add a new item, with key k and value v, to this sorted priority queue. */
@@ -30,8 +30,10 @@ public class UnsortedPriorityQueue<T> extends PriorityQueueBase<T> {
 		// Make new item
 		Item<T> newest = new Item<T>(k,v);
 
-		// Put it anywhere
-		data.add(newest);
+		// Put it anywhere, as long as it's fast
+		data.addFirst(newest);
+
+		size++;
 	}
 
 
@@ -40,46 +42,72 @@ public class UnsortedPriorityQueue<T> extends PriorityQueueBase<T> {
 		if(isEmpty()) { 
 			throw new Empty();
 		}
-		Iterator<Item<T>> iter = findMin();
-		Item<T> item = iter.next();
-		iter.remove();
-		return item.getValue(); 
+
+		// If non-empty list:
+		// Set walk to end of data list
+
+		System.out.println(data.size());
+		Tim dum = new Tim();
+		dum.tic();
+
+		ListIterator<Item<T>> iter = data.listIterator();
+		Item<T> walk = iter.next();
+		Item<T> min = walk;
+		int c = 0;
+		int mindex = 0;
+		while(iter.hasNext()) { 
+			walk = iter.next();
+			if(walk.compareTo(min)<0) { 
+				min = walk;
+				mindex = c;
+			}
+			c++;
+		}
+
+		dum.toc();
+		System.out.println("One walk took "+dum.elapsedms()+" ms");
+
+		this.size--;
+		data.remove(mindex);
+		return min.getValue();
 	}
 
 
 	/** Peek the minimum item in the priority queue, but do not remove it. */
 	public T peekMin() throws Empty { 
-		if(isEmpty()) { 
-			throw new Empty();
-		}
-		Iterator<Item<T>> iter = findMin();
-		Item<T> item = iter.next();
-		return item.getValue(); 
+		//if(isEmpty()) { 
+		//	throw new Empty();
+		//
+		//int mindex = findMin();
+		//Item<T> item = data.get(mindex);
+		//return item.getValue(); 
+		return null;
 	}
 
 
 
-	/** Find minimum item in priority queue. */
-	private Iterator<Item<T>> findMin() throws Empty { 
-		if(isEmpty()) { 
-			throw new Empty();
-		}
+	///** Return index of minimum item in priority queue. */
+	//private int findMin() throws Empty { 
+	//	if(isEmpty()) { 
+	//		throw new Empty();
+	//	}
 
-		// We are executing a while loop 
-		// with a cumulative variable 
-		// to find the location of the minimum.
-		// Assertion: at least 1 item in the list.
-		Item<T> minValue = data.get(0);
-		int c = 0;
-		int mindex = c;
-		for(Item<T> canaryValue : data) { 
-			if(canaryValue.compareTo(minValue)<0) { 
-				mindex = c;
-			}
-			c++;
-		}
-		return data.listIterator(c-1);
-	}
+	//	// We are executing a while loop 
+	//	// with a cumulative variable 
+	//	// to find the location of the minimum.
+	//	// Assertion: at least 1 item in the list.
+	//	Item<T> minValue = data.get(0);
+	//	int c = 0;
+	//	int mindex = c;
+	//	
+	//	for(Item<T> canaryValue : data) { 
+	//		if(canaryValue.compareTo(minValue)<0) { 
+	//			mindex = c;
+	//		}
+	//		c++;
+	//	}
+	//	return mindex;
+	//}
 
 
 	/** main method */
@@ -105,7 +133,7 @@ public class UnsortedPriorityQueue<T> extends PriorityQueueBase<T> {
 		for(int i=0; i<N; i++) { 
 
 			if(i%50000==0) { 
-				System.out.println("Processing item "+i+" of "+N);
+				System.out.println("Processing add "+i+" of "+N);
 			}
 
 			// Create random priority queue items
@@ -113,12 +141,13 @@ public class UnsortedPriorityQueue<T> extends PriorityQueueBase<T> {
 			Integer v = new Integer( r.nextInt() );
 			q.add(k,v);
 
-			// Randomly remove priority queue items
-			while(r.nextBoolean()==false) {
-				if(q.size()>0){
-					q.removeMin();
-				}
+		}
+
+		for(int i=0; i<1000; i++) { 
+			if(i%50000==0) { 
+				System.out.println("Processing remove "+i+" of "+ (N/2) );
 			}
+			q.removeMin();
 		}
 
 		System.out.println("Done.");

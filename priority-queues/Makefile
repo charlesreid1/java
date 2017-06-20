@@ -3,7 +3,7 @@ unsorted:
 sorted:
 	javac SortedPriorityQueue.java && java SortedPriorityQueue
 timing:
-	javac Timing.java && java Timing > out.txt
+	javac Timing.java && java Timing 
 pqb:
 	javac PriorityQueueBase.java && java PriorityQueueBase
 clean:
