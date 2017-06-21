@@ -1,9 +1,13 @@
+import java.util.List;
 import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Random;
 
 class Empty extends IllegalStateException {}
 
+//public class SortedPriorityQueue<K,V> extends PriorityQueueBase<K,V>
+//    Entry<K,V>
 public class SortedPriorityQueue<T> extends PriorityQueueBase<T> { 
 
 	// Sorted list of items in our priority queue
@@ -26,50 +30,42 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 	public boolean isEmpty() { return this.size()==0; }
 
 
-	/** Add a new item, with key k and value v, to this sorted priority queue. 
-	 *
-	 * This maintains sorted order and is an O(N) operation. 
-	 * */
-	public void add(int k, T v) {
 
-		// Make new item
+	public void add(int k, T v) { 
+
 		Item<T> newest = new Item<T>(k,v);
-
-		// Handle empty list separately
-		if(size()==0) { 
-			data.add(newest);
-			size++;
-			return;
-		}
-
-		//System.out.println(data.size());
-		//Tim dum = new Tim();
-		//dum.tic();
-
-		// If non-empty list:
-		// Set walk to end of data list
 		ListIterator<Item<T>> iter = data.listIterator(data.size());
-		Item<T> walk = iter.previous();
 
-		// While walk is not at beginning and newest < walk
-		while(iter.hasPrevious() && newest.compareTo(walk)<0) { 
-			walk = iter.previous();
+		// Deal with the empty list case
+		if(!iter.hasPrevious()) { 
+			data.addFirst(newest);
+		} else {
+
+			Item<T> walk = iter.previous();
+			int size = data.size();
+			// inner check
+			while(iter.hasPrevious() && newest.compareTo(walk) < 0) { 
+				walk = iter.previous();
+				size--;
+			}
+
+			// Reached the end - check which condition it was
+			if(!iter.hasPrevious()) {
+				// Iterator is emptied out
+				// Add to front
+				// Highest priority
+				data.addFirst(newest);
+			} else {
+				// Add at hurrr
+				iter.add(newest);
+			}
 		}
 
-		// Don't ignore dupes. 
-		if(newest.compareTo(walk)>0) { 
-			// Insert item at end of list
-			walk = iter.next();
-		}
-
-		//dum.toc();
-		//System.out.println("One walk took "+dum.elapsedms()+" ms");
-
-		// Add new key
-		iter.add(newest);
+		// Finally, always increment
 		this.size++;
-
 	}
+
+
 
 
 	/** Remove the minimum item to the sorted priority queue.
@@ -104,38 +100,75 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 	/** Main method: test sorted priority queue workings. */
 	public static void main(String[] args) { 
 		//smallTest();
-		bigTest();
+		addTest();
+		rmTest();
 		//emptyTest();
 	}
 
 
 	/** Run through tests with a big priority queue. */
-	public static void bigTest() { 
+	public static void addTest() { 
 		System.out.println("***********************");
-		System.out.println("**** big test *********");
+		System.out.println("**** add test *********");
 
 		Random r = new Random();
 
-		int N = 100000;
+		int N = 10000000;
+		int F = N/10;
 
 		SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
 
 		for(int i=0; i<N; i++) { 
 
-			if(i%20000==0) { 
+			if(i%F==0) { 
 				System.out.println("Processing add "+i+" of "+N);
 			}
 
 			// Create random priority queue item
-			Integer k = new Integer( r.nextInt(N) );
+			Integer k = new Integer( r.nextInt() );
 			Integer v = new Integer( r.nextInt() );
 			q.add(k,v);
 
 		}
+		System.out.println("Done.");
+		System.out.println("Size is now "+q.size());
 
-		for(int i=0; i<1000; i++) { 
-			if(i%50000==0) { 
-				System.out.println("Processing remove "+i+" of "+ (N/2) );
+	}
+
+
+
+	/** Run through tests with a big priority queue. */
+	public static void rmTest() { 
+		System.out.println("***********************");
+		System.out.println("***** rm test *********");
+
+		Random r = new Random();
+
+		int N = 10000000;
+		int F = N/10;
+
+		// Our main data "payload" (value) is an Integer. Nothing too exciting. Key is implicitly int.
+		SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
+
+		System.out.println("Running add test.");
+
+		for(int i=0; i<N; i++) { 
+
+			if(i%F==0) { 
+				System.out.println("Processing add "+i+" of "+N);
+			}
+			// Create random priority queue item
+			Integer k = new Integer( r.nextInt() );
+			Integer v = new Integer( r.nextInt() );
+			q.add(k,v);
+		}
+		System.out.println("Done.");
+		System.out.println("Size is now "+q.size());
+
+		System.out.println("Running remove test.");
+		for(int i=0; i<(N/2); i++) { 
+			if(i%F==0) { 
+				System.out.println("Processing rm "+i+" of "+(N/2));
 			}
 			q.removeMin();
 		}
