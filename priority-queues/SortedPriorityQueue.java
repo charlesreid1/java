@@ -99,9 +99,9 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 
 	/** Main method: test sorted priority queue workings. */
 	public static void main(String[] args) { 
-		//smallTest();
 		addTest();
 		rmTest();
+		//smallTest();
 		//emptyTest();
 	}
 
@@ -113,15 +113,15 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 
 		Random r = new Random();
 
-		int N = 10000000;
+		int N = 1000000;
 		int F = N/10;
 
 		SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
 
 		for(int i=0; i<N; i++) { 
 
-			if(i%F==0) { 
-				System.out.println("Processing add "+i+" of "+N);
+			if((i+1)%F==0) { 
+				System.out.println("Processing add "+(i+1)+" of "+N);
 			}
 
 			// Create random priority queue item
@@ -144,7 +144,7 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 
 		Random r = new Random();
 
-		int N = 10000000;
+		int N = 1000000;
 		int F = N/10;
 
 		// Our main data "payload" (value) is an Integer. Nothing too exciting. Key is implicitly int.
@@ -157,6 +157,7 @@ public class SortedPriorityQueue<T> extends PriorityQueueBase<T> {
 			if(i%F==0) { 
 				System.out.println("Processing add "+i+" of "+N);
 			}
+
 			// Create random priority queue item
 			Integer k = new Integer( r.nextInt() );
 			Integer v = new Integer( r.nextInt() );
