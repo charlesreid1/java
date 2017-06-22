@@ -1,7 +1,5 @@
 sorted:
 	javac SortedPriorityQueue.java && java SortedPriorityQueue
-unsorted:
-	javac UnsortedPriorityQueue.java && java UnsortedPriorityQueue
 timing:
 	javac Timing.java && java Timing 
 pqb:
