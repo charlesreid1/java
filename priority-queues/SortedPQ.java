@@ -3,10 +3,10 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class Empty extends IndexOutOfBoundsException {};
-
 // unsorted priority queue
-public class SortedPQ<K,V> extends AbstractPriorityQueue<K,V> { 
+public class SortedPQ<K,V> 
+	extends AbstractPriorityQueue<K,V> 
+	implements Iterable<K> { 
 	
 	// primary collection
 	private LinkedList<Item<K,V>> data; 
@@ -61,14 +61,30 @@ public class SortedPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		return it.getValue();
 	}
 
-
-
 	public int size() { 
 		return data.size();
 	}
 
 	public String toString() { 
 		return data.toString();
+	}
+
+	protected Iterable<Item<K,V>> items() { 
+		return data;
+	}
+
+	protected class ItemIterator implements Iterator<K> {
+		Iterator<Item<K,V>> it;
+		public ItemIterator() { 
+			it = items().iterator();
+		}
+		public boolean hasNext() { return it.hasNext(); }
+		public K next() { return it.next().getKey(); }
+		public void remove() { it.remove(); }
+	}
+
+	public Iterator<K> iterator() { 
+		return new ItemIterator();
 	}
 
 
