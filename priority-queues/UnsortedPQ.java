@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.Comparator;
+import java.util.Iterator;
 
 // unsorted priority queue
 public class UnsortedPQ<K,V> extends AbstractPriorityQueue<K,V> { 
@@ -69,6 +70,24 @@ public class UnsortedPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		return data.toString();
 	}
 
+	protected Iterable<Item<K,V>> items() { 
+		return data;
+	}
+
+	protected class ItemIterator implements Iterator<K> {
+		Iterator<Item<K,V>> it;
+		public ItemIterator() { 
+			it = items().iterator();
+		}
+		public boolean hasNext() { return it.hasNext(); }
+		public K next() { return it.next().getKey(); }
+		public void remove() { it.remove(); }
+	}
+
+	public Iterator<K> iterator() { 
+		return new ItemIterator();
+	}
+
 
 
 
@@ -118,6 +137,14 @@ public class UnsortedPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		System.out.println("After removing three minimum items:");
 		System.out.println(q);
 
+		System.out.println("Empty the remaining items with an iterator.");
+		// iterator() returns a <key> iterator, not a <key,value> iterator
+		Iterator<Integer> k = q.iterator();
+		while(k.hasNext()) {
+			k.next();
+			k.remove();
+		}
+		System.out.println(q);
 	}
 
 }

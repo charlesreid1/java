@@ -135,6 +135,14 @@ public class SortedPQ<K,V>
 		System.out.println("After removing three minimum items:");
 		System.out.println(q);
 
+		System.out.println("Empty the remaining items with an iterator.");
+		// iterator() returns a <key> iterator, not a <key,value> iterator
+		Iterator<Integer> k = q.iterator();
+		while(k.hasNext()) {
+			k.next();
+			k.remove();
+		}
+		System.out.println(q);
 	}
 
 }
