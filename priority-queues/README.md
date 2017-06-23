@@ -58,3 +58,26 @@ Basic idea is same as unsorted priority queue, except for insert.
 
 
 
+## use as stack
+
+Extending the priority queue data type to implement the stack ADT.
+Just using the PQ and one additional integer instance variable.
+* Note: extends goes before implements
+* This illustrates how you can chain together abstract classes and interfaces
+* Really helps explain the logic behind the Java Collections objects
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

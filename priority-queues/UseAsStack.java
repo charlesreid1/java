@@ -7,8 +7,10 @@ public class UseAsStack {
 		q.push("is");
 		q.push("the");
 		q.push("earth");
+		System.out.println(q);
 		while(!q.isEmpty()) {
 			System.out.println(q.pop());
+			System.out.println(q);
 		}
 	}
 }
