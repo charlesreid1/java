@@ -1,10 +1,5 @@
 import java.util.Comparator;
 
-/** Define a weird key exception.
- * This gets raised when a key cannot be compared to itself. 
- * This extends IllegalArgumentException which means it is unchecked. */
-class WeirdKey extends IllegalArgumentException {};
-
 /** Priority Queue ADT.
  *
  * Model elements and their priorities as a key-value composite Entry.
