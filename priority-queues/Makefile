@@ -1,10 +1,10 @@
-unsorted:
-	javac UnsortedPriorityQueue.java && java UnsortedPriorityQueue
-sorted:
-	javac SortedPriorityQueue.java && java SortedPriorityQueue
 timing:
 	javac Timing.java && java Timing 
-pqb:
-	javac PriorityQueueBase.java && java PriorityQueueBase
+max:
+	javac MaxOriented.java && java MaxOriented
+sorted:
+	javac -Xlint:unchecked SortedPQ.java && java SortedPQ
+unsorted:
+	javac -Xlint:unchecked UnsortedPQ.java && java UnsortedPQ
 clean:
 	rm -rf *.class
