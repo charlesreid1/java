@@ -1,8 +1,6 @@
 import java.util.LinkedList;
 import java.util.Comparator;
 
-class Empty extends IndexOutOfBoundsException {};
-
 // unsorted priority queue
 public class UnsortedPQ<K,V> extends AbstractPriorityQueue<K,V> { 
 	
