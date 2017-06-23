@@ -1,3 +1,5 @@
+stack:
+	javac UseAsStack.java && java UseAsStack
 sorted:
 	javac -Xlint:unchecked SortedPQ.java && java SortedPQ
 unsorted:
