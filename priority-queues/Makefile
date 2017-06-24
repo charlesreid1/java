@@ -1,3 +1,5 @@
+heap:
+	javac HeapPQ.java && java HeapPQ
 stack:
 	javac UseAsStack.java && java UseAsStack
 sorted:

@@ -81,7 +81,7 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		int p = parent(j);
 		if(compare(heap.get(j), heap.get(p))<0) {
 			swap(j,p);
-			self.upheap_r(parent);
+			upheap_r(p);
 		}
 		// else base case, return nothing
 	}
@@ -124,7 +124,7 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 			// now check for recursive case
 			if(compare(heap.get(smallChildIndex), heap.get(j))<0) { 
 				swap(j, smallChildIndex);
-				downheap_r(smalllChildIndex);
+				downheap_r(smallChildIndex);
 			}
 			// else base case, return nothing
 		}
@@ -190,8 +190,6 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 	public Iterator<K> iterator() { 
 		return new ItemIterator();
 	}
-
-
 
 
 
