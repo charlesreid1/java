@@ -36,6 +36,11 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		super(keyComparator);
 	}
 
+	// of course, this is always useful to do right after the constructors
+	public String toString() { 
+		return heap.toString();
+	}
+
 	// cmr: index math to turn a node into its parent/left/right nodes
 	protected int parent(int j) { return (j-1)/2; }
 	protected int left(int j) { return 2*j + 1; } 
@@ -44,6 +49,7 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 	// cmr: boolean checks if left/right exist in the heap 
 	protected boolean hasLeft(int j) { return left(j) < heap.size(); }
 	protected boolean hasRight(int j) { return right(j) < heap.size(); }
+
 
 
 
@@ -146,4 +152,40 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 	}
 
 
+
+	public static void main(String[] args) { 
+
+		System.out.println("***********************");
+		System.out.println("**** small test *******");
+
+		HeapPQ<Integer,Integer> q = new HeapPQ<Integer,Integer>();
+		q.insert(new Integer(55), new Integer(15555));
+		q.insert(new Integer(22), new Integer(12222));
+		q.insert(new Integer(33), new Integer(13333));
+		q.insert(new Integer(11), new Integer(11111));
+		q.insert(new Integer(91), new Integer(19191));
+		q.insert(new Integer(81), new Integer(18181));
+		q.insert(new Integer(72), new Integer(17272));
+
+		System.out.println("Full queue:");
+		System.out.println(q);
+		
+		Integer min;
+		min = q.removeMin();
+		min = q.removeMin();
+		min = q.removeMin();
+
+		System.out.println("After removing three minimum items:");
+		System.out.println(q);
+
+		System.out.println("Empty the remaining items with an iterator."); // iterator() returns a <key> iterator, not a <key,value> iterator
+		Iterator<Integer> k = q.iterator();
+		while(k.hasNext()) {
+			k.next();
+			k.remove();
+		}
+		System.out.println(q);
+	}
+
 }
+
