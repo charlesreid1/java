@@ -55,12 +55,14 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 
 	// Utility:
 
+	// swap
 	protected void swap(int i, int j) {
 		Item<K,V> temp = heap.get(i);
 		heap.set(i, heap.get(j));
 		heap.set(j, temp);
 	}
 
+	// upheap
 	protected void upheap(int j) { 
 		// j==0 is root
 		while(j>0) { 
@@ -73,7 +75,19 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		}
 	}
 
+	// recursive upheap
+	protected void upheap_r(int j) { 
+		// now check for recursive case
+		int p = parent(j);
+		if(compare(heap.get(j), heap.get(p))<0) {
+			swap(j,p);
+			self.upheap_r(parent);
+		}
+		// else base case, return nothing
+	}
 
+
+	// downheap
 	protected void downheap(int j) { 
 		while(hasLeft((j))) {
 			int leftIndex = left(j);
@@ -94,11 +108,36 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		}
 	}
 
+	// recursive downheap
+	protected void downheap_r(int j) { 
+		if(hasLeft(j)) { 
+			int leftIndex = left(j);
+			// assume left child is smaller
+			int smallChildIndex = leftIndex;
+			// if right child exists, check if right child is smaller
+			if(hasRight(j)) { 
+				int rightIndex = right(j);
+				if(compare(heap.get(leftIndex), heap.get(rightIndex))>0) {
+					smallChildIndex = rightIndex;
+				}
+			}
+			// now check for recursive case
+			if(compare(heap.get(smallChildIndex), heap.get(j))<0) { 
+				swap(j, smallChildIndex);
+				downheap_r(smalllChildIndex);
+			}
+			// else base case, return nothing
+		}
+	}
+
+
+
 
 
 	// Really, the main content of this class
 	// (other than the upheap/downheap/swap methods):
 
+	// insert
 	public void insert(K key, V value) { 
 		checkKey(key);
 		Item<K,V> newitem = new Item<K,V>(key, value);
@@ -106,6 +145,7 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		upheap( heap.size() - 1 ); // upheap the newest entry (last item in array)
 	}
 
+	// remove min
 	public V removeMin() { 
 		if(heap.isEmpty()) { 
 			throw new Empty();
@@ -120,14 +160,6 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		return expunge.getValue(); // return the value of the item we grabbed before removing.
 	}
 
-
-
-	// Required by priority queue interface:
-
-	public int size() { 
-		return heap.size();
-	}
-
 	public V peekMin() {
 		if(heap.isEmpty()) { 
 			throw new Empty();
@@ -137,6 +169,14 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 
 
 
+	// Priority queue interface:
+
+	// get size
+	public int size() { 
+		return heap.size();
+	}
+
+	// protected iterator class for making this class iterable (PriorityQueue extends Iterable)
 	protected class ItemIterator implements Iterator<K> {
 		Iterator<Item<K,V>> it;
 		public ItemIterator() { 
@@ -152,6 +192,10 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 	}
 
 
+
+
+
+	// main method and tests
 
 	public static void main(String[] args) { 
 
