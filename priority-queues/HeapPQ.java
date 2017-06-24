@@ -41,6 +41,10 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		return heap.toString();
 	}
 
+	public void clear() { 
+		heap.clear();
+	}
+
 	// cmr: index math to turn a node into its parent/left/right nodes
 	protected int parent(int j) { return (j-1)/2; }
 	protected int left(int j) { return 2*j + 1; } 
@@ -167,6 +171,13 @@ public class HeapPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		return heap.get(0).getValue();
 	}
 
+
+	// No KLE implementation here,
+	// because that requires location,
+	// and that requires this adaptable priority queue,
+	// and that requires using Goodrich's 
+	// confusing Locator wrapper class,
+	// more nonsense.
 
 
 	// Priority queue interface:

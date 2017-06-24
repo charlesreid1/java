@@ -1,48 +1,107 @@
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.PriorityQueue;
 
 /** Timing class: measure big-O complexity and runtime of data structures.
  *
  * Compare algorithms, test structures, and verify expected big-O behavior.
  *
+ * Output format:
+ * This timing class verifies multiple behaviors for multiple classes.
+ * We don't spend too much time making things pretty, 
+ * because we're principally interested in the timing results.
+ *
+ * Operations whose big O cost we want to verify:
+ *		- insert
+ *		- removeMin
+ *		- iterator
+ *
+ * Objects we are dealing with:
+ *		- SortedPQ
+ *
  */
 public class Timing {
 
-	// Tests
-	public static void main(String[] args) { 
-		timing();
+	// We will perform and time Nops add operations.
+	static int Nops = 100;
 
-		//sorted_timing();
-		//unsorted_timing();
+	// We will do that Ntrials times.
+	static int Ntrials = 5000;
+
+	// We will add to a container of size N.
+	static int[] Ns = {100,200,300,400,500,600,700,800,900,1000};
+
+
+
+	/** Run tests */
+	public static void main(String[] args) { 
+
+		PQ[] collection = new PQ[3];
+		collection[2] = new HeapPQ<Integer,Integer>();
+		collection[1] = new UnsortedPQ<Integer,Integer>();
+		collection[0] = new SortedPQ<Integer,Integer>();
+
+		// There is likely a better way to do this, 
+		// but with column-wise data, I'm too lazy to fix.
+		String[] testnames = {"Heap","Unsorted","Sorted"};
+		int c = 0;
+		for(PQ q : collection) {
+			System.out.println("---------------------------");
+			System.out.println("Add Test: "+testnames[c]+" priority queue");
+			add(q);
+			c++;
+		}
+
+		// To give a better relative measure...
+		PriorityQueue<Integer> builtin = new PriorityQueue<Integer>();
+		System.out.println("---------------------------");
+		System.out.println("Add Test: Built-in PriorityQueue");
+		add2(builtin);
 	}
 
 
-	public static void timing() { 
+	/** Add test for homebrew priority queue. */
+	public static void add(PQ<Integer,Integer> q) { 
 
 		Random r = new Random();
 
-		// Three array sizes N
-		// Three sets of experiments
-		// Three actual costs per-1000 adds
+		System.out.println("N\t\tWalltime Add Tot (ms)\t\tWalltime Add Per 1k (ms)");
 
-		int[] Ns = {100, 500, 1000};
-		int Nops = 5000;
-
+		// Gathering stats on each size
 		for(int i = 0; i<Ns.length; i++) { 
 
+			// set N
 			int N = Ns[i];
 
-			// Start by initializing the container
-			SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
-			for(int j = 0; j < N; j++) {
-				q.add(r.nextInt(),r.nextInt());
+			// set timer
+			Tim tim = new Tim();
+
+			for(int k=0; k<Ntrials; k++) { 
+
+				// Start by initializing the container
+				q.clear();
+				for(int j = 0; j < N; j++) {
+					q.insert(r.nextInt(),r.nextInt());
+				}
+
+				// Now time adding
+				tim.tic();
+
+				for(int m=0; m<Nops; m++) { 
+					q.insert(r.nextInt(), r.nextInt());
+				}
+
+				tim.toc();
+
 			}
 
-			// Now time adding and removing 
-			Tim add_tim = new Tim();
-			Tim rm_tim = new Tim();
+			// Now printing out N, total walltime, time per 1k add ops
+			double per_op = tim.elapsedms()/(1.0*Ntrials*Nops);
+			double per_1kop = (tim.elapsedms()/(1.0*Ntrials*Nops))*1000;
 
-
+			// done with timing trials, now print out
+			// N, add total, ad per 1k operation
+			System.out.printf("%d\t\t\t%.4f\t\t\t%.4f\n", N, tim.elapsedms(), per_1kop);
 
 		}
 
@@ -51,148 +110,52 @@ public class Timing {
 
 
 
+	/** Add test for built-in priority queue. */
+	public static void add2(PriorityQueue<Integer> q) { 
 
-
-
-	/** Time unsorted priority queue. */
-	public static void unsorted_timing() {
-		// add should be O(1)
-		// removeMin should be O(N)
-
-		StringBuffer sb = new StringBuffer();
-
-		sb.append("Unsorted N, Walltime Add (us), Walltime Rm Min (us)\n");
-
-		int ntrials = 100;
 		Random r = new Random();
 
-		// Loop over values of N
-		int start =   1000;
-		int skip  =   1000;
-		int MAX   =  10000;
+		System.out.println("N\t\tWalltime Add Tot (ms)\t\tWalltime Add Per 1k (ms)");
 
-		for(int N = start; N <= MAX; N+=skip) { 
+		// Gathering stats on each size
+		for(int i = 0; i<Ns.length; i++) { 
 
-			Tim add_tim = new Tim();
-			Tim rm_tim = new Tim();
+			// set N
+			int N = Ns[i];
 
-			// Trials counter is always k for Kafka
-			for(int k = 0; k<ntrials; k++) { 
-				// Each trial is a different sequence of random numbers,
-				// but the sequence matches between tests of different collection types 
-				UnsortedPriorityQueue<Integer> q = new UnsortedPriorityQueue<Integer>();
+			// set timer
+			Tim tim = new Tim();
 
-				add_tim.tic();
-        		for(int i=0; i<N/2; i++) { 
-					Integer key = new Integer( r.nextInt() );
-					Integer val = new Integer( r.nextInt() );
-					q.add(key,val);
+			for(int k=0; k<Ntrials; k++) { 
+
+				// Start by initializing the container
+				q.clear();
+				for(int j = 0; j < N; j++) {
+					q.add(r.nextInt());
 				}
-				add_tim.toc();
 
-				rm_tim.tic();
-        		for(int i=0; i<N/4; i++) { 
-					q.removeMin();
-				}
-				rm_tim.toc();
+				// Now time adding
+				tim.tic();
 
-				add_tim.tic();
-        		for(int i=N/2; i<N; i++) { 
-					Integer key = new Integer( r.nextInt() );
-					Integer val = new Integer( r.nextInt() );
-					q.add(key,val);
+				for(int m=0; m<Nops; m++) { 
+					q.add(r.nextInt());
 				}
-				add_tim.toc();
 
-				rm_tim.tic();
-        		for(int i=N/4; i<N; i++) { 
-					q.removeMin();
-				}
-				rm_tim.toc();
+				tim.toc();
 
 			}
 
-			// Normalized for trials, not for container size N
-			sb.append( String.format("%d, ",N) );
-			sb.append( String.format("%.3f, ", 1000*add_tim.elapsedms()/ntrials) );
-			sb.append( String.format("%.3f  ",  1000*rm_tim.elapsedms()/ntrials) );
-			sb.append("\n");
+			// Now printing out N, total walltime, time per 1k add ops
+			double per_op = tim.elapsedms()/(1.0*Ntrials*Nops);
+			double per_1kop = (tim.elapsedms()/(1.0*Ntrials*Nops))*1000;
+
+			// done with timing trials, now print out
+			// N, add total, ad per 1k operation
+			System.out.printf("%d\t\t\t%.4f\t\t\t%.4f\n", N, tim.elapsedms(), per_1kop);
+
 		}
 
-		System.out.println(sb.toString());
 	}
 
-
-
-
-	/** Time sorted priority queue. */
-	public static void sorted_timing() {
-
-		// This generates CSV files to verify the following information:
-		// - add method is O(N)
-		// - remove min method is O(1)
-
-		StringBuffer sb = new StringBuffer();
-
-		sb.append("Sorted N, Walltime Add (us), Walltime Rm Min (us)\n");
-
-		int ntrials = 1000;
-		Random r = new Random();
-
-		// Loop over values of N
-		int start =    1000;
-		int skip  =    1000;
-		int MAX   =   10000;
-
-		for(int N = start; N <= MAX; N+=skip) { 
-
-			Tim add_tim = new Tim();
-			Tim rm_tim = new Tim();
-
-			// Trials counter is always k for Kafka
-			for(int k = 0; k<ntrials; k++) { 
-				// Each trial is a different sequence of random numbers,
-				// but the sequence matches between tests of different collection types 
-				SortedPriorityQueue<Integer> q = new SortedPriorityQueue<Integer>();
-
-				add_tim.tic();
-        		for(int i=0; i<N/2; i++) { 
-					Integer key = new Integer( r.nextInt() );
-					Integer val = new Integer( r.nextInt() );
-					q.add(key,val);
-				}
-				add_tim.toc();
-
-				rm_tim.tic();
-        		for(int i=0; i<N/4; i++) { 
-					q.removeMin();
-				}
-				rm_tim.toc();
-
-				add_tim.tic();
-        		for(int i=N/2; i<N; i++) { 
-					Integer key = new Integer( r.nextInt() );
-					Integer val = new Integer( r.nextInt() );
-					q.add(key,val);
-				}
-				add_tim.toc();
-
-				rm_tim.tic();
-        		for(int i=N/4; i<N; i++) { 
-					q.removeMin();
-				}
-				rm_tim.toc();
-
-			}
-
-			// Normalized for trials, not for container size N
-			sb.append( String.format("%d, ",N) );
-			sb.append( String.format("%.3f, ", 1000*add_tim.elapsedms()/ntrials) );
-			sb.append( String.format("%.3f  ",  1000*rm_tim.elapsedms()/ntrials) );
-			sb.append("\n");
-		}
-
-		System.out.println(sb.toString());
-	}
 }
 

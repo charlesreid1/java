@@ -18,6 +18,15 @@ public class UnsortedPQ<K,V> extends AbstractPriorityQueue<K,V> {
 		data = new LinkedList<Item<K,V>>();
 	}
 
+	// of course, this is always useful to do right after the constructors
+	public String toString() { 
+		return data.toString();
+	}
+
+	public void clear() { 
+		data.clear();
+	}
+
 	// return position of item with minimal key
 	// needs to return some kind of *position*
 	protected int findMin() { 
@@ -64,10 +73,6 @@ public class UnsortedPQ<K,V> extends AbstractPriorityQueue<K,V> {
 
 	public int size() { 
 		return data.size();
-	}
-
-	public String toString() { 
-		return data.toString();
 	}
 
 	protected Iterable<Item<K,V>> items() { 

@@ -21,6 +21,15 @@ public class SortedPQ<K,V>
 		data = new LinkedList<Item<K,V>>();
 	}
 
+	// of course, this is always useful to do right after the constructors
+	public String toString() { 
+		return data.toString();
+	}
+
+	public void clear() { 
+		data.clear();
+	}
+
 	public void insert(K key, V value) { 
 		checkKey(key);
 
@@ -63,10 +72,6 @@ public class SortedPQ<K,V>
 
 	public int size() { 
 		return data.size();
-	}
-
-	public String toString() { 
-		return data.toString();
 	}
 
 	protected Iterable<Item<K,V>> items() { 

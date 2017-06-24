@@ -9,7 +9,7 @@ import java.util.Comparator;
  * implementation of our priority queue.
  */
 public abstract class AbstractPriorityQueue<K,V> 
-			implements PriorityQueue<K,V> {
+			implements PQ<K,V> {
 
 	protected static class Item<K,V> {
 		private K k;

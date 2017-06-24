@@ -20,8 +20,7 @@ class WeirdKey extends IllegalArgumentException {};
  *
  * Note that Item<K,V> is not defined here, it is defined in your concrete implementation.
  */
-public interface PriorityQueue<K,V> extends Iterable<K> {
-		//extends Iterable<K> { 
+public interface PQ<K,V> extends Iterable<K> {
 
 	/** Returns true if the priority queue was changed. */
 	public void insert(K k, V v);
@@ -34,6 +33,9 @@ public interface PriorityQueue<K,V> extends Iterable<K> {
 
 	/** Returns a key-based iterator. */
 	public Iterator<K> iterator();
+
+	/** Clear all elements from this container. */
+	public void clear();
 
 	/** Returns the number of elements in this queue. */
 	public int size();

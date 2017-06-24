@@ -16,7 +16,7 @@ public class UseAsStack {
 }
 
 // NOTE: extends should go before implements
-class StackPQ<V> extends SortedPQ<Integer,V> implements PriorityQueue<Integer,V> { 
+class StackPQ<V> extends SortedPQ<Integer,V> implements PQ<Integer,V> { 
 
 	// Stack can implement a priority queue
 	// by adding items and assigning keys 
