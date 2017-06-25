@@ -1,5 +1,7 @@
 timing:
 	javac Timing.java && java Timing 
+string:
+	javac StringComparisonPQ.java && java StringComparisonPQ
 heap:
 	javac HeapPQ.java && java HeapPQ
 stack:
