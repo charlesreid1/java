@@ -48,3 +48,18 @@ Ordering of class declaration and undeclared class declarations
 * MapItem class was actually protected and lived in AbstractMap class
 * Therefore, we had to hold off declaring an abstract MapItem iterator until the AbstractMap class, not the Map interface
 
+## Hash Functions
+
+First, the bitwise operators:
+* I get the >> is to add a 0 to the binary representation of the number
+* I do not understand the <<< or | notation
+
+Scanners, readers, files, and buffers:
+* Always make a new Scanner 
+* Always pass the Scanner a buffered something
+* If reading from input, pass it a BufferedReader with an InputStreamReader
+* If reading from a file, pass it a BufferedReader with a FileReader
+* BufferedReader always needs a Reader
+
+
+
