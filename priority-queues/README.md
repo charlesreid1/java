@@ -67,17 +67,13 @@ Just using the PQ and one additional integer instance variable.
 * Really helps explain the logic behind the Java Collections objects
 
 
+## timing
 
+The results are in. Our own data structures are absolutely atrocious, performance-wise.
+They are up to 500 times slower than the built-in Collections classes,
+they scale terribly, and they are nowhere near where they should be theoretically.
 
-
-
-
-
-
-
-
-
-
-
+At this point I've spent so much time on these priority queues and timing in Java
+that I'm going to abandon it and move on.
 
 
