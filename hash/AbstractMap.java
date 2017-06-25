@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 /**
  * Abstract implementation of Map ADT.
  *
@@ -47,7 +49,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 	 * Implements Iterator<K>, obviously.
 	 * */
 	private class KeyIterator implements Iterator<K> {
-		Iterator<Item<K,V>> entriesIterator; // key set iterator wraps entry set iterator
+		Iterator<MapItem<K,V>> entriesIterator; // key set iterator wraps entry set iterator
 		/** Constructor initializes the entry iterator this key iterator wraps. */
 		public KeyIterator() { 
 			entriesIterator = entrySet().iterator();
@@ -59,7 +61,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 		/** Next key. */
 		public K next() { 
 			// Get the next item, and then get its value
-			return entriesIterator.next().getValue();
+			return entriesIterator.next().getKey();
 		}
 		/** Remove key. */
 		public void remove() { 
@@ -84,9 +86,9 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 	 * Map value iterator.
 	 * */
 	private class ValueIterator implements Iterator<V> {
-		Iterator<Item<K,V>> entriesIterator; // key set iterator wraps entry set iterator
+		Iterator<MapItem<K,V>> entriesIterator; // key set iterator wraps entry set iterator
 		/** Constructor initializes the entry iterator. */
-		public KeyIterator() { 
+		public ValueIterator() { 
 			entriesIterator = entrySet().iterator();
 		}
 		/** Returns true if the iterator has a next value. */
@@ -94,7 +96,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 			return entriesIterator.hasNext();
 		}
 		/** Next value. */
-		public K next() { 
+		public V next() { 
 			// Get the next item, and then get its value
 			return entriesIterator.next().getValue();
 		}
@@ -107,8 +109,8 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 	/** ValueIterable is an Iterable that wraps ValueIterator. 
 	 * (Iterables are boring, but are what the keySet/valueSet methods return.)
 	 * */
-	private class ValueIterable implements Iterable<K> {
-		public Iterator<K> iterator() {
+	private class ValueIterable implements Iterable<V> {
+		public Iterator<V> iterator() {
 			return new ValueIterator();
 		}
 	}
@@ -119,6 +121,11 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 
 	/////////////////////////////////////////
 	// Begin abstract map class definition
+
+	/** entrySet is the principal iterator. 
+	 * Note that we define this abstract method here, 
+	 * because this is the first place where MapItem class is defined .*/
+	public abstract Iterable<MapItem<K,V>> entrySet();
 
 	/** Returns true if there are no key-value pairs in the map. */
 	public boolean isEmpty() { return size() == 0; }
