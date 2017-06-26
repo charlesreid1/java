@@ -37,8 +37,9 @@ public class ObjectHashCode {
    		for(String st : strings) { 
    			stringHashes.add( st.hashCode() );
    			uniqStringHashes.add( st.hashCode() );
+		}
 
-   			Word w = new Word(st);
+   		for(Word w : words) {
    			wordHashes.add( w.hashCode() );
    			uniqWordHashes.add( w.hashCode() );
    		}
