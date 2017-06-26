@@ -6,7 +6,8 @@ import java.util.Iterator;
  * This implements the Map interface.
  * It defines fields, methods, utility classes, etc.
  */
-public abstract class AbstractMap<K,V> implements Map<K,V> {
+public abstract class AbstractMap<K extends Comparable<K>,V> 
+	implements Map<K,V> {
 
 	/////////////////////////////////////////
 	// Utility classes
@@ -15,7 +16,8 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 	 * Map item.
 	 * Represents a key-value pair in a map. 
 	 * */
-	protected static class MapItem<K,V> {
+	protected static class MapItem<K extends Comparable<K>,V> 
+			implements Comparable<MapItem<K,V>> {
 		private K k;
 		private V v;
 		public MapItem(K key, V value) { 
@@ -38,7 +40,25 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 			return old;
 		}
 
+		/** String representation. */
 		public String toString() { return "("+v+")"; }
+
+		public int compareTo(MapItem<K,V> mi) { 
+			return getKey().compareTo(mi.getKey());
+		}
+
+		public int compareTo(K their_k) { 
+			return getKey().compareTo(their_k);
+		}
+
+		///** Comparable objects implement a compareTo() method. */
+		//public int compareTo(Object o) {
+		//	if(!(o instanceof Map<K,V>)) { 
+		//		return false;
+		//	}
+		//	MapItem<K,V> mi = (MapItem<K,V>) o;
+		//	return k.compareTo(mi.getKey());
+		//}
 	}
 
 
