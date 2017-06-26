@@ -62,4 +62,34 @@ Scanners, readers, files, and buffers:
 * BufferedReader always needs a Reader
 
 
+## Object hash code
+
+Developoing a consistent approach/tactic/organization to the code.
+* Start with your public static void main.
+* Move on to utility classes.
+* Finish with the bulk of the class, its specifics, etc.
+* Starting with the test - usage - test-driven.
+
+Overriding the default hashCode() function of a Word object. Important observations:
+* The hash method for two objects considered equal must be the same.
+* Built-in String class implements the equals method so that two Strings equal if precisely same sequence of chars.
+* String class also implements custom hashCode() method.
+* Examine the hashCode() of String class - great example to learn from.
+* Java's hash code implementation: 230,000 words, 12 collisions.
+
+New hash code calculation:
+* We define the equals method for the class so that X
+* We compute a robust hash code for a list by taking exclusive or of element hash codes, while performing cyclic shift.
+* Perform bitwise xor, then a 5 bit cyclic shift.
+
+Overriding equals() and hashCode() methods:
+* See [link](https://stackoverflow.com/questions/15722485/hashset-storing-equal-objects#15722565)
+* Need to use `@Override`, take `method(Object o)` as parameter, try to convert to correct type
+* This verifies, to the compiler, that you are accurately handling all cases the equals() method might see
+
+When hashCode versus compareTo is used:
+* If you are using a tree set or a tree map, you are using natural ordering, therefore you are using compareTo()
+* If you are using a hash set or a hash map, you are basing things on the hash code, therefore you are using hashCode()
+
+
 
