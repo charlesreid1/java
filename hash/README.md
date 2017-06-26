@@ -1,5 +1,29 @@
 # Hashtable Maps
 
+Notes on where I got stuck, things that surprised me, 
+things I learned, etc.
+
+Table of Contents:
+
+Maps:
+* Map ADT Interface
+* Abstract map
+* Unsorted array map
+* Sorted array map 
+
+Hash functions:
+* Hash functions
+* Object hash codes
+
+Hash maps:
+* Hash map base
+* Chained hash map
+* Probe hash map
+
+
+
+## Map ADT Interface
+
 Walking through the process of creating a Map ADT.
 
 Start by defining an interface for the Map ADT.
@@ -27,10 +51,10 @@ Iterators vs Iterables - ?
 * The Iterator objects are like mini-scanners.
 * The Iterable objects just have an iterator() method and are what are actually returned.
 
-entrySet:
-* Note that the key and value sets use the entrySet method
-* We aren't defining entrySet, just using it
-* entrySet must be defined in our concrete class
+itemSet:
+* Note that the key and value sets use the itemSet method
+* We aren't defining itemSet, just using it
+* itemSet must be defined in our concrete class
 * This means we have three total Iterators and three total Iterables
 
 More iterators vs iterables:
@@ -57,6 +81,14 @@ Organization of classes:
 * Finally, the contents of the class itself.
 
 
+## Sorted array map
+
+Sorted array map challenges:
+* Had some difficulties with implementing insert and figuring out where to insert next item
+* Issue was, user passes us a Key type object, and we have a `MapItem<Key,Value>` item
+* Resolution was, we implement a comparator to compare MapItem objects... the only thing it does is look at keys (no values).
+* Then, when the user gives us a key, we create a dummy `MapItem<K,V>` object
+* This allows us to compare Map Item objects, but no need to create a value.
 
 ## Hash Functions
 
@@ -101,5 +133,79 @@ When hashCode versus compareTo is used:
 * If you are using a tree set or a tree map, you are using natural ordering, therefore you are using compareTo()
 * If you are using a hash set or a hash map, you are basing things on the hash code, therefore you are using hashCode()
 
+
+## Abstract hash map 
+
+NOTE: Not a "parent" or "base" class - these terms are too general. 
+
+This is an "abstract" class, meaning it is not meant to actually be implemented.
+
+While chaining and linear probing are quite different implementations of hash maps,
+they still share some commonalities, so we implement an abstract hash map class.
+This class should contain any implementation details common to all types of hash maps,
+distinct from more general map types.
+
+Fields:
+* number of entires in table
+* length of table
+* prime factor
+* hash function parameters (shift and scale)
+
+Public methods:
+* classic map/dictionary adt:
+	* get from map
+	* put into map
+	* remove from map
+
+Protected methods:
+* get from bucket (protected)
+* put into bucket (protected)
+* remove from bucket (protected)
+
+Private methods:
+* hashValue - implemented concretely in this class. Intended to be used without modification by all other classes.
+* create table - purely abstract. Not implemented.
+* resize table - purely abstract. Not implemented.
+
+```
+
+This is taking a bit of effort to understand...
+
+```
+
+Three constructors:
+* one default (picks default capacity, default prime)
+* one taking capcity (default prime)
+* one taking capacity and prime 
+
+Note that the prime number we specify in the constructor 
+is used as part of the hash function.
+
+Public methods:
+* we provide public get, put, and remove methods
+* we actually know enough, at this point, to know that our hashmap will be impemented using buckets.
+* that means we can implement the get, put, and remove methods to call the corresponding bucket methods.
+
+Then the pseudocode will look something like this:
+
+```
+public_get(key):
+	return private_bucket_get( hash(key), key )
+```
+
+Last but not least, the put and remove methods should also check if we need to resize.
+The Goodrich book implements these methods in the abstract class.
+
+Protected/private methods:
+* the hash function itself
+* bucket versions of get/put/remove
+* create table with given capacity
+
+
+## Chained Hash Map
+
+
+
+## Probe Hash Map
 
 
