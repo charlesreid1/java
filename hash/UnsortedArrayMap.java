@@ -4,20 +4,20 @@ import java.util.NoSuchElementException;
 
 
 /**
- * Unsorted Map.
+ * Unsorted Array Map.
  *
- * This stores keys in a list.
- * It stores keys in a very inefficient way,
- * requiring O(N) lookups each time.
+ * A concrete implementation of the map type that stores
+ * key-value items in an arraylist. 
+ *
+ * This class is terribly inefficient, requiring O(N) lookups each time.
  */
-public class UnsortedTableMap<K,V> extends AbstractMap<K,V> {
-
+public class UnsortedArrayMap<K,V> extends AbstractMap<K,V> {
 
 	public static void main(String[] args) { 
-		UnsortedTableMap<String,String> m = new UnsortedTableMap<>();
+		UnsortedArrayMap<String,String> m = new UnsortedArrayMap<>();
 		m.put("WAT","monkey");
 		m.put("WHO","tree");
-		m.put("WHY","adulthood");
+		m.put("WHY","sticks");
 		System.out.println(m.size());
 		System.out.println(m.get("WHO"));
 	}
@@ -62,7 +62,7 @@ public class UnsortedTableMap<K,V> extends AbstractMap<K,V> {
 	private ArrayList<MapItem<K,V>> table;
 
 	// Construct initial table map
-	public UnsortedTableMap() { 
+	public UnsortedArrayMap() { 
 		table = new ArrayList<>();
 	}
 
