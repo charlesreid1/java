@@ -9,19 +9,6 @@ public class ObjectHashCode {
 
 	/** Run the driver method. */
 	public static void main(String[] args) throws FileNotFoundException { 
-		//Word word1 = new Word("the");
-		//Word word2 = new Word("the");
-		//Word word3 = new Word("the");
-		//System.out.println(word1.equals(word2));
-
-		//HashSet<Word> w = new HashSet<Word>();
-		//w.add(word1);
-		//w.add(word2);
-		//w.add(word3);
-		//System.out.println(w);
-		//System.out.println(word1.hashCode());
-		//System.out.println(word2.hashCode());
-		//System.out.println(word3.hashCode());
 		populateWords();
 	}
 
@@ -39,13 +26,6 @@ public class ObjectHashCode {
    			words.add(new Word(word));
    		}
 
-   		System.out.println("Size of strings: "+strings.size());
-   		System.out.println("Size of words: "+words.size());
-
-		for(int i=0; i<10000; i++) { 
-			words.add(new Word("the"));
-		}
-
    		// count number of hash collisions for:
    		// strings
    		List<Integer> stringHashes = new LinkedList<Integer>();
@@ -53,9 +33,6 @@ public class ObjectHashCode {
    		// words
    		List<Integer> wordHashes = new LinkedList<Integer>();
    		Set<Integer> uniqWordHashes = new HashSet<Integer>();
-
-   		System.out.println("Size of strings: "+strings.size());
-   		System.out.println("Size of words: "+words.size());
 
    		for(String st : strings) { 
    			stringHashes.add( st.hashCode() );
