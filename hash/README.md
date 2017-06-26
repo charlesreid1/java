@@ -48,6 +48,16 @@ Ordering of class declaration and undeclared class declarations
 * MapItem class was actually protected and lived in AbstractMap class
 * Therefore, we had to hold off declaring an abstract MapItem iterator until the AbstractMap class, not the Map interface
 
+
+## Unsorted array map
+
+Organization of classes:
+* Main method to illustrate usage and tests
+* Private or protected classes that are important and used internally by the class
+* Finally, the contents of the class itself.
+
+
+
 ## Hash Functions
 
 First, the bitwise operators:
