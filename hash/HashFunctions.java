@@ -38,7 +38,7 @@ public class HashFunctions {
 				set.add(next);
 			}
 			int diff = list.size() - set.size();
-			System.out.printf("Shift: %d \tHash codes: %d\tCollisions: %d\n", shift, list.size(), diff);
+			System.out.printf("Shift: %d \tHash codes: %d\t\tCollisions: %d\n", shift, list.size(), diff);
 		}
 
 	}
