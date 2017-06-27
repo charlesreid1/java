@@ -11,7 +11,8 @@ import java.util.NoSuchElementException;
  *
  * This class is terribly inefficient, requiring O(N) lookups each time.
  */
-public class UnsortedArrayMap<K,V> extends AbstractMap<K,V> {
+public class UnsortedArrayMap<K extends Comparable<K>,V> 
+	extends AbstractMap<K,V> {
 
 	public static void main(String[] args) { 
 		UnsortedArrayMap<String,String> m = new UnsortedArrayMap<>();
@@ -67,7 +68,7 @@ public class UnsortedArrayMap<K,V> extends AbstractMap<K,V> {
 	}
 
 	/** Return an iterable collection of all key-value items in map. */
-	public Iterable<MapItem<K,V>> entrySet() { 
+	public Iterable<MapItem<K,V>> itemSet() { 
 		return new ItemIterable();
 	}
 
@@ -110,7 +111,7 @@ public class UnsortedArrayMap<K,V> extends AbstractMap<K,V> {
 		int j = findIndex(key);
 		if(j==-1) { 
 			// Add it to the list - err, map
-			MapItem<K,V> item = new MapItem<>(key,value);
+			MapItem<K,V> item = new MapItem<K,V>(key,value);
 			table.add(item);
 		} else {
 			// Replace it

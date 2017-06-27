@@ -84,7 +84,7 @@ public class SortedArrayMap<K extends Comparable<K>,V>
 	}
 
 	/** Return an iterable collection of all key-value items in map. */
-	public Iterable<MapItem<K,V>> entrySet() { 
+	public Iterable<MapItem<K,V>> itemSet() { 
 		return new ItemIterable();
 	}
 

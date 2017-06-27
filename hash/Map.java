@@ -23,13 +23,13 @@ public interface Map<K,V> {
 	V remove(K key);
 
 
-	// Note: we cannot define entrySet to get iterator over items,
+	// Note: we cannot define itemSet to get iterator over items,
 	// because we do not have definition of Items class.
 
 
-	/** keySet is an iterable wrapping entrySet. */
+	/** keySet is an iterable wrapping itemSet. */
 	Iterable<K> keySet();
 
-	/** valueSet is an iterable wrapping entrySet. */
+	/** valueSet is an iterable wrapping itemSet. */
 	Iterable<V> valueSet();
 }

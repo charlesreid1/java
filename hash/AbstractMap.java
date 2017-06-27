@@ -6,6 +6,7 @@ import java.util.Iterator;
  * This implements the Map interface.
  * It defines fields, methods, utility classes, etc.
  */
+// We need to *explicitly* require keys be comparable.
 public abstract class AbstractMap<K extends Comparable<K>,V> 
 	implements Map<K,V> {
 
@@ -50,29 +51,20 @@ public abstract class AbstractMap<K extends Comparable<K>,V>
 		public int compareTo(K their_k) { 
 			return getKey().compareTo(their_k);
 		}
-
-		///** Comparable objects implement a compareTo() method. */
-		//public int compareTo(Object o) {
-		//	if(!(o instanceof Map<K,V>)) { 
-		//		return false;
-		//	}
-		//	MapItem<K,V> mi = (MapItem<K,V>) o;
-		//	return k.compareTo(mi.getKey());
-		//}
 	}
 
 
 	/** 
 	 * Map key iterator.
 	 * Creates an Iterator object over keys in the map.
-	 * This wraps an iterator over the (iterable) entrySet.
+	 * This wraps an iterator over the (iterable) itemSet.
 	 * Implements Iterator<K>, obviously.
 	 * */
 	private class KeyIterator implements Iterator<K> {
 		Iterator<MapItem<K,V>> entriesIterator; // key set iterator wraps entry set iterator
 		/** Constructor initializes the entry iterator this key iterator wraps. */
 		public KeyIterator() { 
-			entriesIterator = entrySet().iterator();
+			entriesIterator = itemSet().iterator();
 		}
 		/** Returns true if the iterator has a next key. */
 		public boolean hasNext() {
@@ -109,7 +101,7 @@ public abstract class AbstractMap<K extends Comparable<K>,V>
 		Iterator<MapItem<K,V>> entriesIterator; // key set iterator wraps entry set iterator
 		/** Constructor initializes the entry iterator. */
 		public ValueIterator() { 
-			entriesIterator = entrySet().iterator();
+			entriesIterator = itemSet().iterator();
 		}
 		/** Returns true if the iterator has a next value. */
 		public boolean hasNext() {
@@ -142,10 +134,10 @@ public abstract class AbstractMap<K extends Comparable<K>,V>
 	/////////////////////////////////////////
 	// Begin abstract map class definition
 
-	/** entrySet is the principal iterator. 
+	/** itemSet is the principal iterator. 
 	 * Note that we define this abstract method here, 
 	 * because this is the first place where MapItem class is defined .*/
-	public abstract Iterable<MapItem<K,V>> entrySet();
+	public abstract Iterable<MapItem<K,V>> itemSet();
 
 	/** Returns true if there are no key-value pairs in the map. */
 	public boolean isEmpty() { return size() == 0; }
