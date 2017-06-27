@@ -1,3 +1,5 @@
+builtin:
+	javac BuiltinTiming.java && java BuiltinTiming > out.txt
 timing:
 	javac Timing.java && java Timing 
 string:
