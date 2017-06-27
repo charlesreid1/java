@@ -124,7 +124,7 @@ public class ChainedHashMap<K extends Comparable<K>,V>
 	/** Chained hash map does not need to implement resize. */
 	protected void resize() {
 		// Questionable...
-		throw new UnsupportedOperationException("Not implemented, ever.");
+		throw new UnsupportedOperationException("Not implemented, now.");
 	}
 
 

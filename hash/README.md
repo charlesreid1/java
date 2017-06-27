@@ -38,7 +38,7 @@ methods, fields, and utility classes.
 ## Abstract map
 
 The process of defining the abstract map:
-* Needed to define a map item wrapper class, of course
+* Needed to define a map item wrapper class
 * This is designed to take a K,V key value pair
 * Also need to define four more classes:
 * Two Iterators and two Iterables
@@ -208,8 +208,33 @@ we don't have to give up - we just say, add it to (this particular) hash code bu
 
 ## Chained Hash Map
 
+Slightly confusing - it is not as clear/concrete as I anticipated.
+
+This class creates buckets that are unsorted array maps. 
+In several of the books/videos we covered on the subject,
+chained hash maps use linked lists. However, our Unsorted 
+array map uses an ArrayList, which under the hood is 
+a dynamically resized array.
+
+We could change this by using a LinkedList instead of
+an ArrayList. That would slow down search and random access though. 
+
+
+Constructors:
+* Constructors just call super constructors.
+
+Protected methods:
+* Creating a table with the specified internal capacity
+* Getting/putting/removing items from particular buckets (1 bucket per hash)
+* Note: no resize method needed for this, for now.
+
+Public methods:
+* Getting/putting/removing items
+
 
 
 ## Probe Hash Map
+
+
 
 

@@ -15,7 +15,7 @@ public class ObjectHashCode {
 
    	/** Populate words, then check for hash code collisions. */
    	public static void populateWords() throws FileNotFoundException { 
-   		Scanner s = new Scanner(new BufferedReader(new FileReader("14oxenofthesun.dat")));
+   		Scanner s = new Scanner(new BufferedReader(new FileReader("14oxenofthesun.txt")));
 
    		// create list of unique words as a string set
    		Set<String> strings = new HashSet<String>();
