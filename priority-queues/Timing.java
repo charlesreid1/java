@@ -26,7 +26,7 @@ public class Timing {
 	static int Nops = 100;
 
 	// We will do that Ntrials times.
-	static int Ntrials = 5000;
+	static int Ntrials = 10000;
 
 	// We will add to a container of size N.
 	static int[] Ns = {100,200,300,400,500,600,700,800,900,1000};
@@ -36,6 +36,7 @@ public class Timing {
 	/** Run tests */
 	public static void main(String[] args) { 
 
+		/*
 		PQ[] collection = new PQ[3];
 		collection[2] = new HeapPQ<Integer,Integer>();
 		collection[1] = new UnsortedPQ<Integer,Integer>();
@@ -53,6 +54,8 @@ public class Timing {
 		}
 
 		// To give a better relative measure...
+		*/
+
 		PriorityQueue<Integer> builtin = new PriorityQueue<Integer>();
 		System.out.println("---------------------------");
 		System.out.println("Add Test: Built-in PriorityQueue");
