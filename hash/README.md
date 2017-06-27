@@ -197,10 +197,14 @@ Last but not least, the put and remove methods should also check if we need to r
 The Goodrich book implements these methods in the abstract class.
 
 Protected/private methods:
-* the hash function itself
+* the hash function itself - multiply/divide mod two different bases
 * bucket versions of get/put/remove
 * create table with given capacity
 
+Note: when we say "bucket", what we really mean is, "one particular hash code".
+
+The approach of using buckets is, if two or three items have the same hash code,
+we don't have to give up - we just say, add it to (this particular) hash code bucket.
 
 ## Chained Hash Map
 

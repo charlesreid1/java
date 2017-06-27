@@ -1,3 +1,5 @@
+import java.util.*;
+
 /** Abstract Hash Map implementation.
  *
  * This implements the Map interface and extends the 
@@ -9,7 +11,7 @@
  * The AbstractHashMap also provides support for automatically
  * resizing the hash table.
  */
-public class AbstractHashMap<K implements Comparable<K>,V> 
+public abstract class AbstractHashMap<K extends Comparable<K>,V> 
 	extends AbstractMap<K,V> { 
 
 	// We need to *explicitly* require keys be comparable.
@@ -45,8 +47,8 @@ public class AbstractHashMap<K implements Comparable<K>,V>
 
 		// Initialize the hash function parameter values
 		Random r = new Random();
-		scale = rand.nextInt(prime-1)+1:
-		shift = rand.nextInt(prime);
+		scale = r.nextInt(prime-1)+1;
+		shift = r.nextInt(prime);
 
 		// Create the initial hash table
 		createTable();
@@ -63,25 +65,41 @@ public class AbstractHashMap<K implements Comparable<K>,V>
 	}
 	/** Public (abstract) method to remove the item with this key from the map. */
 	public abstract V remove(K key);
+
 	/** Public (abstract) method to put the item with this key and value into the map. */
-	public abstract V put(K key, V value);
+	public abstract void put(K key, V value);
 
 
-	// Private methods:
+	// Semi-private methods:
 	/** Compute the hash code for a key object. */
-	private int hashFunction(K k) { 
+	protected int hashValue(K k) { 
 		// Universal (MAD) hash function:
 		//       ( (ax + b) mod p ) mod n
-		int h = (int)((Math.abs(key.hashCode()*scale + shift) % prime) % capacity);
+		int h = (int)((Math.abs(k.hashCode()*scale + shift) % prime) % capacity);
 		return h; 
 	}
+
 	/** Create a new hash table with capacity this.capacity. */
 	protected abstract void createTable();
+	
+
+	// Also need to implement a table resize method,
+	// but not every concrete implementation will need one. 
+	//
+	// Resize procedure:
+    // Copies map items to a list, 
+    // sets the new internal capacity, 
+    // creates a new table/array,
+    // copies map items back into the map.
+
+
 	/** Get the value corresponding to this key, and look in the bucket corresponding to this hash code. */
 	protected abstract V bucketGet(int hashCode, K key);
+	
 	/** Remove the value corresponding to this key from the bucket corresponding to this hash code. */
 	protected abstract V bucketRemove(int hashCode, K key);
+	
 	/** Put the key-value pair into the map bucket corresponding to this hash code. */
-	protected abstract V bucketPut(int hashCode, K key, V value);
+	protected abstract void bucketPut(int hashCode, K key, V value);
 
 }
