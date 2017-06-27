@@ -1,3 +1,5 @@
+chain:
+	javac ChainedHashMap.java && java ChainedHashMap
 sorted:
 	javac SortedArrayMap.java && java SortedArrayMap
 object:
