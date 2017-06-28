@@ -59,6 +59,10 @@ public abstract class AbstractHashMap<K extends Comparable<K>,V>
 	/** Returns the number of elements in this map. */
 	public int size() { return size; }
 
+	public boolean isEmpty() { return size==0; }
+
+	public abstract void clear();
+
 	/** Public method to get the value corresponding to this key. */
 	public V get(K key) {
 		return bucketGet( hashValue(key), key );

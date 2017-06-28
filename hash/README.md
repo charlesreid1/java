@@ -233,8 +233,22 @@ Public methods:
 
 
 
-## Probe Hash Map
+## Timing Built-In Map
+
+Note: had to rename the map interface to MyMap.
+That way, can compare two map types directly.
+
+Timing of built-in map type shows tree map is really fast,
+even though it is reported as log N in the source code,
+in practice it is closer to O(1) for N < 1M.
 
 
+## Timing Chained Map
+
+This turned out to be, verbatim, the same method used to time the built-in map.
+
+Hooray for interfaces!
+
+But double hooray for mine, which is much simpler.
 
 

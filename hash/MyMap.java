@@ -22,6 +22,9 @@ public interface MyMap<K,V> {
 	/** Remove the item corresponding to key k into the map. */
 	V remove(K key);
 
+	/** Clear all elements from the map */
+	void clear();
+
 
 	// Note: we cannot define itemSet to get iterator over items,
 	// because we do not have definition of Items class.

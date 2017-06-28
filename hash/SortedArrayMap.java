@@ -93,6 +93,11 @@ public class SortedArrayMap<K extends Comparable<K>,V>
 		return table.size();
 	}
 
+	/** Clear all elements from map. */
+	public void clear() { 
+		table.clear();
+	}
+
 	/** Get the value corresponding to a given key in our table. 
 	 * Returns null if key is not in map.
 	 * O(log N)

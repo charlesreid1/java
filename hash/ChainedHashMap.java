@@ -150,6 +150,11 @@ public class ChainedHashMap<K extends Comparable<K>,V>
 		return result;
 	}
 
+	/** Clear all items in this ChainedHashMap. */
+	public void clear() { 
+		bukkits.clear();
+	}
+
 	/** Iterator over items in this map. */
 	public Iterable<MapItem<K,V>> itemSet() { 
 		ArrayList<MapItem<K,V>> buffer = new ArrayList<MapItem<K,V>>();

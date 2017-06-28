@@ -91,6 +91,11 @@ public class UnsortedArrayMap<K extends Comparable<K>,V>
 		return table.size();
 	}
 
+	/** Clear all elements from map. */
+	public void clear() { 
+		table.clear();
+	}
+
 	/** Get the value corresponding to a given key in our table. 
 	 * The findIndex O(N) lookup makes this really inefficient.
 	 * This gets the index corresponding to the key, then returns the item value.
