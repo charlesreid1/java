@@ -1,5 +1,4 @@
 import java.util.*;
-import java.io.*;
 
 /** Timing Map class.
  *
@@ -40,7 +39,7 @@ public class TimingMap {
 
 
 	/** Run tests */
-	public static void main(String[] args) throws FileNotFoundException { 
+	public static void main(String[] args) {
 
 		Map<String,String> m = new HashMap<String,String>();
 		test_builtin(m);
@@ -54,7 +53,7 @@ public class TimingMap {
 
 
 	/** Test built-in map types. */
-	public static void test_builtin(Map<String,String> m) throws FileNotFoundException {
+	public static void test_builtin(Map<String,String> m) {
 
 		Random r = new Random();
 
@@ -83,7 +82,9 @@ public class TimingMap {
 				//  could alternatively do this wile size()<N.)
 				for(int j=0; j<N; j++) { 
 					String token = wg.next();
-					m.put(token, token.toUpperCase());
+					if(token.length()>0) { 
+						m.put(token, token.toUpperCase());
+					}
 				}
 
 
@@ -93,7 +94,9 @@ public class TimingMap {
 
 				for(int j=0; j<Nops; j++) { 
 					String token = wg.next();
-					m.put(token, token.toUpperCase());
+					if(token.length()>0) { 
+						m.put(token, token.toUpperCase());
+					}
 				}
 
 				insert_tim.toc();
@@ -105,7 +108,7 @@ public class TimingMap {
 
 				for(int j=0; j<Nops; j++) { 
 					String token = wg.next();
-					m.put(token, token.toUpperCase());
+					m.remove(token);
 				}
 
 				rm_tim.toc();
