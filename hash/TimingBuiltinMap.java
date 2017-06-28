@@ -1,10 +1,10 @@
 import java.util.*;
 
-/** Timing Map class.
+/** Timing Built-in Map class.
  *
  * This class times built-in and hand-rolled map classes.
  */
-public class TimingMap {
+public class TimingBuiltinMap {
 
 	// Static constants:
 
