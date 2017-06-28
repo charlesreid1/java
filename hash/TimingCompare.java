@@ -43,17 +43,20 @@ public class TimingCompare {
 	public static void main(String[] args) {
 
 		ChainedHashMap<String,String> cm = new ChainedHashMap<String,String>();
-		//test_myhashmap(cm);
 		test_generic(cm);
 
 		System.out.println("\n\n");
 
 		HashMap<String,String> hm = new HashMap<String,String>();
-		//test_builtinhashmap(hm);
 		test_generic(hm);
 	}
 
 
+	/** Run a generic test on a map object.
+	 *
+	 * This will automatically detect whether it is a built-in HashMap type
+	 * or a hand-rolled ChainedHashMap type.
+	 */
 	public static void test_generic(Object map) { 
 
 		Random r = new Random();
