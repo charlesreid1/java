@@ -8,7 +8,7 @@ import java.util.Iterator;
  */
 // We need to *explicitly* require keys be comparable.
 public abstract class AbstractMap<K extends Comparable<K>,V> 
-	implements Map<K,V> {
+	implements MyMap<K,V> {
 
 	/////////////////////////////////////////
 	// Utility classes
