@@ -1,3 +1,7 @@
+time:
+	javac TimingCompare.java && java TimingCompare
+time_pedantic:
+	javac -Xlint:unchecked TimingCompare.java && java TimingCompare
 chain:
 	javac ChainedHashMap.java && java ChainedHashMap
 sorted:
