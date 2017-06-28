@@ -20,7 +20,7 @@ public class HashFunctions {
 
 
 	public static void manyCollisions() throws FileNotFoundException { 
-		Scanner s = new Scanner(new BufferedReader(new FileReader("14oxenofthesun.dat")));
+		Scanner s = new Scanner(new BufferedReader(new FileReader("14oxenofthesun.txt")));
 
 		// Populate word list
 		Set<String> wordset = new HashSet<>();
@@ -54,7 +54,7 @@ public class HashFunctions {
 
 
 	public static void countCollisions() throws FileNotFoundException { 
-		Scanner s = new Scanner(new BufferedReader(new FileReader("14oxenofthesun.dat")));
+		Scanner s = new Scanner(new BufferedReader(new FileReader("14oxenofthesun.txt")));
 
 		// Populate word list
 		Set<String> wordset = new HashSet<>();
