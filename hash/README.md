@@ -252,3 +252,46 @@ Hooray for interfaces!
 But double hooray for mine, which is much simpler.
 
 
+## Timing Comparison: Built-In Map vs Hand-Rolled Map
+
+This class led me into some difficulties with casting and typing.
+
+Initially, I thought to keep it simple, have two methods for the two types,
+not bother with this foo-foo-willy-riff-raff type stuff.
+
+However, it became clear that the code for the two cases (Map or MyMap) 
+would be exactly the same, so I tried to wrap everything together 
+as much as possible.
+
+It eventually became clear this was a mistake. 
+
+Problems:
+* Could not use generic type `<T>`
+* This is due to Java's lack of support for [refied generics](http://gafter.blogspot.com/2006/11/reified-generics-for-java.html)
+* Using instanceof works, but raises compiler warnings
+* Adding `-Xlint:unchecked` shows impossible-to-resolve issues
+* See [link](https://stackoverflow.com/a/27154147)
+
+Using a static method that took a generic type `<T>` led to 
+casting warnings and compiler errors, so I passed in the map objects
+as a generic Object type. This, in turn, still uses generics for the 
+map key value types, so it still raises warnings, but these warnings
+are possible to ignore. 
+
+We only have two classes to check for. The general logic is to use
+the `instanceof` method to check if an object is an instance of 
+the `ChainedHashMap` class or the built-in `HashMap` class.
+
+This leads to two redundant blocks of code, that literally do 
+exactly the same thing. This is pretty dumb.
+
+How could we clean this up?
+* The problem is, these objects are *apparently* similar without actually being related.
+* Solution is, force them to be related via an interface, or accept that they are different and pass them to different methods.
+* Trying to ride two horses is a bad idea.
+* ***Option 1:*** Write a wrapper class that implements a built-in HashMap under the hood, and a MyMap interface externally.
+* ***Option 2:*** Write separate test functions to test separate types.  
+
+
+
+
