@@ -28,12 +28,16 @@ Walking through the process of creating a Map ADT.
 
 Start by defining an interface for the Map ADT.
 
-```Map.java```
+```
+Map.java
+```
 
 Next, define an abstract class to lay out some useful 
 methods, fields, and utility classes.
 
-```AbstractMap.java```
+```
+AbstractMap.java
+```
 
 ## Abstract map
 
@@ -189,8 +193,10 @@ Public methods:
 Then the pseudocode will look something like this:
 
 ```
+
 public_get(key):
 	return private_bucket_get( hash(key), key )
+
 ```
 
 Last but not least, the put and remove methods should also check if we need to resize.
@@ -291,7 +297,5 @@ How could we clean this up?
 * Trying to ride two horses is a bad idea.
 * ***Option 1:*** Write a wrapper class that implements a built-in HashMap under the hood, and a MyMap interface externally.
 * ***Option 2:*** Write separate test functions to test separate types.  
-
-
 
 
