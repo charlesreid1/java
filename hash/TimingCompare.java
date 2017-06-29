@@ -1,4 +1,6 @@
+import java.util.Map;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Random;
 
 /** Timing Map class.
@@ -37,26 +39,40 @@ public class TimingCompare {
 		}
 	}
 
+	public static void printTitle(String title) { 
+		System.out.println("\n"+title+"\n");
+	}
+	public static void printLines() { 
+		System.out.println("\n\n");
+	}
 
 
 	/** Run tests */
 	public static void main(String[] args) {
 
+		printTitle(" ***** Chained Hash Map ***** ");
 		ChainedHashMap<String,String> cm = new ChainedHashMap<String,String>();
 		test_generic(cm);
+		printLines();
 
-		System.out.println("\n\n");
-
+		printTitle(" ***** Hash Map ***** ");
 		HashMap<String,String> hm = new HashMap<String,String>();
 		test_generic(hm);
+		printLines();
+
+		printTitle(" ***** Tree Map ***** ");
+		TreeMap<String,String> tm = new TreeMap<String,String>();
+		test_generic(tm);
+		printLines();
 	}
 
 
 	/** Run a generic test on a map object.
 	 *
-	 * This will automatically detect whether it is a built-in HashMap type
+	 * This will automatically detect whether it is a built-in Map type
 	 * or a hand-rolled ChainedHashMap type.
 	 */
+	@SuppressWarnings("unchecked")
 	public static void test_generic(Object map) { 
 
 		Random r = new Random();
@@ -124,9 +140,9 @@ public class TimingCompare {
 
 				// Builtin Map Test:
 
-				} else if(map instanceof HashMap) { 
+				} else if(map instanceof Map) { 
 
-					HashMap<String,String> m = (HashMap<String,String>)(map);
+					Map<String,String> m = (Map<String,String>)(map);
 
 					m.clear();
 
