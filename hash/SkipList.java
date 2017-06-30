@@ -13,15 +13,58 @@ import java.util.Random;
 public class SkipList<T extends Comparable<T>> {
 
 
-
 	public static void main(String[] args) { 
+		//testAddAscending();
+		testAddDescending();
+	}
+
+
+
+	public static void testAddDescending() {
         SkipList<Integer> sList = new SkipList<Integer>();
-		sList.add(55);
-		System.out.println(sList.head);
-		sList.add(44);
-		System.out.println(sList.head);
-		sList.add(33);
-		System.out.println(sList.head);
+		System.out.println("Successfully created skip list.");
+
+		if( sList.add(55) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
+		if( sList.add(44) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
+		if( sList.add(33) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
+		if( sList.add(22) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
+		if( sList.add(11) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
+	}
+
+
+
+	public static void testAddAscending() {
+        SkipList<Integer> sList = new SkipList<Integer>();
+		System.out.println("Successfully created skip list.");
+
+		if( sList.add(55) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
+		if( sList.add(66) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
+		if( sList.add(77) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
+		if( sList.add(88) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
+		if( sList.add(96) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
+		if( sList.add(99) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
 	}
 
 
@@ -71,7 +114,7 @@ public class SkipList<T extends Comparable<T>> {
             StringBuffer sb = new StringBuffer();
             sb.append("data=").append(data);
             if (this.next!=null) {
-                sb.append("\n").append("next=[");
+                sb.append(" next=[");
                 int size = next.length;
                 for (int i=0; i<size; i++) {
                     SkipNode<T> n = next[i];
@@ -167,8 +210,6 @@ public class SkipList<T extends Comparable<T>> {
 		if(head == null) { 
 
 			// empty skip list
-			//System.out.println("empty skip list");
-			//System.out.println("value: " + value);
 
 			// if head is null, add to new list at level MAX
 			SkipNode<T> node = new SkipNode<T>(MAX,value);
@@ -200,33 +241,57 @@ public class SkipList<T extends Comparable<T>> {
 			// start from the top:
 			// work your way down and right
             for (int i=MAX; i>=0; i--) {
-                SkipNode<T> nextStride = strider.getNext(i);
-                while (nextStride!=null) {
-                    if (nextStride.compareTo(node)>0) { 
+
+				System.out.println("-------------------");
+				System.out.println("Working way down: i = " + i);
+
+                SkipNode<T> nextStrider = strider.getNext(i);
+
+				// if i==0, 
+				// getNext is returning the node itself...
+				// ???
+
+				System.out.println("[before dread loop]");
+				System.out.println("Strider = "+strider);
+				System.out.println("Next Strider = "+nextStrider);
+
+                while(nextStrider!= null) {
+
+					System.out.println(" X X X X X");
+					System.out.println("	i = "+i);
+					System.out.println("	value = "+value);
+
+					System.out.println("	nextStrider.compareTo(node) = " + nextStrider.compareTo(node));
+
+					// when i==0, at the last level,
+					// nextStrider is the same as strider.
+					// ???
+
+					// maybe not node?
+                    if (nextStrider.compareTo(node)>0) { 
 						// Next stride takes us too far,
-						// so we are pointing at the 
-						// insertion index.
+						// so we are pointing at the insertion index.
 						break;
 					}
 					// Make the next stride
-                    strider = nextStride;
-                    // Set next, 
-					// because the node/insertion index we are 
-					// looking for 
-                    // on the next level 
-					// cannot be behind 
-					// strider node.
-                    nextStride = strider.getNext(i);
+                    strider = nextStrider;
+                    nextStrider = strider.getNext(i);
+
+					System.out.println("[inside dread loop]");
+					System.out.println("Strider = "+strider);
+					System.out.println("Next Strider = "+nextStrider);
                 }
                 if (i <= insertionLevel) {
-                    // If we are on a level where the new node exists, 
-					// update the linked list
-                    node.setNext(i, nextStride);
-                    result.setNext(i, strider);
+                    // node is the node that we are adding, 
+					// and it should be added to this level.
+                    node.setNext(i, nextStrider);
+                    strider.setNext(i, node);
                 }
             }
+			System.out.println("Finished with level loop.");
 		}
 
+		System.out.println("Wrapping up with add, returning result...");
         size++;
         return result;
     }
