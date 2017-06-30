@@ -14,13 +14,15 @@ public class SkipList<T extends Comparable<T>> {
 
 
 	public static void main(String[] args) { 
-		//testAddAscending();
+		testAddAscending();
 		testAddDescending();
 	}
 
 
 
 	public static void testAddDescending() {
+		System.out.println("Testing add in descending order...");
+
         SkipList<Integer> sList = new SkipList<Integer>();
 		System.out.println("Successfully created skip list.");
 
@@ -44,6 +46,8 @@ public class SkipList<T extends Comparable<T>> {
 
 
 	public static void testAddAscending() {
+		System.out.println("Testing add in ascending order...");
+
         SkipList<Integer> sList = new SkipList<Integer>();
 		System.out.println("Successfully created skip list.");
 
@@ -227,8 +231,7 @@ public class SkipList<T extends Comparable<T>> {
 			// create strider to point to the insertion index
 			SkipNode<T> strider = head;	
 
-			// handle the case where the new node goes before head:
-			// put new node in place of head, and add head to a new spot.
+			// Handle case where new node goes before head.
 			// (Note: we can either compare nodes directly,
 			//  or compare their data if we extended Comparable.)
 			if(node.compareTo(head)<0) {
@@ -242,44 +245,17 @@ public class SkipList<T extends Comparable<T>> {
 			// work your way down and right
             for (int i=MAX; i>=0; i--) {
 
-				System.out.println("-------------------");
-				System.out.println("Working way down: i = " + i);
-
                 SkipNode<T> nextStrider = strider.getNext(i);
-
-				// if i==0, 
-				// getNext is returning the node itself...
-				// ???
-
-				System.out.println("[before dread loop]");
-				System.out.println("Strider = "+strider);
-				System.out.println("Next Strider = "+nextStrider);
 
                 while(nextStrider!= null) {
 
-					System.out.println(" X X X X X");
-					System.out.println("	i = "+i);
-					System.out.println("	value = "+value);
-
-					System.out.println("	nextStrider.compareTo(node) = " + nextStrider.compareTo(node));
-
-					// when i==0, at the last level,
-					// nextStrider is the same as strider.
-					// ???
-
-					// maybe not node?
                     if (nextStrider.compareTo(node)>0) { 
-						// Next stride takes us too far,
-						// so we are pointing at the insertion index.
+						// Next stride takes us too far. We are pointing at insertion index.
 						break;
 					}
 					// Make the next stride
                     strider = nextStrider;
                     nextStrider = strider.getNext(i);
-
-					System.out.println("[inside dread loop]");
-					System.out.println("Strider = "+strider);
-					System.out.println("Next Strider = "+nextStrider);
                 }
                 if (i <= insertionLevel) {
                     // node is the node that we are adding, 
@@ -288,10 +264,8 @@ public class SkipList<T extends Comparable<T>> {
                     strider.setNext(i, node);
                 }
             }
-			System.out.println("Finished with level loop.");
 		}
 
-		System.out.println("Wrapping up with add, returning result...");
         size++;
         return result;
     }
