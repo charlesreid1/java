@@ -16,12 +16,15 @@ public class SkipList<T extends Comparable<T>> {
 	public static void main(String[] args) { 
 		testAddAscending();
 		testAddDescending();
+		testRemove();
 	}
 
 
 
 	public static void testAddDescending() {
+		System.out.println("==============================");
 		System.out.println("Testing add in descending order...");
+		System.out.println("==============================");
 
         SkipList<Integer> sList = new SkipList<Integer>();
 		System.out.println("Successfully created skip list.");
@@ -41,12 +44,17 @@ public class SkipList<T extends Comparable<T>> {
 		if( sList.add(11) ) { 
 			System.out.println("Successfully added item to skip list. Size = " + sList.size());
 		}
+		if( sList.add(99) ) { 
+			System.out.println("Successfully added item to skip list. Size = " + sList.size());
+		}
 	}
 
 
 
 	public static void testAddAscending() {
+		System.out.println("==============================");
 		System.out.println("Testing add in ascending order...");
+		System.out.println("==============================");
 
         SkipList<Integer> sList = new SkipList<Integer>();
 		System.out.println("Successfully created skip list.");
@@ -69,6 +77,24 @@ public class SkipList<T extends Comparable<T>> {
 		if( sList.add(99) ) { 
 			System.out.println("Successfully added item to skip list. Size = " + sList.size());
 		}
+	}
+
+
+
+	public static void testRemove() {
+		System.out.println("==============================");
+		System.out.println("Testing remove...");
+		System.out.println("==============================");
+        SkipList<Integer> sList = new SkipList<Integer>();
+		sList.add(55);
+		sList.add(44);
+		sList.add(33);
+		sList.add(99);
+		System.out.println("Starting remove test. Size = " + sList.size());
+		sList.remove(44);
+		System.out.println("Successfully removed item from skip list. Size = " + sList.size());
+		sList.remove(33);
+		System.out.println("Successfully removed item from skip list. Size = " + sList.size());
 	}
 
 
