@@ -1,3 +1,7 @@
+skip:
+	javac SkipList.java && java SkipList
+bhash:
+	javac BuiltinHashFunction.java && java BuiltinHashFunction
 time:
 	javac TimingCompare.java && java TimingCompare
 time_pedantic:

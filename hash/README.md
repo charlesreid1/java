@@ -20,6 +20,8 @@ Hash maps:
 * Chained hash map
 * Probe hash map
 
+Skip Lists:
+* Skip lists
 
 
 ## Map ADT Interface
@@ -297,5 +299,34 @@ How could we clean this up?
 * Trying to ride two horses is a bad idea.
 * ***Option 1:*** Write a wrapper class that implements a built-in HashMap under the hood, and a MyMap interface externally.
 * ***Option 2:*** Write separate test functions to test separate types.  
+
+
+## Skip Lists
+
+Writing the skip lists class was particularly informative, 
+because I wrote it with the assistance of two other high-quality
+code bases, one being the Java API and the other being Github user phishman.
+
+Will run through this in roughly the same order as the class itself.
+
+Utility classes:
+* These were implemented similar to Map items, with the templated type needing to declare extends Comparable
+* More problems with generic types and arrays
+* Java does a crappy job of providing a random-access arbitrary-type array.
+* If you want an array, have to switch to Objects. and now you've screwed up all kinds of things.
+
+Distinction between Node and Index - like the Node and Position
+* This is something I really need to practice...
+* This same concept has thrown me off every time it appears in Goodrich
+* Here it is again, confusing me for basically the same reason.
+* Creates an additional layer of abstraction, and ultimately makes me go, where is everything actually LIVING?
+
+Tuple class idea:
+* This was a clever but simple idea. Bundle two unlike together using a composite class.
+* Probably called Composite Design Pattern or something fancy, but just a handy little trick.
+
+Random numbers:
+* No idea what's going on with these random numbers and the bit stuffing.
+
 
 
