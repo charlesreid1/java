@@ -79,10 +79,10 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	protected static class Node<E> implements Position<E> {
 		// No need to expose things.
 		// (in general, how do you test a private/protected class?)
-		private E element;
-		private Node<E> parent; // pointer to parent node
-		private Node<E> left;  // pointer to left child
-		private Node<E> right; // pointer to right child
+		protected E element;
+		protected Node<E> parent; // pointer to parent node
+		protected Node<E> left;  // pointer to left child
+		protected Node<E> right; // pointer to right child
 		// constructor with element and neighbors
 		public Node(E e, Node<E> above, Node<E> lefty, Node<E> righty) { 
 			element = e;
@@ -208,6 +208,8 @@ public class LinkedBinTree<E> extends AbstractBinaryTree<E> {
 	 * This doesn't work when it is Position<E>.
 	 * symbol getLeft() can't be called on a Position<E>.
 	 * so, root().getLeft() no works...
+	 * Because need to do validate(root()).getLeft().
+	 * Which is dumb, no validation needed.
 	 * Now this JOOP is getting messy.
 	 * */
 	public Node<E> root() {

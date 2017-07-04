@@ -7,18 +7,16 @@ import java.util.Random;
 public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> {
 
 	public static void main(String[] args) { 
-		BinarySearchTree<Integer> t = getFullTree(5);
+		BinarySearchTree<Integer> t = getBadTree(5);
 		t.printTree();
 	}
 	
 	/** Test method: get a full binary tree with n levels. */
 	public static BinarySearchTree<Integer> getFullTree(int n) {
-
 		BinarySearchTree<Integer> t = new BinarySearchTree<Integer>();
 		Random r = new Random();
 		int MAX = 9999;
 		int MIN = 1000;
-
 		t.addRoot(r.nextInt(MAX));
 		for(int i=0; i<Math.pow(2,n); i++) { 
 			t.insert( MIN + r.nextInt(MAX-MIN+1) );
@@ -27,9 +25,22 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 	}
 
 
+	public static BinarySearchTree<Integer> getBadTree(int n) {
+		BinarySearchTree<Integer> t = new BinarySearchTree<Integer>();
+		Random r = new Random();
+		int MAX = 9999;
+		int MIN = 1000;
+		t.addRoot(r.nextInt(MAX));
+		for(int i=0; i<Math.pow(2,n); i++) { 
+			t.insert( MIN + 5*i);// r.nextInt(MAX-MIN+1) );
+		}
+		return t;
+	}
 
 
-	////////////////////////
+
+	/////////////////////////////////////////////////
+
 
 
 
@@ -41,6 +52,15 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 
 
 	// -------------------------
+
+
+
+
+	// Dummy rebalance method.
+	public void rebalance(Node<E> node) {
+		return; 
+	}
+
 
 
 
@@ -122,38 +142,34 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 	private void insert_r(E x, Node<E> node) { 
 
 		if(x.compareTo(node.getElement())<0) {
-			System.out.println("Moving left.");
 
 			// Go left or insert left
 			if(node.getLeft()==null) { 
 				node.setLeft(new Node<E>(x,null,null,null));
 				size++;
+				rebalance(node);
 			} else {
 				insert_r(x, node.getLeft());
 			}
 
 		} else if(x.compareTo(node.getElement())>0) {
-			System.out.println("Moving right.");
 
 			// Go right
 			if(node.getRight()==null) { 
 				node.setRight(new Node<E>(x,null,null,null));
 				size++;
+				rebalance(node);
 			} else {
 				insert_r(x, node.getRight());
 			}
 
 		} else { 
-			// Matches something in the tree
-			// Update key
-			System.out.println("Squashing.");
-			node.setElement(x);
+			// Already in tree - do nothing.
 		}
 	}
 
 
 	public void insert(E x) { 
-		System.out.println("ohai");
 		if(isEmpty()) { 
 			// handle it
 			this.root = new Node<E>(x, null, null, null);
@@ -177,7 +193,11 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 	 * This overrides the parent method.
 	 * */
 	public E remove(E x) {
-		return remove_r(x, this.root);
+		if(isEmpty()) { 
+			return null;
+		} else {
+			return remove_r(x, this.root);
+		} 
 	}
 
 
@@ -234,6 +254,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 				remove_r(replacementVal, node.getRight()); // remove this node from subtree
 
 				size--;
+				rebalance(node.getParent());
 				return doomed;
 
 			} else if(node.getLeft()==null && node.getRight()==null) { 
@@ -242,14 +263,16 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 				node = null;
 				
 				size--;
+				rebalance(node.getParent());
 				return doomed;
 
 			} else {
 				// Removing a node with one child.
 				// Doing so without the parent pointer.
+				E doomed;
 				if(node.getLeft()==null) { 
 
-					E doomed = node.getElement();
+					doomed = node.getElement();
 
 					E newElement = node.getRight().getElement();
 					Node<E> newRight = node.getRight().getRight();
@@ -257,12 +280,9 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 					node.setElement(newElement);
 					node.setRight(newRight);
 
-					size--;
-					return doomed;
-
 				} else {
 
-					E doomed = node.getElement();
+					doomed = node.getElement();
 
 					E newElement = node.getLeft().getElement();
 					Node<E> newLeft = node.getLeft().getLeft();
@@ -270,10 +290,11 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 					node.setElement(newElement);
 					node.setLeft(newLeft);
 
-					size--;
-					return doomed;
-
 				}
+				size--;
+				rebalance(node.getParent());
+				return doomed;
+
 			}
 
 		}// end found 
