@@ -6,43 +6,60 @@
  */
 public class Weiss { 
 	public static void main(String[] args) { 
+		test1();
+	}
+
+
+
+	public static void test2() { 
 		BinarySearchTree b = new BinarySearchTree();
 		b.insert(new Integer(5));
 		b.insert(new Integer(8));
 		b.insert(new Integer(48));
+		b.insert(new Integer(3));
+		b.printTree();
+	}
+
+
+	public static void test1() { 
+		BinarySearchTree b = new BinarySearchTree();
+		b.insert(new Integer(5));
+		b.insert(new Integer(8));
+		b.insert(new Integer(28));
 		b.insert(new Integer(43));
 		b.insert(new Integer(49));
+
 		b.insert(new Integer(44));
 		b.insert(new Integer(-4));
 		b.insert(new Integer(-6));
 		b.insert(new Integer(-8));
 		b.insert(new Integer(-3));
 		b.insert(new Integer(45));
+		b.insert(new Integer(26));
+		b.insert(new Integer(52));
 		b.insert(new Integer(58));
 		b.insert(new Integer(68));
+		b.insert(new Integer(29));
 		b.insert(new Integer(108));
-		b.insert(new Integer(138));
-		b.insert(new Integer(78));
-		b.insert(new Integer(-11));
-		b.insert(new Integer(-10));
-		b.insert(new Integer(-13));
-		b.insert(new Integer(-12));
-		b.insert(new Integer(-1));
-		b.insert(new Integer(-2));
-		b.insert(new Integer(-5));
-		b.insert(new Integer(-7));
-		b.insert(new Integer(-9));
+		b.insert(new Integer(60));
+		b.insert(new Integer(40));
+		b.insert(new Integer(30));
 		b.printTree();
 
-		System.out.println("------------- removing 48 ");
-		b.remove(new Integer(48) );
+		System.out.println("------------- removing 43 ");
+		b.remove(new Integer(43) );
 		b.printTree();
-		System.out.println("------------- removing -10 ");
-		b.remove(new Integer(-10) );
+
+		System.out.println("------------- removing 26 ");
+		b.remove(new Integer(26) );
 		b.printTree();
-		System.out.println("------------- removing -2 ");
-		b.remove(new Integer(-2) );
-		b.printTree();
+
+		//System.out.println("------------- removing -10 ");
+		//b.remove(new Integer(-10) );
+		//b.printTree();
+		//System.out.println("------------- removing -2 ");
+		//b.remove(new Integer(-2) );
+		//b.printTree();
 	}
 }
 
@@ -84,7 +101,7 @@ class BinarySearchTree {
 		public BinaryNode getRight() { return this.right; }
 
 		public void setLeft(BinaryNode newChild) { this.left = newChild; }
-		public void setRight(BinaryNode newChild) { this.left = newChild; }
+		public void setRight(BinaryNode newChild) { this.right = newChild; }
 	}
 
 
@@ -150,7 +167,14 @@ class BinarySearchTree {
 			// perform visit action on this node
 			System.out.println(space(4*depth)+node);
 			// perform visit action on this node's children
+			if(node.getLeft()!=null) { 
+				System.out.println(space(4*(depth+1))+"L child:");
+			}
 			printTree_r(node.getLeft(),  depth+1);
+
+			if(node.getRight()!=null) { 
+				System.out.println(space(4*(depth+1))+"R child:");
+			}
 			printTree_r(node.getRight(), depth+1);
 		}
 
@@ -345,47 +369,35 @@ class BinarySearchTree {
 	 *  x is item to remove. node is root of subtree. 
 	 * */
 	private void remove_r(Integer x, BinaryNode node) { 
-		// Don't deal with the null case - 
-		// once we get a null pointer,
-		// we are losing track of what pointed to us.
-		// (this is the pitfall of following a c++ book.)
-		// we can't modify the memory contents directly. 
-		// modify the parent pointers.
+		// Removal of node from binary tree must deal with a few cases:
+		// - Empty tree case (dealt with above)
+		// - Null node case (did not find)
+		// - Keep going case (our key is not equal to node's key)
+		// - 0 children
+		// - 1 child
+		// - 2 children 
 		//
-		// to remove the element,
-		// we need a pointer to its parent, 
-		// so we can release it and have it point 
-		// at the (correct) new thing.
-		// (root parent is a special/weird case.)
-		//
-		// We don't want to check if we have the element to remove - 
-		// we want to check if we have the parent of the element to remove. 
-		//
-		// But...
-		// Is left the element we want to remove?
-		// Is right the element we want to remove?
-		// These seem like the wrong question.
+		// To remove the element, need a pointer to its parent,
+		// then we decide whether to attach anything.
 
-
+		System.out.println("Removing integer " + x + " from node " + node);
+		System.out.println("    node.left = "+node.getLeft());
+		System.out.println("    node.right = "+node.getRight());
 
 		if(node==null) { 
-			System.out.println("Removing nothin from null");
 			// Item not found, return nothing to caller
 			return;
 		} 
 
 		if( x < node.getElement() ) { 
-
 			// Not equal, keep removing left
 			if(node.left==null) { 
 				return;
 			} else {
-				System.out.println("Keep removing to the left... "+node+" -> "+node.left);
 				remove_r(x, node.left);
 			}
 
 		} else if( x > node.getElement() ) {
-
 			// Not equal, keep removing right
 			if(node.right==null) { 
 				return;
@@ -393,35 +405,43 @@ class BinarySearchTree {
 				remove_r(x, node.right);
 			}
 
-		} else if(node.getLeft()!=null && node.getRight()!=null) {
-			// Equal: two children case.
-			// Find smallest value in right subtree,
-			// set current node value to it.
-			System.out.println("Removing: 2-kid case.");
-			BinaryNode min = findMin(node.getRight());
-			Integer eradicate = min.getElement();
-			node.setElement(eradicate); // set this node equal to min
-			remove_r(eradicate, node.getRight()); // remove min from subtree
-			size--;
-
 		} else {
-			System.out.println("Removing: 1-kid case. " + node);
-			node = null;
 
-			//// H
-			////
-			////
-			////
-			//// Equal: one child case
-			//// Pick left or right.
-			//if(node.getLeft()==null) { 
-			//	node = node.getRight();
-			//} else {
-			//	node = node.getLeft();
-			//}
+			// We found our node
 
-			size--;
-		}
+			if(node.getLeft()!=null && node.getRight()!=null) {
+				System.out.println("Found our node: two children case.");
+				// Equal: two children case.
+				// Find smallest value in right subtree,
+				// set current node value to it.
+				BinaryNode replacement = findMin(node.getRight());
+				System.out.println("Replacing "+node+" with: " + replacement);
+				Integer replacementVal = replacement.getElement();
+				node.setElement(replacementVal); // set this node equal to replacement value
+				remove_r(replacementVal, node.getRight()); // remove this node from subtree
+				size--;
+
+			} else if(node.getLeft()==null && node.getRight()==null) { 
+				System.out.println("Found our node: no children case.");
+				// Removing a node with no children 
+				node = null;
+				size--;
+
+			} else {
+				System.out.println("Found our node: one child case.");
+				// Removing a node with one child.
+				// Doing so without the parent pointer.
+				if(node.getLeft()==null) { 
+					node.setElement( node.getRight().getElement() );
+					node.setRight( node.getRight().getRight() );
+				} else {
+					node.setElement( node.getLeft().getElement() );
+					node.setLeft( node.getLeft().getLeft() );
+				}
+				size--;
+			}
+
+		}// end found 
 	}
 
 
