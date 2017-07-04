@@ -56,21 +56,12 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 
 
 
-	// Dummy rebalance method.
-	public void rebalance(Node<E> node) {
-		return; 
-	}
-
-
-
-
-
 	// Non-recursive versions of findMin/findMax:
 
 	/** Private method that returns the smallest element in the tree.
 	 * This assumes the tree is sorted. It returns the left-most node.
 	 * */
-	private Node<E> findMin(Node<E> node) { 
+	protected Node<E> findMin(Node<E> node) { 
 		if(node!=null) { 
 			while(node.getLeft() != null) {
 				node = node.getLeft();
@@ -82,7 +73,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 	/** Private method that returns the largest element in the tree. 
 	 * This assumes the tree is sorted. It returns the right-most node.
 	 * */
-	private Node<E> findMax(Node<E> node) { 
+	protected Node<E> findMax(Node<E> node) { 
 		if(node!=null) { 
 			while(node.getRight() != null) {
 				node = node.getRight();
@@ -98,7 +89,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 	/** Private method that returns the smallest element in the tree, recursively.
 	 * This assumes the tree is sorted.
 	 * */
-	private Node<E> findMin_r(Node<E> node) { 
+	protected Node<E> findMin_r(Node<E> node) { 
 		if(node==null){
 			// base case: we're nobody
 			return null;
@@ -116,7 +107,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 	/** Private method that returns the largest element in the tree, recursively. 
 	 * This assumes the tree is sorted.
 	 * */
-	private Node<E> findMax_r(Node<E> node) { 
+	protected Node<E> findMax_r(Node<E> node) { 
 		if(node==null){
 			// base case: we're nobody
 			return null;
@@ -147,7 +138,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 			if(node.getLeft()==null) { 
 				node.setLeft(new Node<E>(x,null,null,null));
 				size++;
-				rebalance(node);
 			} else {
 				insert_r(x, node.getLeft());
 			}
@@ -158,7 +148,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 			if(node.getRight()==null) { 
 				node.setRight(new Node<E>(x,null,null,null));
 				size++;
-				rebalance(node);
 			} else {
 				insert_r(x, node.getRight());
 			}
@@ -214,7 +203,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 	 *
 	 *  target is item to remove. node is the node to remove from
 	 * */
-	private E remove_r(E x, Node<E> node) {
+	protected E remove_r(E x, Node<E> node) {
 
 		if(node==null) { 
 			// Item not found, return nothing to caller
@@ -254,7 +243,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 				remove_r(replacementVal, node.getRight()); // remove this node from subtree
 
 				size--;
-				rebalance(node.getParent());
 				return doomed;
 
 			} else if(node.getLeft()==null && node.getRight()==null) { 
@@ -263,7 +251,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 				node = null;
 				
 				size--;
-				rebalance(node.getParent());
 				return doomed;
 
 			} else {
@@ -292,7 +279,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends LinkedBinTree<E> 
 
 				}
 				size--;
-				rebalance(node.getParent());
 				return doomed;
 
 			}

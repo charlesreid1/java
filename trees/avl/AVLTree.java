@@ -14,7 +14,7 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTree<E> {
 
 
 	public static void main(String[] args) { 
-		AVLTree<Integer> t = getFullTree(5);
+		AVLTree<Integer> t = getFullTree(3);
 		t.printTree();
 	}
 
@@ -32,6 +32,7 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTree<E> {
 		for(int i=0; i<Math.pow(2,n); i++) { 
 			t.insert( MIN + 5*i);// r.nextInt(MAX-MIN+1) );
 		}
+		t.remove(1005);
 		return t;
 	}
 
@@ -101,6 +102,7 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTree<E> {
 	 * propagated to nodes further up the tree.
 	 */
 	protected void rebalance(ANode<E> node) { 
+		System.out.println("Rebalancing tree.");
 		while(node != null) { 
 			// trivially 0 if new node
 			int oldHeight = node.getHeight();
@@ -136,6 +138,7 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTree<E> {
 
 	/** Re-link a parent and child node so they both reflect the correct relationship. */
 	protected void relink(Node<E> parent, Node<E> child, boolean isLeftChild) { 
+		System.out.println("Re-linking parent and child....");
 		// Set parent->child link
 		if(isLeftChild) {
 			parent.setLeft(child);
@@ -153,6 +156,7 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTree<E> {
 	 * Maintain binary search property throughout a rotation.
 	 */
 	protected void rotate(Node<E> node) { 
+		System.out.println("2-node rotation....");
 
 		boolean LEFT = true;
 		boolean RIGHT = false;
@@ -196,6 +200,8 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTree<E> {
 	/** Tri-Node Restructure: restructure this node, parent, and grandparent. 
 	 * */
 	protected ANode<E> restructure(ANode<E> node) { 
+		System.out.println("3-node restructuring....");
+
 		Node<E> x = node;
 		Node<E> y = x.getParent();
 		Node<E> z = y.getParent();
@@ -213,6 +219,132 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTree<E> {
 			return (ANode)x;
 		}
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//////////////////////////////////////////////////
+	// Why? because apparently Java is too stupid to know
+	// that when you call a method from another method,
+	// you should use the child version, not the parent version.
+	//
+	// So, trying to call a rotate method from the parent's 
+	// removal method, will always call the parent's implementation
+	// of that rotate method.
+	////////////////////////////////////////////////
+
+
+
+	/** Private recursive removal operation. 
+	 *  As with many data structures,
+	 *  removal is tricky.
+	 *
+	 *  If node is a leaf - delete immediately.
+	 *  If the node has one child - adjust parent's link to bypass to child.
+	 *  If the node has two children:
+	 *  - Replace the data of this node with smallest data of right subtree.
+	 *  - Recursively delete that node, which is now empty.
+	 *  - Smallest node in right subtree cannot have left child
+	 *
+	 *  target is item to remove. node is the node to remove from
+	 * */
+	protected E remove_r(E x, Node<E> node) {
+
+		if(node==null) { 
+			// Item not found, return nothing to caller
+			return null;
+		} 
+
+		if(x.compareTo(node.getElement())<0) {
+			// Not equal, keep removing left
+			if(node.getLeft()==null) { 
+				// bork
+				return null;
+			} else {
+				return remove_r(x, node.getLeft());
+			}
+
+		} else if(x.compareTo(node.getElement())>0) {
+			// Not equal, keep removing right
+			if(node.getRight()==null) { 
+				// bork
+				return null;
+			} else {
+				return remove_r(x, node.getRight());
+			}
+
+		} else {
+
+			// We found our node
+
+			if(node.getLeft()!=null && node.getRight()!=null) {
+				// Equal: two children case.
+				// Find smallest value in right subtree,
+				// set current node value to it.
+				Node<E> replacement = findMin(node.getRight());
+				E replacementVal = replacement.getElement();
+				E doomed = node.getElement();
+				node.setElement(replacementVal); // set this node equal to replacement value
+				remove_r(replacementVal, node.getRight()); // remove this node from subtree
+
+				size--;
+				rotate(node);
+				return doomed;
+
+			} else if(node.getLeft()==null && node.getRight()==null) { 
+				// Removing a node with no children 
+				E doomed = node.getElement();
+				node = null;
+				
+				size--;
+				rotate(node);
+				return doomed;
+
+			} else {
+				// Removing a node with one child.
+				// Doing so without the parent pointer.
+				E doomed;
+				if(node.getLeft()==null) { 
+
+					doomed = node.getElement();
+
+					E newElement = node.getRight().getElement();
+					Node<E> newRight = node.getRight().getRight();
+
+					node.setElement(newElement);
+					node.setRight(newRight);
+
+				} else {
+
+					doomed = node.getElement();
+
+					E newElement = node.getLeft().getElement();
+					Node<E> newLeft = node.getLeft().getLeft();
+
+					node.setElement(newElement);
+					node.setLeft(newLeft);
+
+				}
+				size--;
+				rotate(node);
+				return doomed;
+
+			}
+
+		}// end found 
+
+	}
+
 
 }
 
