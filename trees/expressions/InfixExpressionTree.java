@@ -1,6 +1,6 @@
 import java.util.*;
 /** 
- * Expression Tree.
+ * Infix Expression Tree.
  *
  * This class processes parenthetical infix expressions like
  *
@@ -12,7 +12,7 @@ import java.util.*;
  * It parses the expression and builds an ExpressionTree
  * to represent it.
  */
-public class ExpressionTree { 
+public class InfixExpressionTree { 
 
 
 	// Main method
@@ -210,6 +210,7 @@ public class ExpressionTree {
 					if(peek.right==null) { 
 						peek.right = top;
 					}
+					// else??
 				}
 			}
 		}
