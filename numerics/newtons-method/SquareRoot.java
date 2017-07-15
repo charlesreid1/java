@@ -35,8 +35,7 @@ public class SquareRoot {
 	 */
 	public static double nmsqrttol(double a, double x0, double tol) { 
 		double xi, xip1, err;
-		xi = x0;
-		xip1 = x0;
+		xi = xip1 = x0;
 		err = x0;
 		while(err > tol) { 
 			xip1 = xi - (xi*xi-a)/(2*xi);
