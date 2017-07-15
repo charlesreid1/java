@@ -1,8 +1,65 @@
+import java.io.*;
+import java.util.*;
+
 public class SquareRoot {
 	public static void main(String[] args) { 
-		System.out.println(Math.sqrt(2));
-		testIters();
-		testTol();
+		//System.out.printf("Actual square root = %.16f\n",Math.sqrt(2));
+		//testIters();
+		//testTol();
+		//testAccuracy();
+		testTime();
+	}
+
+
+	/** Time Newton's Method.
+	 *
+	 * How long does it take to achieve 10 digits of accuracy? */
+	public static void testTime() { 
+		int Nops = 10000000;
+		double a = 2;
+		double initialGuess = 1;
+		double tol = 1E-10;
+		Tim tim = new Tim();
+		tim.tic();
+		for(int i=0; i<Nops; i++) { 
+			nmsqrttol(a, initialGuess, tol);
+		}
+		tim.toc();
+		double time = 1000*tim.elapsedms()/Nops;
+		System.out.println("Time (ms) per 1k operations: "+time);
+	}
+
+
+	/** Test Newton's Method for accuracy. */
+	public static void testAccuracy() {
+		try {
+
+			// Get 10,000 digits of sqrt(2)
+			Scanner s = new Scanner(new BufferedReader(new FileReader("sqrt2.txt")));
+			String correct = "";
+			if(s.hasNextLine()) { 
+				correct = s.nextLine();
+			}
+
+			// Now compute sqrt(2) using our method
+			double a = 2.0;
+			double initialGuess = 1.0;
+
+			String computed;
+			double tol = 1;
+			for(int i=0; i<14; i++) {
+				tol /= 10;
+				computed = Double.toString(nmsqrttol(a, initialGuess, tol)) ;
+
+				// Now find length of longest common substring, and discount "1."
+				int common = commonSubstring(correct, computed) - 2;
+				System.out.printf("Tolerance = %.1g\t\tNumber of accurate digits = %d\n", tol, common);
+			}
+
+
+		} catch(FileNotFoundException e) {
+			return;
+		}
 	}
 
 	/** Test Newton's Method specifying tolerance. */
@@ -13,7 +70,8 @@ public class SquareRoot {
 		System.out.println("Testing Newton's Method, Specifying Tolerance:");
 		for(int i=0; i<8; i++) {
 			tol /= 10;
-			System.out.println(nmsqrttol(n, initialGuess, tol));
+			System.out.printf("%.1g\t\t%.16f\n", tol, nmsqrttol(n, initialGuess, tol)) ;
+			//System.out.println(nmsqrttol(n, initialGuess, tol));
 		}
 	}
 
@@ -26,6 +84,45 @@ public class SquareRoot {
 			System.out.println(nmsqrt(n, initialGuess, nsteps));
 		}
 	}
+
+
+	/** Compute the length of the longest common substring of two strings. */
+	public static int commonSubstring(String first, String second) {
+	    if (first == null || second == null || first.length() == 0 || second.length() == 0) {
+	        return 0;
+	    }
+	
+	    int maxLen = 0;
+	    int fl = first.length();
+	    int sl = second.length();
+	    int[][] table = new int[fl][sl];
+	
+	    for (int i = 0; i < fl; i++) {
+	        for (int j = 0; j < sl; j++) {
+	            if (first.charAt(i) == second.charAt(j)) {
+	                if (i == 0 || j == 0) {
+	                    table[i][j] = 1;
+	                }
+	                else {
+	                    table[i][j] = table[i - 1][j - 1] + 1;
+	                }
+	                if (table[i][j] > maxLen) {
+	                    maxLen = table[i][j];
+	                }
+	            }
+	        }
+	    }
+	    return maxLen;
+	}
+
+
+
+
+	//////////////////////////////////////////////////////////
+	//
+	// Begin Newton's Method Code Begins Here
+	//
+
 
 	/** Compute a square root using Newton's Method, to a specified tolerance.
 	 *
