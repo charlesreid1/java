@@ -445,7 +445,7 @@ public class SkipList<T extends Comparable<T>> {
 		while(strider != null) { 
 			if( strider.compareTo(dummyTarget) == 0 ){
 				// Strider is pointing at the right node,
-				// so we want to returnt the previous one.
+				// so we want to return the previous one.
 				LevelNodeTuple<T> tuple = new LevelNodeTuple<T>(level,node);
 				return tuple;
 			} else if( strider.compareTo(dummyTarget)>=1 ) {
