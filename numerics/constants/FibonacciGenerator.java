@@ -13,19 +13,16 @@ public class FibonacciGenerator implements NumberGenerator {
 
 	protected static final BigInteger ONE = BigInteger.ONE;
 
-	// Starting values
-	// Change to get a Lucas number/general Fib. number
-	protected int F0 = 1;
-	protected int F1 = 1;
-
 	protected Queue<BigInteger> F_k;
 
 	public FibonacciGenerator() { 
-		F_k = new LinkedList<BigInteger>();
-		// Seed with starting values
-		F_k.add( BigInteger.valueOf(F0) );
-		F_k.add( BigInteger.valueOf(F1) );
+		this.F_k = new LinkedList<BigInteger>();
+		this.F_k.add( BigInteger.valueOf(getF0()) );
+		this.F_k.add( BigInteger.valueOf(getF1()) );
 	}
+
+	public int getF0() { return 1; }
+	public int getF1() { return 1; }
 
 	public boolean hasNext() {
 		return true;
