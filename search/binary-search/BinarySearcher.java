@@ -141,7 +141,6 @@ public class BinarySearcher<T extends Comparable<T>> {
 		// Start by defining your lo/hi index
 		int lo = 0;
 		int hi = data.length-1;
-
 		int mid = (data.length)/2;
 
 		// Can use while loop, or recursive structure
@@ -162,9 +161,6 @@ public class BinarySearcher<T extends Comparable<T>> {
 
 		// Above loop won't stop, 
 		// we always get here.
-		//
-		// Add 1 to get to the first occurrence
-		// of target in data array.
 		return hi; 
 	}
 
@@ -178,7 +174,6 @@ public class BinarySearcher<T extends Comparable<T>> {
 		// Start by defining your lo/hi index
 		int lo = 0;
 		int hi = data.length-1;
-
 		int mid = (data.length)/2;
 
 		// Can use while loop, or recursive structure
@@ -197,8 +192,7 @@ public class BinarySearcher<T extends Comparable<T>> {
 			}
 		}
 
-		// Return lo instead of mid. mid is not up to date.
-		return lo+1;
+		return lo;
 	}
 
 }
