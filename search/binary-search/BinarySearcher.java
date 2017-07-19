@@ -117,12 +117,12 @@ public class BinarySearcher<T extends Comparable<T>> {
 		// Use a modified binary search to find the left/right boundaries
 		int left, right;
 		left = binaryLeftBoundarySearch(target);
-		System.out.println(left);
+		System.out.println("Left boundary: " +left);
 		if(left<0) { 
 			return 0;
 		} else {
 			right = binaryRightBoundarySearch(target);
-			System.out.println(right);
+			System.out.println("Right boundary: "+right);
 			return right-left+1;
 		}
 	}
@@ -142,8 +142,6 @@ public class BinarySearcher<T extends Comparable<T>> {
 		int lo = 0;
 		int hi = data.length-1;
 
-		// Mid gets defined here because it will become  
-		// the insertion index if we don't find target
 		int mid = (data.length)/2;
 
 		// Can use while loop, or recursive structure
@@ -181,13 +179,10 @@ public class BinarySearcher<T extends Comparable<T>> {
 		int lo = 0;
 		int hi = data.length-1;
 
-		// Mid gets defined here because it will become  
-		// the insertion index if we don't find target
 		int mid = (data.length)/2;
 
 		// Can use while loop, or recursive structure
 		while(lo<hi) { 
-			System.out.println("lo = "+lo+" hi = "+hi);
 
 			// Need to re-define mid each time
 			mid = (lo+hi)/2;

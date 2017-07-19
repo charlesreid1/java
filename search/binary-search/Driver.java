@@ -61,52 +61,23 @@ public class Driver {
 		target = new BigInteger("99999");
 		System.out.println( "Searching for 99999 (should not be found): "+b3.binarySearchRecursive(target));
 
+		System.out.println();
+
 		target = new BigInteger("11");
-		System.out.println( "Searching for 11 (should be found): "  + b3.binarySearchRecursive(target));
+		System.out.println( "Binary search for 11: " + b3.binarySearch(target) );
+		System.out.println( "Searching for left boundary of 11: "  + b3.binaryLeftBoundarySearch(target));
+		System.out.println( "Searching for left boundary of 11: "  + b3.binaryRightBoundarySearch(target));
 		System.out.println( "Counting duplicates of 11: " + b3.countDuplicates(target));
+
+		target = new BigInteger("1789");
+		System.out.println( "Binary search for 1789: " + b3.binarySearch(target) );
+		System.out.println( "Searching for left boundary of 1789: "  + b3.binaryLeftBoundarySearch(target));
+		System.out.println( "Searching for right boundary of 1789: "  + b3.binaryRightBoundarySearch(target));
+		System.out.println( "Counting duplicates of 1789: " + b3.countDuplicates(target));
 
 
 
 		System.out.println("\n--------------------------------\n");
-
-		/*
-		class Point implements Comparable<Point> {
-			public int x, y;
-			public Point(int x, int y) { 
-				this.x = x;
-				this.y = y;
-			}
-			public int compareTo(Point o) { 
-				if(this.x<o.x) { 
-					return -1;
-				} else if(this.x>o.x) { 
-					return 1;
-				} else {
-					if(this.y<o.y) { 
-						return -1;
-					} else if(this.y>o.y) { 
-						return 1;
-					} else {
-						return 0;
-					}
-				}
-			}
-		}
-		int n = 10;
-		Point[] points = new Point[n];
-		points[0] = new Point(1,1);
-		points[1] = new Point(2,3);
-		points[2] = new Point(8,4);
-		points[3] = new Point(3,7);
-		points[4] = new Point(7,3);
-		points[5] = new Point(1,1);
-		points[6] = new Point(2,5);
-		points[7] = new Point(5,6);
-		points[8] = new Point(1,1);
-		points[9] = new Point(2,1);
-		Arrays.sort(points);
-		BinarySearcher<Point> b3 = new BinarySearcher<>(points);
-		*/
 
 	}
 }

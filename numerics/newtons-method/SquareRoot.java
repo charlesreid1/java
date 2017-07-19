@@ -15,18 +15,40 @@ public class SquareRoot {
 	 *
 	 * How long does it take to achieve 10 digits of accuracy? */
 	public static void testTime() { 
-		int Nops = 10000000;
-		double a = 2;
-		double initialGuess = 1;
-		double tol = 1E-10;
-		Tim tim = new Tim();
+
+		int Nops;
+		double a;
+		double initialGuess;
+		double tol;
+		double time;
+
+		Tim tim;
+
+		Nops = 10000000;
+		a = 2;
+		initialGuess = 1;
+		tol = 1E-8;
+		tim = new Tim();
 		tim.tic();
 		for(int i=0; i<Nops; i++) { 
 			nmsqrttol(a, initialGuess, tol);
 		}
 		tim.toc();
-		double time = 1000*tim.elapsedms()/Nops;
-		System.out.println("Time (ms) per 1k operations: "+time);
+		time = 1000*tim.elapsedms()/Nops;
+		System.out.println("Newton's Method Time (ms) per 1k operations: "+time);
+
+
+		Nops = 10000000;
+		a = 2;
+		tim = new Tim();
+		tim.tic();
+		for(int i=0; i<Nops; i++) { 
+			Math.sqrt(a);
+		}
+		tim.toc();
+		time = 1000*tim.elapsedms()/Nops;
+		System.out.println("Math Library Time (ms) per 1k operations: "+time);
+
 	}
 
 
