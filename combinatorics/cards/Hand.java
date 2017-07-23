@@ -90,7 +90,7 @@ public class Hand implements Iterable<Card> {
 		hand.add(k);
 	}
 
-	public Iterator iterator() {
+	public Iterator<Card> iterator() {
 		return hand.iterator();
 	}
 }
