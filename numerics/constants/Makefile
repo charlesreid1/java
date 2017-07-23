@@ -1,7 +1,5 @@
-fib:
-	javac FibonacciNumbers.java && java FibonacciNumbers
-lucas:
-	javac LucasNumbers.java && java LucasNumbers
+default:
+	javac MakeNumbers.java && java MakeNumbers
 fermat:
 	javac FermatNumbers.java && java FermatNumbers
 clean:

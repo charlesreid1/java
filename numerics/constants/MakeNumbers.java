@@ -9,9 +9,41 @@ public class MakeNumbers {
 	public static void main(String[] args) { 
 		//testFib();
 		//testLucas();
+		runGeneral();
+
 		//runFib();
 		//runLucas();
 	}
+
+
+	public static void runGeneral() { 
+		int a = 1;
+		int b = 3;
+		int n = 100;
+
+		NumberGenerator fibGen = new GeneralFibonacciGenerator(a,b);
+		BigInteger fibn = ONE;
+
+		for(int i=1; i<=n; i++) { 
+			fibn = fibGen.next();
+			System.out.printf("GF(%d,%d,%d) = %s \n", a, b, i, fibn.toString());
+		}
+	}
+
+	public static BigInteger maxGeneral(int a, int b, int MAX) {
+		if(MAX<1) { 
+			throw new IllegalArgumentException("MAX should be 1 or more.");
+		}
+		NumberGenerator fibGen = new GeneralFibonacciGenerator(a,b);
+		BigInteger fibn = fibGen.next();
+		System.out.println(fibn);
+		while(fibGen.peek().compareTo(BigInteger.valueOf(MAX))<0) { 
+			fibn = fibGen.next();
+		}
+		return fibn;
+	}
+
+
 
 
 
@@ -108,3 +140,4 @@ public class MakeNumbers {
 		}
 		return fibn;
 	}
+}

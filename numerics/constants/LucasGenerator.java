@@ -1,7 +1,3 @@
-import java.math.BigInteger;
-import java.util.Queue;
-import java.util.LinkedList;
-
 /** 
  * Lucas Number Generator.
  *

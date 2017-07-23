@@ -21,6 +21,12 @@ public class FibonacciGenerator implements NumberGenerator {
 		this.F_k.add( BigInteger.valueOf(getF1()) );
 	}
 
+	protected FibonacciGenerator(int a, int b) { 
+		this.F_k = new LinkedList<BigInteger>();
+		this.F_k.add( BigInteger.valueOf(a) );
+		this.F_k.add( BigInteger.valueOf(b) );
+	}
+
 	public int getF0() { return 1; }
 	public int getF1() { return 1; }
 
