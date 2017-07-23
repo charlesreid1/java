@@ -38,6 +38,28 @@ public class Hand {
 		return false;
 	}
 
+	/** Integer: count the number of occurrences of this suit in the hand. */
+	public int countSuit(char s) { 
+		int count = 0;
+		for(int i=0; i<hand.length; i++) { 
+			if(hand[i].getSuit()==s) { 
+				count++;
+			}
+		}
+		return count;
+	}
+
+	/** Integer: count the number of occurrences of this face value in the hand. */
+	public int countFace(char f) { 
+		int count = 0;
+		for(int i=0; i<hand.length; i++) { 
+			if(hand[i].getFace()==f) { 
+				count++;
+			}
+		}
+		return count;
+	}
+
 	/** String representation of this hand. */
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
