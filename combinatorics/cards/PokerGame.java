@@ -18,20 +18,23 @@ public class PokerGame {
 
 	public static void test() { 
 		Deck d = new Deck();
-		d.shuffle();
 
-		Hand h;
-		
-		h = d.hand(5);
-		PokerHand h1 = new PokerHand(h);
+		for(int c=0; c<3; c++) { 
 
-		h = d.hand(5);
-		PokerHand h2 = new PokerHand(h);
+			int M = 1000000;
+			int player1 = 0;
+			for(int i=0; i<M; i++) { 
+				Hand h;
+				d.shuffle();
+				PokerHand h1 = new PokerHand(d.hand(5));
+				PokerHand h2 = new PokerHand(d.hand(5));
+				if(h1.compareTo(h2)>0) { 
+					player1++;
+				}
+			}
+			System.out.printf("Result of experiment: Player 1 wins %d / %d = %.5f \n",player1,M,(1.0*player1)/M);
 
-		System.out.println("Hand 1: "+h1);
-		System.out.println("Hand 2: "+h2);
-
-		System.out.println(h1.compareTo(h2));
+		}
 	}
 }
 
