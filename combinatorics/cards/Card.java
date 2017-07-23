@@ -4,7 +4,8 @@
  * This represents the card with two characters.
  */
 public class Card {
-	char s, f;
+	protected char s, f;
+	//protected final char s, f;
 
 	/** Card object. */
 	public Card(char f, char s) { 

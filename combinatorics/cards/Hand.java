@@ -1,3 +1,7 @@
+import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * A hand stores Card objects.
  *
@@ -5,23 +9,30 @@
  * the hand is just an array of pointers
  * to Card objects.
  */
-public class Hand {
-	Card[] hand;
+public class Hand implements Iterable<Card> {
+
+	// The list of five Cards that are dealt to a given player
+	List<Card> hand; 
+
+	// Final cards that matter to the outcome of the game
+	List<Card> finallyhand; 
+
 	int top = 0;
 	int size;
 
 	/** Constructor just takes a size - add cards using the add() method. */
 	public Hand(int size) { 
 		this.size = size;
-		hand = new Card[size];
+		hand = new ArrayList<Card>();
+		finallyhand = new ArrayList<Card>();
 	}
 
 	public int size() { return this.size; }
 
 	/** Boolean: does this hand contain a card of this suit? */
 	public boolean hasSuit(char f) { 
-		for(int i=0; i<hand.length; i++) { 
-			if(hand[i].getFace()==f) { 
+		for(int i=0; i<hand.size(); i++) { 
+			if(hand.get(i).getFace()==f) { 
 				return true;
 			}
 		}
@@ -30,8 +41,8 @@ public class Hand {
 
 	/** Boolean: does this hand contain a card of this face value? */
 	public boolean hasFace(char f) { 
-		for(int i=0; i<hand.length; i++) { 
-			if(hand[i].getFace()==f) { 
+		for(int i=0; i<hand.size(); i++) { 
+			if(hand.get(i).getFace()==f) { 
 				return true;
 			}
 		}
@@ -41,8 +52,8 @@ public class Hand {
 	/** Integer: count the number of occurrences of this suit in the hand. */
 	public int countSuit(char s) { 
 		int count = 0;
-		for(int i=0; i<hand.length; i++) { 
-			if(hand[i].getSuit()==s) { 
+		for(int i=0; i<hand.size(); i++) { 
+			if(hand.get(i).getSuit()==s) { 
 				count++;
 			}
 		}
@@ -52,8 +63,8 @@ public class Hand {
 	/** Integer: count the number of occurrences of this face value in the hand. */
 	public int countFace(char f) { 
 		int count = 0;
-		for(int i=0; i<hand.length; i++) { 
-			if(hand[i].getFace()==f) { 
+		for(int i=0; i<hand.size(); i++) { 
+			if(hand.get(i).getFace()==f) { 
 				count++;
 			}
 		}
@@ -64,9 +75,9 @@ public class Hand {
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("< ");
-		for(int i=0; i<hand.length; i++) { 
-			sb.append(hand[i]);
-			if(i!=hand.length-1) { 
+		for(int i=0; i<hand.size(); i++) { 
+			sb.append(hand.get(i));
+			if(i!=hand.size()-1) { 
 				sb.append(", ");
 			}
 		}
@@ -76,11 +87,10 @@ public class Hand {
 
 	/** Add a card to this hand. */
 	public void add(Card k) { 
-		if(top<size) { 
-			hand[top] = k;
-			top++;
-		} else {
-			throw new IllegalStateException("Full hand of size "+this.size);
-		}
+		hand.add(k);
+	}
+
+	public Iterator iterator() {
+		return hand.iterator();
 	}
 }
