@@ -8,7 +8,21 @@ import java.util.HashSet;
 
 /** Poker Hand class.
  *
- * This class represents a hand of 5-card poker.
+ * Utility class representing a hand for 5-card poker.
+ * This implements a comparator that detects
+ * the following types of hands:
+ *
+ * High Card: Highest value card.
+ * One Pair: Two cards of the same value.
+ * Two Pairs: Two different pairs.
+ * Three of a Kind: Three cards of the same value.
+ * Straight: All cards are consecutive values.
+ * Flush: All cards of the same suit.
+ * Full House: Three of a kind and a pair.
+ * Four of a Kind: Four cards of the same value.
+ * Straight Flush: All cards are consecutive values of same suit.
+ * Royal Flush: Ten, Jack, Queen, King, Ace, in same suit.
+ *
  */
 
 public class PokerHand implements Iterable, Comparable<PokerHand> { 
@@ -190,6 +204,8 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 			values.add(c.getFace());
 		}
 		this.nValues = values.size();
+		System.out.println("Counted values: "+nValues);
+		System.out.println("Showing values: "+values);
 	}
 
 	/** Count pairs. */
@@ -253,9 +269,39 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 
 	/////////////////////////////////////////////////
 	// Here is the meat of the class.
+	//
+
+
+	/** Get string indicating outcome. */
+	public int getOutcome() {
+		// Check in order of rank:
+		// royal flush
+		if(hasRoyalFlush()) { 
+			return indexOf(OUTCOMES,"royal flush");
+		} else if(hasFour()) { 
+			return indexOf(OUTCOMES,"four");
+		} else if(hasFullHouse()) { 
+			return indexOf(OUTCOMES,"full house");
+		} else if(hasFlush()) { 
+			return indexOf(OUTCOMES,"flush");
+		} else if(hasStraight()) { 
+			return indexOf(OUTCOMES,"straight");
+		} else if(hasThree()) { 
+			return indexOf(OUTCOMES,"three");
+		} else if(hasTwo()) {
+			return indexOf(OUTCOMES,"two");
+		} else if(hasOne()) { 
+			return indexOf(OUTCOMES,"one");
+		} else {
+			finallyhand = new ArrayList<Card>(hand);
+			return indexOf(OUTCOMES,"high");
+		}
+	}
+
+
 
 	/** Check for royal flush. */
-	public boolean hasRoyalFlush() { 
+	protected boolean hasRoyalFlush() { 
 		// Sort by face value
 		ValueComparator comp = new ValueComparator();
 		Collections.sort(hand, comp);
@@ -281,7 +327,7 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 	}
 
 	/** Check for straight flush - same suit cards in order. */
-	public boolean hasStraightFlush() { 
+	protected boolean hasStraightFlush() { 
 		// If we have a straight or a flush, these will take care of finallyhand for us.
 		if( hasStraight() && hasFlush() ) {
 			return true;
@@ -291,8 +337,8 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 	}
 
 	/** Four of a kind */
-	public boolean hasFour() { 
-		if(nValues==2 && nPairs==0){
+	protected boolean hasFour() { 
+		if(nValues==2 && nPairs==1){
 
 			// Only four of a kind cards should go in finallyhand
 			for(int i=0; i<hand.size(); i++) { 
@@ -317,7 +363,7 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 	}
 
 	/** Full house. */
-	public boolean hasFullHouse() { 
+	protected boolean hasFullHouse() { 
 		if(nValues==2 && nPairs==1) {
 
 			// Only three of a kind cards should go in finallyhand
@@ -343,7 +389,7 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 	}
 
 	/** Check for flush - matching straights. */
-	public boolean hasFlush() {
+	protected boolean hasFlush() {
 		// Add suits to a set, size should be 1
 		Set<Character> suits = new HashSet<Character>();
 		for(Card c : hand) { 
@@ -358,7 +404,7 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 	}
 
 	/** Check for straight - cards in order. */
-	public boolean hasStraight() {
+	protected boolean hasStraight() {
 		// Sort by face value
 		ValueComparator comp = new ValueComparator();
 		Collections.sort(hand, comp);
@@ -399,7 +445,7 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 	}
 
 	/** Check for three pairs */
-	public boolean hasThree() { 
+	protected boolean hasThree() { 
 		if(nThrees>0) {
 
 			// Only three of a kind cards should go in finallyhand
@@ -425,7 +471,7 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 	}
 
 	/** Check for two pairs */
-	public boolean hasTwo() { 
+	protected boolean hasTwo() { 
 		if(nPairs==2) { 
 
 			// Only pair cards should go in finallyhand
@@ -451,7 +497,7 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 	}
 
 	/** Check for one pair */
-	public boolean hasOne() { 
+	protected boolean hasOne() { 
 		if(nPairs==1) { 
 
 			// Only pair cards should go in finallyhand
@@ -476,33 +522,6 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 		}
 	}
 
-
-
-	/** Get string indicating outcome. */
-	public int getOutcome() {
-		// Check in order of rank:
-		// royal flush
-		if(hasRoyalFlush()) { 
-			return indexOf(OUTCOMES,"royal flush");
-		} else if(hasFour()) { 
-			return indexOf(OUTCOMES,"four");
-		} else if(hasFullHouse()) { 
-			return indexOf(OUTCOMES,"full house");
-		} else if(hasFlush()) { 
-			return indexOf(OUTCOMES,"flush");
-		} else if(hasStraight()) { 
-			return indexOf(OUTCOMES,"straight");
-		} else if(hasThree()) { 
-			return indexOf(OUTCOMES,"three");
-		} else if(hasTwo()) {
-			return indexOf(OUTCOMES,"two");
-		} else if(hasOne()) { 
-			return indexOf(OUTCOMES,"one");
-		} else {
-			finallyhand = new ArrayList<Card>(hand);
-			return indexOf(OUTCOMES,"high");
-		}
-	}
 
 
 
