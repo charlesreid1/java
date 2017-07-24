@@ -1,7 +1,7 @@
 game:
-	javac PokerGame.java -Xlint:unchecked  && java PokerGame
+	javac PokerGame.java && java PokerGame
 aces:
-	javac CountAces.java -Xlint:unchecked  && java CountAces
+	javac CountAces.java && java CountAces
 hyper:
 	javac Hypergeometric.java && java Hypergeometric
 binom:

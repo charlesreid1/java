@@ -204,8 +204,6 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 			values.add(c.getFace());
 		}
 		this.nValues = values.size();
-		System.out.println("Counted values: "+nValues);
-		System.out.println("Showing values: "+values);
 	}
 
 	/** Count pairs. */
@@ -278,6 +276,8 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 		// royal flush
 		if(hasRoyalFlush()) { 
 			return indexOf(OUTCOMES,"royal flush");
+		} else if(hasStraightFlush()) { 
+			return indexOf(OUTCOMES,"straight flush");
 		} else if(hasFour()) { 
 			return indexOf(OUTCOMES,"four");
 		} else if(hasFullHouse()) { 
@@ -338,7 +338,7 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 
 	/** Four of a kind */
 	protected boolean hasFour() { 
-		if(nValues==2 && nPairs==1){
+		if(nValues==2 && nPairs==1 && nThrees==0){
 
 			// Only four of a kind cards should go in finallyhand
 			for(int i=0; i<hand.size(); i++) { 
@@ -364,7 +364,7 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 
 	/** Full house. */
 	protected boolean hasFullHouse() { 
-		if(nValues==2 && nPairs==1) {
+		if(nValues==2 && nPairs==1 && nThrees==1) {
 
 			// Only three of a kind cards should go in finallyhand
 			for(int i=0; i<hand.size(); i++) { 
@@ -412,10 +412,10 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 		// This is a bit messy, but basically it checks the index of each card
 		// and ensures that the next card has an index of previous - 1.
 		//
-		// Ace is a special case - it can either end a straight DJQKA,
+		// Ace is a special case - it can either end a straight TJQKA,
 		// or it can start a straight A2345.
 		// We have ace hard coded in the values index at the end,
-		// so it always behaves as expected with DJQKA.
+		// so it always behaves as expected with TJQKA.
 		// However, if we see an ace at the beginning, 
 		// we have to check if it's an ok start.
 
@@ -441,7 +441,6 @@ public class PokerHand implements Iterable, Comparable<PokerHand> {
 		}
 		finallyhand = new ArrayList<Card>(hand);
 		return true;
-			
 	}
 
 	/** Check for three pairs */
