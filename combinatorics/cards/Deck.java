@@ -14,24 +14,25 @@ public class Deck implements Iterable<Card> {
 	public static final char[] SUIT = {'S','C','D','H'};
 	public static final char[] FACE = {'2','3','4','5','6','7','8','9','T','J','Q','K','A'};
 
-	protected List<Card> elements;
+	public List<Card> elements;
 	protected Card[] deck;
 	protected int NCARDS = 52;
 	protected Random r;
 	int top;
+	int nDecks;
 
 
 	//////////////////////////////
 	// Tests
 
 	public static void main(String[] args) {
-		//testShuffle();
-		testIterator();
+		testShuffle();
+		//testIterator();
 	}
 
 	/** Test the shuffle method. */
 	public static void testShuffle() { 
-		Deck d = new Deck();
+		Deck d = new Deck(2);
 		System.out.println(d);
 		System.out.println("\nShuffling...\n");
 		d.shuffle();
@@ -43,10 +44,10 @@ public class Deck implements Iterable<Card> {
 		// Test deck iterator
 		System.out.println("Testing foreach...");
 		int i = 0;
-		Deck d = new Deck();
+		Deck d = new Deck(5);
 		for(Card c : d) { 
 			System.out.println(c);
-			if(i>10) { break; }
+			if(i>60) { break; }
 			i++;
 		}
 	}
@@ -57,17 +58,34 @@ public class Deck implements Iterable<Card> {
 	//////////////////////////////////////////
 	// Deck class
 
-	/** A deck of cards. */
+	/** A deck of cards. 
+	 *
+	 * Splitting init() into a separate function
+	 * is convoluted and illogical - thanks Java!
+	 * */
+	public Deck(int nDecks) {
+		this.nDecks = nDecks;
+		init();
+	}
+
 	public Deck() {
+		init();
+	}
+
+	public void init() { 
 		top = 0;
 		r = new Random();
 		elements = new ArrayList<Card>();
+		populate();
+	}
 
-		for(int f=0; f<FACE.length; f++) { 
-			//System.out.println("f = "+f);
-			for(int s=0; s<SUIT.length; s++) { 
-				Card c = new Card(FACE[f],SUIT[s]);
-				elements.add(c);
+	public void populate() {
+		for(int m=0; m<this.nDecks; m++) { 
+			for(int f=0; f<FACE.length; f++) { 
+				for(int s=0; s<SUIT.length; s++) { 
+					Card c = new Card(FACE[f],SUIT[s]);
+					elements.add(c);
+				}
 			}
 		}
 	}
@@ -76,6 +94,29 @@ public class Deck implements Iterable<Card> {
 	public Iterator<Card> iterator() {
 		return elements.iterator();
 	}
+
+	/** Static method: get the rank of this card face. 
+	 * Note: Ace comes last.
+	 */
+	public static int getFaceIndex(char f) { 
+		for(int i=0; i<FACE.length; i++) { 
+			if(f==FACE[i]) { 
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/** Static method: get the rank of this card suit. */
+	public static int getSuitIndex(char s) { 
+		for(int i=0; i<SUIT.length; i++) { 
+			if(s==SUIT[i]) { 
+				return i;
+			}
+		}
+		return -1;
+	}
+
 
 
 	///// //////////////////////
@@ -114,6 +155,19 @@ public class Deck implements Iterable<Card> {
 		for(int i=elements.size()-1; i>0; i--) { 
 			j = r.nextInt(i);
 			swap(elements,i,j);
+		}
+	}
+
+	/** Do a really bad shuffle. */
+	public void badShuffle() {
+		top = 0;
+		int j;
+		for(int i=elements.size()-1; i>0; i--) { 
+			// Randomly skip shuffling 
+			if(r.nextDouble()<0.20) { 
+				j = r.nextInt(i);
+				swap(elements,i,j);
+			}
 		}
 	}
 
