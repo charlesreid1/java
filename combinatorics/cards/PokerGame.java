@@ -14,8 +14,6 @@ public class PokerGame {
 
 	public static void main(String[] args) {
 		countHands();
-		//testFour();
-		//testStraightFlush();
 	}
 
 
@@ -24,11 +22,11 @@ public class PokerGame {
 		Deck d = new Deck();
 		String label = "straight flush";
 		int fh = Arrays.asList(PokerHand.OUTCOMES).indexOf(label);
-		for(int c=0; c<3; c++) { 
-			int M = 10000000;
+		for(int c=0; c<5; c++) { 
+			int M = 1000000;
 			int fhcount = 0;
 			for(int i=0; i<M; i++) { 
-				d.shuffle();
+				d.badShuffle();
 				PokerHand h = new PokerHand(d.hand(5));
 				if(h.getOutcome()==fh) {
 					fhcount++;
