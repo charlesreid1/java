@@ -23,7 +23,6 @@ import java.io.*;
  * w = width of track
  * h = height of track
  *
- * This solution implements simulated annealing.
  */
 public class RacingGems {
 
