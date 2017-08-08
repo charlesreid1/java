@@ -1,3 +1,5 @@
+skipmap:
+	javac SkipListMap.java && java SkipListMap
 skip:
 	javac SkipList.java && java SkipList
 bhash:
