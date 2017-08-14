@@ -28,11 +28,29 @@ We take the L(i) value and add one to it.
 
 We can do this with a 1D array.
 
-## Obtaining the Subsequence
+## Finding the Subsequence Length
 
-We can do the easy version, and just count the *length* of the 
-longest increasing subsequence, or we can keep track of more information
-and return the actual subsequence itself.
+Finding the *length* of the longest increasing subsequence 
+is not a particularly difficult problem, we just need a single 
+array to keep track of the length of the longest increasing
+subsequence occurring at each index.
 
-We will do both.
+## Find the Subsequence Itself
+
+To find the subsequence itself requires a little more trickery.
+Specifically, we need to work backwards. For each number in the 
+input array, we have the length of the longest subsequence.
+But we also need the index at which that longest subsequence left off.
+
+For example, if we were considering the sequence
+
+1 4 5 2 9 
+
+then when we get to the number 9 we should know to skip 2 
+and go backwards to 5. This is information that we obtain
+during the solution of the problem, we just have to save it 
+in an additional array. Then, when we get to the end, we can work
+backwards, and say the longest increasing subsequence ends with 9,
+and the second-to-last number is 5 (not 2).
+
 
