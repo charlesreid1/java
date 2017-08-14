@@ -36,7 +36,27 @@ public class Solitaire {
 	}
 
 
-	/** Count number of piles formed by increasing runs. */
+
+	/** Patience sorting algorithm.
+	 *
+	 * Scan each card in the deck and pile them into a linear array of piles.
+	 *
+	 * Rule 1: Each new card is placed at the top of an existing stack,
+	 * 			or it forms a new stack by itself positioned to the right of all other stacks.
+	 *
+	 * Rule 2: The stack on which a new card is placed is the left-most stack 
+	 * 		   from among those with a top number larger than the current card.
+	 * 		   If there are no such stacks, the card forms a new stack.
+	 */
+	public static void patienceSorting() {
+	}
+
+
+
+
+
+
+
 	public static void countPiles() { 
 		Map<Integer,Integer> m = new HashMap<Integer,Integer>();
 		Deck d = new Deck();
