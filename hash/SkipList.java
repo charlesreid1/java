@@ -1,3 +1,5 @@
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -106,7 +108,7 @@ public class SkipList<T extends Comparable<T>> {
 	 * The skip node is n object that represents a single node 
 	 * in a skip list. Nodes may have many neighbors.
 	 */
-    protected static class SkipNode<T extends Comparable<T>> {
+    public static class SkipNode<T extends Comparable<T>> {
 		// node at level i stores i+1 neighbors
 		//private ArrayList<SkipNode<T>> next;
 		private SkipNode<T>[] next;
@@ -189,11 +191,23 @@ public class SkipList<T extends Comparable<T>> {
 		this.randomSeed = seedGenerator.nextInt();
 	}
 
+	/** Get the head of the skip list. */
+	public SkipNode<T> getHead() {
+		return head;
+	}
+
+	/** Clear out the skip list. */
+	public void clear() { 
+		// Kill em all, let the garbage collector sort them out.
+		this.head = null;
+	}
+
+	/** Get size of skip list. */
 	public int size() { 
 		return this.size;
 	}
 
-	/** Pure magic. */
+	/** Pure WTF magic. */
     private int getRandom() {
         int x = randomSeed;
         x ^= x << 13;
@@ -477,6 +491,16 @@ public class SkipList<T extends Comparable<T>> {
 
 	}
 
+
+	public boolean contains(T value) { 
+		if(getNode(value)==null) { 
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+
 	/** Get the SkipNode corresponding to this value.
 	 * Lets getPredecessor do all the work. 
 	 * */
@@ -517,35 +541,15 @@ public class SkipList<T extends Comparable<T>> {
 
 
 
-
-
-	/*
-
-	// Phishman's methods:
-    public boolean add(T value) {};
-    protected Node<T> addValue(T value) {};
-
-    public boolean contains(T value) {};
-    protected Node<T> getNode(T value) {};
-    private NodeLevelPair<T> getPredecessor(T value) {};
-
-    public boolean remove(T value) {};
-    protected Node<T> removeValue(T value) {};
-
-    protected void swapNode(Node<T> node, Node<T> next) {};
-
-    public void clear() {};
-    public int size() {};
-    public boolean validate() {};
-
-    public java.util.Set<T> toSet() {};
-    public java.util.Collection<T> toCollection() {};
-    public String getString(T value, int level) {};
-
-	*/
-
-    public Iterator<T> iterator() {
-        return null;
+    public Iterator<SkipNode<T>> iterator() {
+		Set<SkipNode<T>> s = new HashSet<>();
+		SkipNode<T> strider = head; 
+		s.add(strider);
+		while(strider.getNext(0)!=null) { 
+			strider = strider.getNext(0);
+			s.add(strider);
+		}
+		return s.iterator();
     }
 
 }

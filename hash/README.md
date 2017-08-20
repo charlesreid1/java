@@ -329,4 +329,9 @@ Random numbers:
 * No idea what's going on with these random numbers and the bit stuffing.
 
 
+## Skip List Map
+
+This is only partially complete. The core object is finished, but getting the iterators, nodes, and 
+node type-casting (from value-only SkipNodes to key-value SkipListMapNodes) to work is a nightmare.
+
 
