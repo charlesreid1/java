@@ -1,7 +1,7 @@
 /**
  * Edge ADT.
  */
-public interface Edge<E> {
+public interface IEdge<E> {
 	/** Return element associated with this edge. */
 	public E getElement();
 }
