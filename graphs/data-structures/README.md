@@ -21,6 +21,7 @@ But to do that, we need a validate method that safely casts
 an interface `IVertex<V>` type to a class `Vertex<V>` type:
 
 ```
+  	@SuppressWarnings({"unchecked"})
   	private Vertex<V> validate(IVertex<V> v) {
   	  	if (!(v instanceof Vertex)) {
 			throw new IllegalArgumentException("Invalid vertex");
@@ -32,6 +33,7 @@ an interface `IVertex<V>` type to a class `Vertex<V>` type:
 		return vert;
 	}
 
+  	@SuppressWarnings({"unchecked"})
   	private Edge<E> validate(IEdge<E> e) {
   	  	if (!(e instanceof Edge)) {
 			throw new IllegalArgumentException("Invalid edge");
