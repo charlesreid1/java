@@ -13,60 +13,16 @@ import java.util.LinkedList;
  *
  */
 public class AdjMapGraph<V,E> implements IGraph<V,E> {
-
-   	// 
-   	// 
-   	// We are running into yet another problem with 
-   	// class organization and layout.
-   	// 
-   	// Putting Vertex and Edge class in separate places
-	// means the Vertex class cannot refer to an Edge instance,
-	// because it doesn't have a reference to E.
-	//
-	// Goodrich says Vertex and Edge classes "should" be 
-	// defined inside the AdjMapGraph class.
-	// It is clear now that that is because that's the 
-	// only way both the Edge and Vertex class will understand
-	// both V and E generic types.
-	//
-	// However, there are problems with THAT approach,
-	// specifically, it protects these classes by default,
-	// so that when we try to add vertices, 
-	// it returns a Vertex object, so we need to 
-	// have a way to get and assign a Vertex object
-	// (which we can't if we have a separate class
-	// with a driver to test out the Adjacency Map Graph).
-	//
-	// On the other hand, we could use the interfaces
-	// IVertex and IEdge, but then we have problems when we 
-	// try and create an edge, and pass in two IVertex 
-	// objects as the endpoints of the edge. The IVertex
-	// objects can't be automatically converted to 
-	// Vertex objects. They have to be cast as Vertex
-	// objects. Thus, we can either keep things simple 
-	// and validate every Vertex object, 
-	// or we can overcomplicate things by accepting
-	// either a Vertex or an IVertex object. (Seems stupid.)
-	//
-	// On the third hand, if we just try and power through and make
-	// the Vertex and Edge class public, we have to refer to it
-	// by saying AdjMapGraph.Vertex.
-	//
-	// Except, it actually gets worse. Because these both take 
-	// generic types, we actually have to refer to the Vertex class
-	// as AdjMapGraph<String,String>.Vertex<String>.
-	//
-	// This is a completely asinine waste of time.
-	// None of these issues are present in the abstraction,
-	// and the abstraction makes perfect sense.
-	// It isn't until you actually roll up your sleves 
-	// and try to DO SOMETHING with Java that you start to
-	// run into these idiotic speed bumps.
-	//
-	// FINAL SOLUTION:
-	//
-	// ...use python?
-
+	/*
+	 * Note on class organization and layout:
+	 * We were running into many, many problems
+	 * until we started to program to the interfaces
+	 * (IVertex and IEdge).
+	 * This required adding a validate method to turn
+	 * IVertex and IEdge instances into Vertex and Edge 
+	 * instances, when we needed to access the particulars
+	 * of the vertex/edge classes. 
+	 */
 
 
 	/**
@@ -77,16 +33,16 @@ public class AdjMapGraph<V,E> implements IGraph<V,E> {
 		// Not storing a position pointer
 		private V element;
 		private boolean isDirected;
-		private Map<Vertex<V>, Edge<E>> outgoing, incoming;
+		private Map<IVertex<V>, IEdge<E>> outgoing, incoming;
 	
 		public Vertex(V element, boolean isDirected) { 
 			this.element = element;
-			outgoing = new HashMap<Vertex<V>, Edge<E>>();
+			outgoing = new HashMap<IVertex<V>, IEdge<E>>();
 			if(isDirected) { 
 				// need separate incoming and outgoing maps
-				incoming = new HashMap<Vertex<V>, Edge<E>>();
+				incoming = new HashMap<IVertex<V>, IEdge<E>>();
 			} else {
-				outgoing = new HashMap<Vertex<V>, Edge<E>>();
+				outgoing = new HashMap<IVertex<V>, IEdge<E>>();
 			}
 		}
 	
@@ -94,11 +50,15 @@ public class AdjMapGraph<V,E> implements IGraph<V,E> {
 			return element;
 		}
 	
-		public Map<Vertex<V>,Edge<E>> getIncoming() {
-			return incoming;
+		public Map<IVertex<V>,IEdge<E>> getIncoming() throws IllegalArgumentException {
+			if(isDirected) { 
+				return incoming;
+			} else {
+				throw new IllegalArgumentException("Cannot call getIncoming() on undirected graph.");
+			}
 		}
 	
-		public Map<Vertex<V>,Edge<E>> getOutgoing() {
+		public Map<IVertex<V>,IEdge<E>> getOutgoing() {
 			return outgoing;
 		}
 	
@@ -114,11 +74,11 @@ public class AdjMapGraph<V,E> implements IGraph<V,E> {
 	
 		// Not storing a position pointer
 		private E element;
-		private ArrayList<Vertex<V>> endpoints; 
+		private ArrayList<IVertex<V>> endpoints; 
 	
-		public Edge(Vertex<V> u, Vertex<V> v, E element) {
+		public Edge(IVertex<V> u, IVertex<V> v, E element) {
 			this.element = element;
-			endpoints = new ArrayList<Vertex<V>>();
+			endpoints = new ArrayList<IVertex<V>>();
 			endpoints.add(u);
 			endpoints.add(v);
 		}
@@ -127,7 +87,7 @@ public class AdjMapGraph<V,E> implements IGraph<V,E> {
 			return element;
 		}
 	
-		public ArrayList<Vertex<V>> getEndpoints() {
+		public ArrayList<IVertex<V>> getEndpoints() {
 			return endpoints;
 		}
 	}
@@ -151,47 +111,96 @@ public class AdjMapGraph<V,E> implements IGraph<V,E> {
 
 
 
+	// Validate methods: turn interfaces (IVertex, IEdge)
+	// into concrete instances (Vertex, Edge).
+	//
+	// Quite possibly the most important methods,
+	// since they save boatloads of headaches.
+
+  	@SuppressWarnings({"unchecked"})
+  	private Vertex<V> validate(IVertex<V> v) {
+  	  	if (!(v instanceof Vertex)) {
+			throw new IllegalArgumentException("Invalid vertex");
+		}
+
+		// Safe cast:
+  	  	Vertex<V> vert = (Vertex<V>) v;
+
+		// We COULD check if this vertex is actually in this graph...
+		// naah.
+  	  	return vert;
+  	}
+
+  	@SuppressWarnings({"unchecked"})
+  	private Edge<E> validate(IEdge<E> e) {
+		if(!(e instanceof Edge)) { 
+			throw new IllegalArgumentException("Invalid edge");
+		}
+		// Safe cast:
+		Edge<E> edge = (Edge<E>) e;
+
+		// We COULD check if this edge is actually in this graph...
+		// naah.
+  	  	return edge;
+	}
+
+
+
+
 	// Methods to Modify Graph
 
 	/** Create a Vertex with the given element and insert it into the graph. */
-	public Vertex<V> insertVertex(V element) {
+	public IVertex<V> insertVertex(V element) {
 		Vertex<V> v = new Vertex<>(element, isDirected);
 		vertexList.add(v);
 		// Skip position.
-		return v;
+		return (IVertex<V>) v;
 	}
 
 	/** Create an Edge with the given element between nodes u and v. */
-	public Edge<E> insertEdge(Vertex<V> u, Vertex<V> v, E element) throws IllegalArgumentException {
+	public IEdge<E> insertEdge(IVertex<V> u, IVertex<V> v, E element) throws IllegalArgumentException {
 		if(getEdge(u,v)==null) { 
 			Edge<E> e = new Edge<>(u, v, element);
 			edgeList.add(e);
+			Vertex<V> origin = validate(u);
+			Vertex<V> dest = validate(v);
 			// Skip position.
-			u.getOutgoing().put(v, e);
-			v.getOutgoing().put(u, e);
-			return e;
+			origin.getOutgoing().put(v, e);
+			if(isDirected) { 
+				dest.getIncoming().put(u, e);
+			} else {
+				dest.getOutgoing().put(u, e);
+			}
+			return (IEdge<E>) e;
 		} else {
 			throw new IllegalArgumentException("There is already an edge between u and v!");
 		}
 	}
 
 	/** Remove a Vertex from the graph, and delete all incident edges. */
-	public void removeVertex(Vertex<V> v) throws IllegalArgumentException {
-		for(Edge<E> e : v.getOutgoing().values()) {
+	public void removeVertex(IVertex<V> vert) throws IllegalArgumentException {
+		Vertex<V> v = validate(vert);
+		for(IEdge<E> e : v.getOutgoing().values()) {
 			removeEdge(e);
 		}
-		for(Edge<E> e : v.getIncoming().values()) {
+		for(IEdge<E> e : v.getIncoming().values()) {
 			removeEdge(e);
 		}
 		vertexList.remove(vertexList.indexOf(v));
 	}
 
 	/** Remove an Edge from the graph. */
-	public void removeEdge(Edge<E> e) throws IllegalArgumentException {
-		ArrayList<Vertex<V>> vertices = e.getEndpoints();
+	public void removeEdge(IEdge<E> edge) throws IllegalArgumentException {
+		Edge<E> e = validate(edge);
+
+		ArrayList<IVertex<V>> vertices = e.getEndpoints();
+
 		// Remove vertices at edge endpoints from their incoming/outgoing list
-		vertices.get(0).getOutgoing().remove(vertices.get(1));
-		vertices.get(1).getIncoming().remove(vertices.get(0));
+		Vertex<V> v0 = validate(vertices.get(0));
+		Vertex<V> v1 = validate(vertices.get(1));
+		v0.getOutgoing().remove(v1);
+		v1.getIncoming().remove(v0);
+
 		// Remove edge from list of edges
 		edgeList.remove(edgeList.indexOf(e));
 	}
@@ -225,22 +234,25 @@ public class AdjMapGraph<V,E> implements IGraph<V,E> {
 	// Vertices to Edges and Vice-Versa:
 
 	/** Return edge connecting vertex u to vertex v. */
-	public Edge<E> getEdge(Vertex<V> u, Vertex<V> v) {
-		return u.getOutgoing().get(v);
+	public IEdge<E> getEdge(IVertex<V> u, IVertex<V> v) {
+		Vertex<V> vxu = validate(u);
+		return vxu.getOutgoing().get(v);
 	}
 
 	/** Return the vertices at the endpoints of the edge e. */
-	public ArrayList<Vertex<V>> endpoints(Edge<E> e) { 
+	public ArrayList<IVertex<V>> endpoints(IEdge<E> edge) { 
+		Edge<E> e = validate(edge);
 		return e.getEndpoints();
 	}
 
 	/** Return the vertex opposite a given vertex. */
-	public Vertex<V> opposite(Vertex<V> v, Edge<E> e) throws IllegalArgumentException {
-		ArrayList<Vertex<V>> endpoints = e.getEndpoints();
-		if(endpoints.get(0).equals(v)) {
-			return endpoints.get(0);
-		} else if(endpoints.get(1).equals(v)) {
+	public IVertex<V> opposite(IVertex<V> vertex, IEdge<E> edge) throws IllegalArgumentException {
+		Edge<E> e = validate(edge);
+		ArrayList<IVertex<V>> endpoints = e.getEndpoints();
+		if(endpoints.get(0).equals(vertex)) {
 			return endpoints.get(1);
+		} else if(endpoints.get(1).equals(vertex)) {
+			return endpoints.get(0);
 		} else {
 			throw new IllegalArgumentException("The vertex you passed is not incident to the edge you passed.");
 		}
@@ -251,44 +263,48 @@ public class AdjMapGraph<V,E> implements IGraph<V,E> {
 	// Incoming/Outoing Edges from Vertex:
 
 	/** Return the incoming edge degree of the vertex v. */
-	public int inDegree(Vertex<V> v) {
-		return v.getIncoming().size();
+	public int inDegree(IVertex<V> v) {
+		return validate(v).getIncoming().size();
 	}
 
 	/** Return the outgoing edge degree of the vertex v. */
-	public int outDegree(Vertex<V> v) {
-		return v.getOutgoing().size();
+	public int outDegree(IVertex<V> v) {
+		return validate(v).getOutgoing().size();
 	}
 
 	/** Return an iterable set of Edge objects incoming to the vertex v. */
-	public Iterable<Edge<E>> inEdges(Vertex<V> v) {
-		return v.getIncoming().values();
+	public Iterable<IEdge<E>> inEdges(IVertex<V> v) {
+		return validate(v).getIncoming().values();
 	}
 
 	/** Return an iterable set of Edge objects outgoing from the vertex v. */
-	public Iterable<Edge<E>> outEdges(Vertex<V> v) {
-		return v.getOutgoing().values();
+	public Iterable<IEdge<E>> outEdges(IVertex<V> v) {
+		return validate(v).getOutgoing().values();
 	}
 
 
 
 	public String toString() { 
 		StringBuilder sb = new StringBuilder();
-		for(Vertex<V> v : vertexList) {
+		for(IVertex<V> v : vertexList) {
 			sb.append("Vertex "+v.getElement()+"\n");
 			if(isDirected) { 
-				sb.append(" [outgoing]");
+				sb.append("\t[outgoing]");
 			}
-			sb.append(" "+outDegree(v)+" adjacent vertices.");
-			for(Edge<E> e : outEdges(v)) {
-				sb.append(String.format(" (%s,%s)", opposite(v,e).getElement(), e.getElement()));
+			sb.append("\t"+outDegree(v)+" adjacent vertices:\n");
+			for(IEdge<E> e : outEdges(v)) {
+				sb.append("\t\t");
+				sb.append(String.format("(node %s to node %s via edge %s)", v.getElement(), opposite(v,e).getElement(), e.getElement()));
+				sb.append("\n");
 			}
 			sb.append("\n");
 			if(isDirected) { 
-				sb.append(" [incoming]");
-				sb.append(" "+inDegree(v)+" adjacent vertices.");
-				for(Edge<E> e : inEdges(v)) {
-					sb.append(String.format(" (%s,%s)", opposite(v,e).getElement(), e.getElement()));
+				sb.append("\t[incoming]");
+				sb.append("\t"+inDegree(v)+" adjacent vertices:\n");
+				for(IEdge<E> e : inEdges(v)) {
+					sb.append("\t\t");
+				sb.append(String.format("(node %s to node %s via edge %s)", v.getElement(), opposite(v,e).getElement(), e.getElement()));
+					sb.append("\n");
 				}
 				sb.append("\n");
 			}
