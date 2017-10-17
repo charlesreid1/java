@@ -171,7 +171,8 @@ public class RoadsAndLibraries {
         return forest;
     }
 
-    /** Recursive depth-first search that populates disovered with all edges/vertices discoverable from u.*/
+    /** Recursive depth-first search that populates HashMap discovered 
+     * with all edges/vertices discoverable from u.*/
     public static void dfs(Graph g, Vertex u, 
                            HashSet<Vertex> known,
                            HashMap<Vertex, Edge> discovered) {
@@ -184,8 +185,6 @@ public class RoadsAndLibraries {
                 dfs(g, v, known, discovered);
             }
         }
-
-        //return discovered;
     }
 
 
