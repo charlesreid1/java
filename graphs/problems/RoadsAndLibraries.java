@@ -146,30 +146,40 @@ public class RoadsAndLibraries {
 
 
 
+
+    /** Compute the number of connected components of graph g. */
+    public static int numComponents(Graph g) {
+        return g.vertexList.size() - dfsConnected(g).size();
+    }
+
+    /** Return a map representing DFS forest. 
+     * If a vertex is missing from this map, 
+     * it serves as a root in this forest.
+     * Number of connected components is equal to:
+     *
+     * > g.vertexList.size() - forest.size()
+     *
+     */
     public static HashMap<Vertex, Edge> dfsConnected(Graph g) {
         HashSet<Vertex> known = new HashSet<>();
         HashMap<Vertex, Edge> forest = new HashMap<>();
         for(Vertex u : g.vertexList) {
-            System.out.println("Calling dfsConnected on vertex "+u.getElement());
             if(!known.contains(u)) {
-                System.out.println("> Known set does not contain vertex "+u.getElement());
-                System.out.println("> Forest = "+forest.toString());
                 dfs(g, u, known, forest);
-            } else {
-                System.out.println("> Forest = "+forest.toString());
             }
         }
         return forest;
     }
 
+    /** Recursive depth-first search that populates disovered with all edges/vertices discoverable from u.*/
     public static void dfs(Graph g, Vertex u, 
                            HashSet<Vertex> known,
                            HashMap<Vertex, Edge> discovered) {
         known.add(u);
-
         for(Edge e : u.outgoingEdges()) { 
             Vertex v = e.getOpposite(u);
             if(!known.contains(v)) {
+                // e = edge that discovered v
                 discovered.put(v,e);
                 dfs(g, v, known, discovered);
             }
@@ -203,13 +213,24 @@ public class RoadsAndLibraries {
                 g.addEdge(i,j);
             }
 
-            //System.out.println(g);
+            long result = 0;
+            if(clib < croad) { 
+                // Libraries are cheaper than roads,
+                // so build a library at every vertex.
+                result = clib*g.vertexList.size();
 
-            HashMap<Vertex,Edge> dfs = dfsConnected(g);
-            System.out.println("\n\n\n");
+            } else {
+                // Roads are cheaper than libraries,
+                // so rebuild all roads,
+                // and build one library per component.
 
-            //System.out.println(dfs.keySet());
-            //System.out.println(dfs);
+                HashMap<Vertex, Edge> forest = dfsConnected(g);
+                int nComponents = g.vertexList.size() - forest.size();
+                int nEdges = forest.size();
+
+                result = clib*nComponents + croad*nEdges;
+            }
+            System.out.println(result);
 
         }
     }
